@@ -46,6 +46,7 @@
                     android:id="@+id/nav_login"
                     android:icon="@drawable/ic_baseline_power_settings_new_24"
                     android:title="Log In" />
+                
 
                 <item
                     android:id="@+id/nav_logout"
