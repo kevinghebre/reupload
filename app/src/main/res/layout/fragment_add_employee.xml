@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    android:id="@+id/addEmployee_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:layout_margin="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddEmployeeFragment">
+
+    <LinearLayout android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <TextView
+            style="@style/TextAppearance.MaterialComponents.Headline4"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="@string/add_employee"
+            android:textAlignment="center" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:id="@+id/input_number_layout"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:autofillHints=""
+                android:hint="@string/number"
+                android:id="@+id/input_number"
+                android:inputType="text"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:id="@+id/input_name_layout"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:autofillHints=""
+                android:hint="@string/full_name"
+                android:id="@+id/input_name"
+                android:inputType="text"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:id="@+id/input_age_layout"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:autofillHints=""
+                android:hint="@string/age"
+                android:id="@+id/input_age"
+                android:inputType="number"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:backgroundTint="#00BCD4"
+                android:id="@+id/btn_cancel"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="0.8"
+                android:layout_width="match_parent"
+                android:text="@string/cancel" />
+
+            <Button
+                android:backgroundTint="#2196F3"
+                android:id="@+id/btn_update"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="0.8"
+                android:layout_width="match_parent"
+                android:text="@string/add" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

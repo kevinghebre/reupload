@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = input_Email.getText().toString().trim();
+                final String email = input_Email.getText().toString().trim();
                 String password = input_password.getText().toString().trim();
 
                 // untuk cek apakah sudah pernah login atau belum
@@ -84,7 +84,10 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_SHORT).show();
 //                            createNotificationChannel();
 //                            addNotification();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            intent.putExtra("email_user",email);
+                            startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "Password Invalid", Toast.LENGTH_SHORT).show();
                         }
