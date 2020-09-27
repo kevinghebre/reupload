@@ -8,8 +8,7 @@
     android:background="@android:color/white"
     android:layout_margin="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".AddEmployeeFragment">
+    android:layout_height="match_parent">
 
     <LinearLayout android:orientation="vertical"
         android:layout_height="match_parent"
@@ -19,7 +18,7 @@
             style="@style/TextAppearance.MaterialComponents.Headline4"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:text="@string/add_employee"
+            android:text="add employee"
             android:textAlignment="center" />
 
         <com.google.android.material.textfield.TextInputLayout

@@ -6,7 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.kevinghebre.datapersistent_unguided_9774.model.User;
+import com.kelompok_b.petshop.data_management.model.User;
 
 import java.util.List;
 
