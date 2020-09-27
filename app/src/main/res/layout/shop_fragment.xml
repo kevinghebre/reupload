@@ -37,7 +37,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:startIconDrawable="@drawable/ic_baseline_search_24">
 
-
                 <EditText
                     android:id="@+id/input_search"
                     android:layout_width="match_parent"
@@ -45,8 +44,6 @@
                     android:autofillHints=""
                     android:iconifiedByDefault="false"
                     android:queryHint="Pet Name" />
-
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
