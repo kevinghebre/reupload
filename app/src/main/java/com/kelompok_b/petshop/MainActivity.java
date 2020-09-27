@@ -20,7 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-    TextView email_header;
+//    TextView email_header;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
 //        String email = getIntent().getStringExtra("email_user");
 //        email_header = findViewById(R.id.email_header_user);
 //        email_header.setText(email);
+
+
+//----------------------- Hide or Show Menu -------------------
+
 
 //-------------------------Toolbar----------------------------------------
         setSupportActionBar(toolbar);

@@ -38,6 +38,7 @@
                 android:text="Welcome . . ."
                 android:textSize="15dp"
                 android:fontFamily="serif"
+                android:textStyle="bold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#000" />
 
@@ -49,8 +50,6 @@
                 android:text="#Username"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="#000" />
-
-
         </LinearLayout>
     </LinearLayout>
 
