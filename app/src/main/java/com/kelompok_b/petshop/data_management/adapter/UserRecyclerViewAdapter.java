@@ -13,9 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.kevinghebre.datapersistent_unguided_9774.R;
-import com.kevinghebre.datapersistent_unguided_9774.UpdateFragment;
-import com.kevinghebre.datapersistent_unguided_9774.model.User;
+
+import com.kelompok_b.petshop.R;
+import com.kelompok_b.petshop.data_management.UpdateFragment;
+import com.kelompok_b.petshop.data_management.model.User;
 
 import java.util.ArrayList;
 import java.util.List;

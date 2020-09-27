@@ -14,8 +14,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputLayout;
-import com.kevinghebre.datapersistent_unguided_9774.database.DatabaseClient;
-import com.kevinghebre.datapersistent_unguided_9774.model.User;
+import com.kelompok_b.petshop.R;
+import com.kelompok_b.petshop.data_management.database.DatabaseClient;
+import com.kelompok_b.petshop.data_management.model.User;
 
 public class AddEmployeeFragment extends Fragment {
 
