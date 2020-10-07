@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="40dp"
+    android:background="#f6f5f5"
     android:orientation="vertical"
+    android:padding="40dp"
     android:paddingTop="50dp"
-    tools:context=".acc.RegisterActivity"
-    android:background="#f6f5f5">
+    tools:context=".acc.RegisterActivity">
 
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register Account"
-        android:textSize="30dp"
+        android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        android:layout_gravity="center"/>
+        android:text="Register Account"
+        android:textSize="30dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_fullname_register_layout"
@@ -32,7 +32,8 @@
             android:layout_height="match_parent"
             android:autofillHints=""
             android:hint="Fullname"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="@={data.fullname}" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -49,7 +50,8 @@
             android:layout_height="match_parent"
             android:autofillHints=""
             android:hint="Email"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="@={data.email}" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -66,7 +68,8 @@
             android:layout_height="match_parent"
             android:autofillHints=""
             android:hint="Password"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="@={data.password}" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -83,7 +86,8 @@
             android:layout_height="match_parent"
             android:autofillHints=""
             android:hint="Phone Number"
-            android:inputType="text" />
+            android:inputType="text"
+            android:text="@={data.phone_number}" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <RadioGroup
@@ -100,7 +104,7 @@
                 android:id="@+id/radio_button_male_register"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Male" />
+                android:text="male" />
 
             <RadioButton
                 android:id="@+id/radio_button_female_register"
