@@ -9,11 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".Setting"></activity>
         <activity
             android:name=".acc.SplashScreen"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -24,12 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".shopActivity"></activity>
-        <activity android:name=".ProfilActivity"></activity>
+        <activity android:name=".shopActivity" />
+        <activity android:name=".ProfilActivity" />
         <activity android:name=".acc.RegisterActivity" />
         <activity android:name=".acc.LoginActivity" />
-
     </application>
 
 </manifest>
