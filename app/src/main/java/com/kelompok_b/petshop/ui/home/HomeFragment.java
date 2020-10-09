@@ -1,6 +1,7 @@
 package com.kelompok_b.petshop.ui.home;
 
 import android.os.Bundle;
+import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.kelompok_b.petshop.R;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -30,6 +36,17 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
+
+        ImageSlider imageSlider = root.findViewById(R.id.image_slider); // init imageSlider
+
+        List<SlideModel> slideModels = new ArrayList<>();
+
+        slideModels.add(new SlideModel("https://s4.bukalapak.com/uploads/content_attachment/46f38cf330e8d762bb8767c5/w-744/02_Jenis_Ras_Anjing.jpg","baby Owl",ScaleTypes.CENTER_CROP));
+        slideModels.add(new SlideModel("https://s4.bukalapak.com/uploads/content_attachment/46f38cf330e8d762bb8767c5/w-744/02_Jenis_Ras_Anjing.jpg","baby Owl",ScaleTypes.CENTER_CROP));
+        slideModels.add(new SlideModel("https://s4.bukalapak.com/uploads/content_attachment/46f38cf330e8d762bb8767c5/w-744/02_Jenis_Ras_Anjing.jpg","baby Owl",ScaleTypes.CENTER_CROP));
+        slideModels.add(new SlideModel("https://s4.bukalapak.com/uploads/content_attachment/46f38cf330e8d762bb8767c5/w-744/02_Jenis_Ras_Anjing.jpg","baby Owl",ScaleTypes.CENTER_CROP));
+        imageSlider.setImageList(slideModels, ScaleTypes.FIT);
+
         return root;
     }
 }
