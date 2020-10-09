@@ -3,7 +3,7 @@ package com.kelompok_b.petshop.model;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
-public class DataProfil extends BaseObservable {
+public class DataProfil {
 
     private String fullname;
     private String email;
@@ -21,7 +21,6 @@ public class DataProfil extends BaseObservable {
         this.age = age;
     }
 
-    @Bindable
     public String getFullname() {
         return fullname;
     }
@@ -30,7 +29,6 @@ public class DataProfil extends BaseObservable {
         this.fullname = fullname;
     }
 
-    @Bindable
     public String getEmail() {
         return email;
     }
@@ -39,7 +37,6 @@ public class DataProfil extends BaseObservable {
         this.email = email;
     }
 
-    @Bindable
     public String getPassword() {
         return password;
     }
@@ -48,7 +45,6 @@ public class DataProfil extends BaseObservable {
         this.password = password;
     }
 
-    @Bindable
     public String getPhone_number() {
         return phone_number;
     }
@@ -57,7 +53,6 @@ public class DataProfil extends BaseObservable {
         this.phone_number = phone_number;
     }
 
-    @Bindable
     public String getGender() {
         return gender;
     }
@@ -66,7 +61,6 @@ public class DataProfil extends BaseObservable {
         this.gender = gender;
     }
 
-    @Bindable
     public int getAge() {
         return age;
     }
