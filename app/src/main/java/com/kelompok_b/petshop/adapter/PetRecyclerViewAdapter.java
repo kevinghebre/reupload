@@ -1,4 +1,4 @@
-package com.kelompok_b.petshop;
+package com.kelompok_b.petshop.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kelompok_b.petshop.databinding.PetAdapterRecyclerViewBinding;
+import com.kelompok_b.petshop.model.Pet;
 
 import java.util.List;
 

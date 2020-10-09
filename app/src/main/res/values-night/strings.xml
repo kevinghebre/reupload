@@ -25,4 +25,14 @@
     <string name="update">update</string>
     <string name="save">save</string>
     <string name="delete">delete</string>
+
+
+    <string name="forgot_password">FORGOT PASSWORD?</string>
+    <string name="top_icon">TOP ICON</string>
+    <string name="or">OR</string>
+    <string name="google_icon">google icon</string>
+    <string name="facebook_icon">facebook icon</string>
+    <string name="new_user_register_now">New User? Register Now</string>
+
+
 </resources>

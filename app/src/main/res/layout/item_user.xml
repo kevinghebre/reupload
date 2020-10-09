@@ -3,7 +3,7 @@
     <data>
         <variable
             name="pet"
-            type="com.kelompok_b.petshop.Pet" />
+            type="com.kelompok_b.petshop.model.Pet" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        tools:context=".PetRecyclerViewAdapter">
+        tools:context=".adapter.PetRecyclerViewAdapter">
 
         <LinearLayout
             android:layout_width="match_parent"

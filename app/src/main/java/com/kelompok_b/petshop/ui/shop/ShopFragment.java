@@ -15,9 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kelompok_b.petshop.Pet;
-import com.kelompok_b.petshop.PetList;
-import com.kelompok_b.petshop.PetRecyclerViewAdapter;
+import com.kelompok_b.petshop.model.Pet;
+import com.kelompok_b.petshop.database.PetList;
+import com.kelompok_b.petshop.adapter.PetRecyclerViewAdapter;
 import com.kelompok_b.petshop.R;
 
 import java.util.ArrayList;

@@ -1,4 +1,6 @@
-package com.kelompok_b.petshop;
+package com.kelompok_b.petshop.database;
+
+import com.kelompok_b.petshop.model.Pet;
 
 import java.util.ArrayList;
 

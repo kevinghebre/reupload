@@ -1,4 +1,4 @@
-package com.kelompok_b.petshop;
+package com.kelompok_b.petshop.model;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
