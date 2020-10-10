@@ -1,10 +1,12 @@
 package com.kelompok_b.petshop.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,12 +19,15 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.kelompok_b.petshop.R;
+import com.kelompok_b.petshop.findUs;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    Button btn_findUs;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +40,18 @@ public class HomeFragment extends Fragment {
             public void onChanged(@Nullable String s) {
 //                textView.setText(s);
             }
+        });
+
+        btn_findUs = root.findViewById(R.id.btn_findUs);
+        btn_findUs.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+
+                view.getContext().startActivity(new Intent(view.getContext(), findUs.class));
+
+            }
+
         });
 
         ImageSlider imageSlider = root.findViewById(R.id.image_slider); // init imageSlider

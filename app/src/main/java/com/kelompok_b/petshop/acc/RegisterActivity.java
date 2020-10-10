@@ -45,6 +45,14 @@ public class RegisterActivity extends AppCompatActivity {
         btn_register = findViewById(R.id.btn_register);
         text_login = findViewById(R.id.text_login);
 
+        text_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         firebaseAuth = firebaseAuth.getInstance();
         progressBar = findViewById(R.id.progressBar);
@@ -64,6 +72,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Email Invalid", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 if (TextUtils.isEmpty(password)){
 //                    input_password.setError("Input Password");
                     Toast.makeText(RegisterActivity.this, "Password Invalid", Toast.LENGTH_SHORT).show();

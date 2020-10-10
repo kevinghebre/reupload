@@ -15,7 +15,7 @@
             android:id="@+id/topView"
             android:layout_width="0dp"
             android:layout_height="150dp"
-            android:background="#FFC163"
+            android:background="@color/accBackGround"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -46,7 +46,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="48dp"
             android:text="Already Have an Account?"
-            android:textColor="#5E4827"
+            android:textColor="@color/textColor"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/imageView5"
@@ -75,6 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:autofillHints=""
+                android:textColor="@color/textColor"
                 android:hint="Email"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -92,6 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:autofillHints=""
+                android:textColor="@color/textColor"
                 android:hint="Password"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -108,7 +110,7 @@
         android:layout_marginEnd="32dp"
         android:background="@drawable/round_bg"
         android:text="@string/Login"
-        android:textColor="@android:color/white"
+        android:textColor="@color/textColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -123,7 +125,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:text="@string/forgot_password"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/textColor"
         android:textSize="18sp"
         android:layout_gravity="center"
         android:textStyle="bold" />
@@ -170,7 +172,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:text="@string/new_user_register_now"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/textColor"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_gravity="center"/>

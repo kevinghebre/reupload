@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".acc.RegisterActivity"></activity>
-        <activity android:name=".ProfilActivity" />
+        <activity android:name=".findUs" />
         <activity android:name=".acc.SplashScreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,7 +26,6 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name=".shopActivity" />
         <activity android:name=".acc.LoginActivity" />
     </application>
 

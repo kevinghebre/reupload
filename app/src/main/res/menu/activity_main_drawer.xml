@@ -14,7 +14,6 @@
                     android:id="@+id/nav_slideshow"
                     android:icon="@drawable/ic_menu_slideshow"
                     android:title="Shop" />
-
                 <item
                     android:id="@+id/nav_shop"
                     android:icon="@drawable/ic_baseline_shopping_cart_24"
@@ -27,12 +26,9 @@
                     android:id="@+id/nav_gallery"
                     android:icon="@drawable/ic_menu_gallery"
                     android:title="@string/menu_gallery" />
-
-
             </menu>
         </item>
     </group>
-
 
     <group android:checkableBehavior="single">
         <item
@@ -43,18 +39,10 @@
                     android:icon="@drawable/ic_baseline_settings_24"
                     android:title="Settings" />
                 <item
-                    android:id="@+id/nav_login"
-                    android:icon="@drawable/ic_baseline_power_settings_new_24"
-                    android:title="Log In" />
-                <item
                     android:id="@+id/nav_logout"
                     android:icon="@drawable/ic_baseline_power_settings_new_24"
                     android:title="Log Out" />
             </menu>
         </item>
-
     </group>
-
-
-
 </menu>

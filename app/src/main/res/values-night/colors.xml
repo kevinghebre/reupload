@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#171717</color>
     <color name="colorAccent">#FFFFFF</color>
 
+    <color name="accBackGround">#B1A085</color>
     <color name="textColor">#FFFFFF</color>
 
 </resources>

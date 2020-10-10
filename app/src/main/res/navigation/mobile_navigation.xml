@@ -33,12 +33,18 @@
         android:id="@+id/nav_profil"
         android:name="com.kelompok_b.petshop.ui.profil.ProfilFragment"
         android:label="@string/menu_profil"
-        tools:layout="@layout/profil_fragment" />
+        tools:layout="@layout/fragment_profil" />
 
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.kelompok_b.petshop.SettingFragment"
         android:label="@string/action_settings"
         tools:layout="@layout/fragment_setting" />
+
+    <activity
+        android:id="@+id/nav_logout"
+        android:name="com.kelompok_b.petshop.acc.LoginActivity"
+        android:label="Profil"
+        tools:layout="@layout/activity_login"/>
 
 </navigation>
