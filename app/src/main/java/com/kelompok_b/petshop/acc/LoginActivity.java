@@ -37,7 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ProgressBar progressBar;
 
-//    String CHANNEL_ID = "Channel 1";
+    String CHANNEL_ID = "Channel 1";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +83,10 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_SHORT).show();
-//                            createNotificationChannel();
-//                            addNotification();
+                            createNotificationChannel();
+                            addNotification();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("email_user",email);
+                            intent.putExtra("email_user", email);
                             startActivity(intent);
                             finish();
                         } else {
@@ -104,38 +105,35 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Channel 1";
+            String description = "This is Channel 1";
+            int important = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,name, important);
+            channel.setDescription(description);
+            //Register the channel with the system; you can't change the importance
+            //Or other notification behavior after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void addNotification() {
+        //konstruktor NotificationCompat.Builder harus diberi CHANNEL_ID untuk api level 26+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_baseline_message_24)
+                .setContentTitle("Hello")
+                .setContentText("Welcome Back, Please Enjoy your stay...")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        //Membuat intent yang menampilkan notifikasi
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this,0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+
+        //Menampilkan notifikasi
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0,builder.build());
+    }
 }
-
-
-//    private void createNotificationChannel() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            CharSequence name = "Channel 1";
-//            String description = "This is Channel 1";
-//            int important = NotificationManager.IMPORTANCE_DEFAULT;
-//            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, important);
-//            channel.setDescription(description);
-//            //Register the channel with the system; you can't change the importance
-//            //Or other notification behavior after this
-//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(channel);
-//        }
-//    }
-//
-//    private void addNotification() {
-//        //konstruktor NotificationCompat.Builder harus diberi CHANNEL_ID untuk api level 26+
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-//                .setSmallIcon(R.drawable.ic_baseline_message_24)
-//                .setContentTitle("Hello")
-//                .setContentText("Welcome Back, Please Enjoy your stay...")
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//        //Membuat intent yang menampilkan notifikasi
-//        Intent notificationIntent = new Intent(this, LoginActivity.class);
-//        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        builder.setContentIntent(contentIntent);
-//
-//        //Menampilkan notifikasi
-//        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        manager.notify(0, builder.build());
-//    }
-//}
-

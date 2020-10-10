@@ -20,7 +20,9 @@
         <com.airbnb.lottie.LottieAnimationView
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:lottie_rawRes="@raw/cute_dog"/>
+            app:lottie_rawRes="@raw/cute_dog"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
