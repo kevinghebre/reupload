@@ -63,7 +63,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
             Mapbox.getInstance(this, getString(R.string.mapbox_access_token));
             setContentView(R.layout.activity_map);
 
-            mapView = findViewById(R.id.map_view);
+            mapView = findViewById(R.id.mapView);
             mapView.onCreate(savedInstanceState);
             mapView.getMapAsync(this);
         }
@@ -143,7 +143,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 
                             initLayers(style);
 
-                            Point destination = Point.fromLngLat(-7.780410, -70.414228);
+                            Point destination = Point.fromLngLat(110.414228, -7.780410);
                             symbolLayerIconFeatureList.clear();
                             symbolLayerIconFeatureList.add(Feature.fromGeometry(destination));
 

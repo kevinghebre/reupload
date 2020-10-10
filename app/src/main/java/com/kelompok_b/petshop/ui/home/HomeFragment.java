@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -28,20 +29,25 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    Button btn_findUs;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Intent intent = new Intent(getActivity(), findUs.class);
-        Button btn_findUs = (Button)root.findViewById(R.id.btn_findUs);
+
+
+        btn_findUs = root.findViewById(R.id.btn_findUs);
         btn_findUs.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View view)
             {
-                startActivity(intent);
+
+                view.getContext().startActivity(new Intent(view.getContext(), findUs.class));
+
             }
 
         });
