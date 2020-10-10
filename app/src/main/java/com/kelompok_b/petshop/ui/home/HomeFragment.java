@@ -1,10 +1,13 @@
 package com.kelompok_b.petshop.ui.home;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +20,8 @@ import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.kelompok_b.petshop.R;
+import com.kelompok_b.petshop.findUs;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +34,19 @@ public class HomeFragment extends Fragment {
         homeViewModel =
                 ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        Intent intent = new Intent(getActivity(), findUs.class);
+        Button btn_findUs = (Button)root.findViewById(R.id.btn_findUs);
+        btn_findUs.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View view)
+            {
+                startActivity(intent);
+            }
+
+        });
+
+
 //        final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
