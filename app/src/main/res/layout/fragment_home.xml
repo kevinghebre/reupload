@@ -142,5 +142,11 @@
 
     </GridLayout>
 
+    <Button
+        android:id="@+id/btn_findUs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Find Us" />
+
 
 </LinearLayout>
