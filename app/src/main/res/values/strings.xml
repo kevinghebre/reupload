@@ -34,6 +34,9 @@
     <string name="new_user_register_now">New User? Register Now</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    //map
+    <string name="mapbox_access_token">pk.eyJ1Ijoia2FsZWIxOSIsImEiOiJja2ZvMHAwbjMxcnNkMnFrdTR6aGg3OXpwIn0.PkqbwtSy5SOLLqSaYvO46w</string>
+
 
     <string name="mode">Light Mode</string>
     //map
