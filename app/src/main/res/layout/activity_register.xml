@@ -19,6 +19,13 @@
         android:paddingTop="50dp"
         tools:context=".acc.RegisterActivity">
 
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profilImage"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_baseline_add_shopping_cart_24"
+            android:onClick="imageActivity"/>
+
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

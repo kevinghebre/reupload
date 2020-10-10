@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.kelompok_b.petshop.acc.LoginActivity;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -50,9 +52,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Setting.class);
-                startActivity(intent);
-                finish();
+
+                Toast.makeText(MainActivity.this, "Add To Cart is On Construction", Toast.LENGTH_SHORT).show();
+//                Intent intent = new Intent(MainActivity.this, Setting.class);
+//                startActivity(intent);
+//                finish();
                 //                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                        .setAction("Action", null).show();
             }
