@@ -27,7 +27,6 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity android:name=".acc.LoginActivity" />
-        <activity android:name=".findUs" />
     </application>
 
 </manifest>

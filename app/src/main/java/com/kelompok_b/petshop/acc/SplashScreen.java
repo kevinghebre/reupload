@@ -21,7 +21,7 @@ public class SplashScreen extends AppCompatActivity {
 //
 //    //Animation
 //    Animation animation_p,animation_e,animation_t, animation_shop;
-//    SharedPreferences sharedPreferences;
+    SharedPreferences sharedPreferences;
     // Pindah Main 4000 = 4s
     private static int SPLASH_TIME_OUT = 4000;
 
@@ -32,11 +32,11 @@ public class SplashScreen extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
 
 
-//        sharedPreferences = getSharedPreferences("night",0);
-//        Boolean booleanValue = sharedPreferences.getBoolean("night_mode",true);
-//        if (booleanValue){
-//            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-//        }
+        sharedPreferences = getSharedPreferences("night",0);
+        Boolean booleanValue = sharedPreferences.getBoolean("night_mode",true);
+        if (booleanValue){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
 //
 //
 //        // Animation Utils
