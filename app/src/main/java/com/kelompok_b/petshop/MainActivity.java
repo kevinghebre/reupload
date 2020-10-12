@@ -1,10 +1,13 @@
 package com.kelompok_b.petshop;
 
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,10 +16,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.kelompok_b.petshop.acc.LoginActivity;
 
 import androidx.annotation.NonNull;
@@ -37,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private void logoutPopup() {
         AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
         alert.setMessage("Are you sure?")
-                .setPositiveButton("Logout", new DialogInterface.OnClickListener()                 {
+                .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -52,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     // Fungsi untuk logout
-    public void logout(){
+    public void logout() {
         FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -64,6 +70,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String CHANNEL_ID = "Channel 1";
+            CharSequence name = "Channel 1";
+            String description = "this is Channel 1";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+        FirebaseMessaging.getInstance().subscribeToTopic("news")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String mag = "Susccesfull";
+                        if (!task.isSuccessful()) {
+                            mag = "Failed";
+                        }
+                        Toast.makeText(MainActivity.this, mag, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -109,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
 //--------------------------- Navigation Drawer--------------------------------------
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav_shop, R.id.nav_profil, R.id.nav_logout,R.id.nav_settings)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_shop, R.id.nav_profil, R.id.nav_logout, R.id.nav_settings)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
