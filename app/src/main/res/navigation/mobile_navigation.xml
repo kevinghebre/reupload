@@ -9,25 +9,32 @@
         android:id="@+id/nav_home"
         android:name="com.kelompok_b.petshop.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home"/>
 
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.kelompok_b.petshop.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_gallery"/>
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.kelompok_b.petshop.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_slideshow"/>
 
     <fragment
         android:id="@+id/nav_shop"
         android:name="com.kelompok_b.petshop.ui.shop.ShopFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/shop_fragment" />
+        tools:layout="@layout/dog_shop_fragment">
+        <action
+            android:id="@+id/action_nav_shop_to_nav_cat_shop"
+            app:destination="@id/nav_cat_shop" />
+        <action
+            android:id="@+id/action_nav_shop_to_nav_dog_shop"
+            app:destination="@id/nav_dog_shop" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_profil"
@@ -39,12 +46,26 @@
         android:id="@+id/nav_settings"
         android:name="com.kelompok_b.petshop.SettingFragment"
         android:label="@string/action_settings"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting"/>
 
-    <activity
+    <fragment
+        android:id="@+id/nav_dog_shop"
+        android:name="com.kelompok_b.petshop.DogShopFragment"
+        android:label="@string/dog"
+        tools:layout="@layout/dog_shop_fragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_cat_shop"
+        android:name="com.kelompok_b.petshop.CatShopFragment"
+        android:label="@string/cat"
+        tools:layout="@layout/cat_shop_fragment" >
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_logout"
-        android:name="com.kelompok_b.petshop.acc.LoginActivity"
-        android:label="Profil"
-        tools:layout="@layout/activity_login"/>
+        android:name="com.kelompok_b.petshop.acc.LogOutFragment"
+        android:label="LogOut"
+        tools:layout="@layout/fragment_log_out"/>
 
 </navigation>

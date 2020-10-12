@@ -10,16 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kelompok_b.petshop.databinding.PetAdapterRecyclerViewBinding;
-import com.kelompok_b.petshop.model.Pet;
+import com.kelompok_b.petshop.model.Dog;
 
 import java.util.List;
 
-public class PetRecyclerViewAdapter extends RecyclerView.Adapter<PetRecyclerViewAdapter.MyViewHolder> {
+public class DogRecyclerViewAdapter extends RecyclerView.Adapter<DogRecyclerViewAdapter.MyViewHolder> {
 
     private Context context;
-    private List<Pet> result;
+    private List<Dog> result;
 
-    public PetRecyclerViewAdapter(Context context, List<Pet> result) {
+    public DogRecyclerViewAdapter(Context context, List<Dog> result) {
         this.context = context;
         this.result = result;
     }
@@ -34,8 +34,8 @@ public class PetRecyclerViewAdapter extends RecyclerView.Adapter<PetRecyclerView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        Pet pet = result.get(position);
-        holder.adapterRecyclerViewBinding.setPet(pet);
+        Dog dog = result.get(position);
+        holder.adapterRecyclerViewBinding.setDog(dog);
         holder.adapterRecyclerViewBinding.executePendingBindings();
         //            holder.adapterRecyclerViewBinding.
 //            holder.adapterRecyclerViewBinding.executePendingBindings();

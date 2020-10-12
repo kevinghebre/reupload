@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
     <data>
-
         <variable
             name="dog"
             type="com.kelompok_b.petshop.model.Dog" />

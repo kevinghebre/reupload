@@ -22,7 +22,7 @@ public class SplashScreen extends AppCompatActivity {
 //    //Animation
 //    Animation animation_p,animation_e,animation_t, animation_shop;
     SharedPreferences sharedPreferences;
-    // Pindah Main 4000 = 4s
+//     Pindah Main 4000 = 4s
     private static int SPLASH_TIME_OUT = 4000;
 
     @Override

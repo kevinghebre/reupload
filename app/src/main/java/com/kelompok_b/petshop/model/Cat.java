@@ -6,7 +6,7 @@ import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.Glide;
 
-public class Pet  {
+public class Cat {
 
     public String name;
     public String race;
@@ -16,7 +16,7 @@ public class Pet  {
     public String height;
     public String imgURL;
 
-    public Pet(String name, String race, String age, String gender, String size, String height, String imgURL) {
+    public Cat(String name, String race, String age, String gender, String size, String height, String imgURL) {
         this.name = name;
         this.race = race;
         this.age = age;
@@ -83,10 +83,12 @@ public class Pet  {
     }
 
     @BindingAdapter("android:loadImage")
-    public static void loadImage (ImageView imgView, String imgURL){
+    public static void loadImage(ImageView imgView, String imgURL) {
         Glide.with(imgView)
                 .load(imgURL)
                 .into(imgView);
 
     }
 }
+
+

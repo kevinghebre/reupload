@@ -7,32 +7,18 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
-import com.kelompok_b.petshop.model.Pet;
-import com.kelompok_b.petshop.database.PetList;
-import com.kelompok_b.petshop.adapter.PetRecyclerViewAdapter;
 import com.kelompok_b.petshop.R;
-
-import java.util.ArrayList;
-
 public class ShopFragment extends Fragment {
 
     private ShopViewModel mViewModel;
-    private ArrayList<Pet> ListPet;
-    private RecyclerView recyclerView;
-    private PetRecyclerViewAdapter adapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
-    public static ShopFragment newInstance() {
-        return new ShopFragment();
-    }
+    Button dog, cat;
 
     @Nullable
     @Override
@@ -40,18 +26,23 @@ public class ShopFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.shop_fragment, container, false);
 
-        //get data mahasiswa
-        ListPet = new PetList().PetList;
+        dog = root.findViewById(R.id.dog);
+        cat = root.findViewById(R.id.cat);
 
-        //recycler view
-        recyclerView = root.findViewById(R.id.recycler_pet_list);
-        adapter = new PetRecyclerViewAdapter(getContext(), ListPet);
-        mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
+        dog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(root).navigate(R.id.nav_dog_shop);
+            }
+        });
 
-        return root ;
+        cat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(root).navigate(R.id.nav_cat_shop);
+            }
+        });
+        return root;
     }
 
     @Override

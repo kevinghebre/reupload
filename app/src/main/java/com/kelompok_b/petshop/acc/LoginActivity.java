@@ -27,6 +27,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kelompok_b.petshop.MainActivity;
 import com.kelompok_b.petshop.R;
+import com.kelompok_b.petshop.ui.home.HomeFragment;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -38,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar progressBar;
 
     String CHANNEL_ID = "Channel 1";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +54,10 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         //fungsi jika user sudah pernah login, akan otomatis login tanpa harus login ulang
-//        if (firebaseAuth.getCurrentUser() != null){
-//            startActivity( new Intent(MainActivity.this,LoginActivity.class));
-//            finish();
-//        }
+        if (firebaseAuth.getCurrentUser() != null){
+            startActivity( new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+        }
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override

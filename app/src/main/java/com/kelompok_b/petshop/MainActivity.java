@@ -1,17 +1,25 @@
 package com.kelompok_b.petshop;
 
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.kelompok_b.petshop.acc.LoginActivity;
 
+import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -24,6 +32,33 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 //    TextView email_header;
+
+    // Ini fungsi untuk menampilkan pop up sebelum logout
+    private void logoutPopup() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(getApplicationContext());
+        alert.setMessage("Are you sure?")
+                .setPositiveButton("Logout", new DialogInterface.OnClickListener()                 {
+
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        logout(); // Last step. Logout function
+
+                    }
+                }).setNegativeButton("Cancel", null);
+
+        AlertDialog alert1 = alert.create();
+        alert1.show();
+    }
+
+
+    // Fungsi untuk logout
+    public void logout(){
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +78,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 //----------------------- Hide or Show Menu -------------------
-
+//        NavigationView navigationLogout = (NavigationView) findViewById(R.id.nav_logout);
+//        navigationLogout.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+//            @Override
+//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//                logoutPopup();
+//                return false;
+//            }
+//        });
 
 //-------------------------Toolbar----------------------------------------
         setSupportActionBar(toolbar);
@@ -67,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
 //--------------------------- Navigation Drawer--------------------------------------
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_profil, R.id.nav_logout,R.id.nav_settings)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav_shop, R.id.nav_profil, R.id.nav_logout,R.id.nav_settings)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
