@@ -38,4 +38,5 @@
     <string name="mode">Light Mode</string>
     <string name="cat">cat</string>
     <string name="dog">dog</string>
+    <string name="tips_trick"><![CDATA[Tips & Trick]]></string>
 </resources>

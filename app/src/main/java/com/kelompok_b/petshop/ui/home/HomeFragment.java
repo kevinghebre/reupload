@@ -59,9 +59,9 @@ public class HomeFragment extends Fragment {
         List<SlideModel> slideModels = new ArrayList<>();
 
         slideModels.add(new SlideModel("https://s4.bukalapak.com/uploads/content_attachment/46f38cf330e8d762bb8767c5/w-744/02_Jenis_Ras_Anjing.jpg","baby Owl",ScaleTypes.CENTER_CROP));
-        slideModels.add(new SlideModel("https://s4.bukalapak.com/uploads/content_attachment/46f38cf330e8d762bb8767c5/w-744/02_Jenis_Ras_Anjing.jpg","baby Owl",ScaleTypes.CENTER_CROP));
-        slideModels.add(new SlideModel("https://s4.bukalapak.com/uploads/content_attachment/46f38cf330e8d762bb8767c5/w-744/02_Jenis_Ras_Anjing.jpg","baby Owl",ScaleTypes.CENTER_CROP));
-        slideModels.add(new SlideModel("https://s4.bukalapak.com/uploads/content_attachment/46f38cf330e8d762bb8767c5/w-744/02_Jenis_Ras_Anjing.jpg","baby Owl",ScaleTypes.CENTER_CROP));
+        slideModels.add(new SlideModel("https://dogtime.com/assets/uploads/2017/12/shih-tzu-dog-names-1.jpg","Baby El",ScaleTypes.CENTER_CROP));
+        slideModels.add(new SlideModel("https://www.petfoodindonesia.com/wp-content/uploads/2018/11/telingalipatscottishfold.jpg","Baby Yeb",ScaleTypes.CENTER_CROP));
+        slideModels.add(new SlideModel("https://static.nationalgeographic.co.uk/files/styles/image_3200/public/cat-collars-28306_cbm9631.jpg?w=1600&h=900","Baby Bre",ScaleTypes.CENTER_CROP));
         imageSlider.setImageList(slideModels, ScaleTypes.FIT);
 
         return root;
