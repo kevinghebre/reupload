@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.home.fragment_home">
+    tools:context=".ui.home.HomeFragment">
 
     <com.denzcoskun.imageslider.ImageSlider
         android:id="@+id/image_slider"
@@ -162,9 +162,6 @@
 
         </LinearLayout>
     </ScrollView>
-
-
-
 
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="match_parent"

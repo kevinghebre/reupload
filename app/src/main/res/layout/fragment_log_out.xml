@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:backgroundTint="@color/colorPrimary"
         android:textColor="@color/textColor"
         android:text="Hit Me if You Want Log Out!"
         />
