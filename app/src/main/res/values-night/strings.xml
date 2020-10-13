@@ -36,7 +36,6 @@
     //map
     <string name="mapbox_access_token">pk.eyJ1Ijoia2FsZWIxOSIsImEiOiJja2ZvMHAwbjMxcnNkMnFrdTR6aGg3OXpwIn0.PkqbwtSy5SOLLqSaYvO46w</string>
 
-
     <string name="mode">Night Mode</string>
 
 </resources>
