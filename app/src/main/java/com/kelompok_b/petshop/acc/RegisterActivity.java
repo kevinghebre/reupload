@@ -23,6 +23,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.kelompok_b.petshop.MainActivity;
 import com.kelompok_b.petshop.R;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -95,6 +96,9 @@ public class RegisterActivity extends AppCompatActivity {
                             createNotificationChannel();
                             addNotification();
                             Toast.makeText(RegisterActivity.this, "Successfully Registered, Upload complete!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(RegisterActivity.this, "Registration Failed, " +task.getException().getMessage() , Toast.LENGTH_SHORT).show();
                         }
