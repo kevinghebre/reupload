@@ -25,9 +25,17 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.kelompok_b.petshop.Api.ApiClient;
+import com.kelompok_b.petshop.Api.UserApiInterface;
+import com.kelompok_b.petshop.Api.UserResponse;
 import com.kelompok_b.petshop.MainActivity;
 import com.kelompok_b.petshop.R;
+import com.kelompok_b.petshop.model.User;
 import com.kelompok_b.petshop.ui.home.HomeFragment;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -54,46 +62,47 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         //fungsi jika user sudah pernah login, akan otomatis login tanpa harus login ulang
-        if (firebaseAuth.getCurrentUser() != null){
-            startActivity( new Intent(LoginActivity.this, MainActivity.class));
+        if (firebaseAuth.getCurrentUser() != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = input_Email.getText().toString().trim();
-                String password = input_password.getText().toString().trim();
-
-                // untuk cek apakah sudah pernah login atau belum
-//                if (firebaseAuth.getCurrentUser() != null){
-//                    startActivity( new Intent(MainActivity.this,LoginActivity.class));
-//                    finish();
+                login();
+//                final String email = input_Email.getText().toString().trim();
+//                String password = input_password.getText().toString().trim();
+//
+//                // untuk cek apakah sudah pernah login atau belum
+////                if (firebaseAuth.getCurrentUser() != null){
+////                    startActivity( new Intent(MainActivity.this,LoginActivity.class));
+////                    finish();
+////                }
+//
+//                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || password.length() < 6) {
+//                    input_Email.setError("Input Email");
+//                    Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+//                    return;
 //                }
-
-                if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || password.length() < 6) {
-                    input_Email.setError("Input Email");
-                    Toast.makeText(LoginActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                progressBar.setVisibility(View.VISIBLE);
-
-                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_SHORT).show();
-                            createNotificationChannel();
-                            addNotification();
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("email_user", email);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Password Invalid", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+//                progressBar.setVisibility(View.VISIBLE);
+//
+//                firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            Toast.makeText(LoginActivity.this, "Login Succesful", Toast.LENGTH_SHORT).show();
+//                            createNotificationChannel();
+//                            addNotification();
+//                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                            intent.putExtra("email_user", email);
+//                            startActivity(intent);
+//                            finish();
+//                        } else {
+//                            Toast.makeText(LoginActivity.this, "Password Invalid", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
             }
         });
 
@@ -106,12 +115,50 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    public void login() {
+        UserApiInterface userApiInterface = ApiClient.getClient().create(UserApiInterface.class);
+        Call<UserResponse> userDAOCall = userApiInterface.loginUser(input_Email.getText().toString(), input_password.getText().toString());
+        userDAOCall.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                    if (response.body().getMessage().equalsIgnoreCase("Login successfull")) {
+                        if (response.body().getUsers().getEmail().equalsIgnoreCase("admin")) {
+                            Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        } else {
+                            User user = response.body().getUsers();
+                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                            i.putExtra("id", user.getId());
+                            i.putExtra("name", user.getName());
+                            i.putExtra("gender", user.getName());
+                            i.putExtra("image",user.getImage());
+                            i.putExtra("age", user.getName());
+                            i.putExtra("name", user.getName());
+                            i.putExtra("name", user.getName());
+                            Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                            createNotificationChannel();
+                            addNotification();
+                            startActivity(i);
+                            finish();
+                        }
+                    } else
+                        Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                //failure
+                Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "Channel 1";
             String description = "This is Channel 1";
             int important = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,name, important);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, important);
             channel.setDescription(description);
             //Register the channel with the system; you can't change the importance
             //Or other notification behavior after this
@@ -129,11 +176,11 @@ public class LoginActivity extends AppCompatActivity {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         //Membuat intent yang menampilkan notifikasi
         Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this,0,notificationIntent,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentIntent(contentIntent);
 
         //Menampilkan notifikasi
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0,builder.build());
+        manager.notify(0, builder.build());
     }
 }
