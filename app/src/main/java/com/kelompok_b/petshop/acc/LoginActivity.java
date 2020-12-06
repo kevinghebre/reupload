@@ -22,9 +22,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.JsonObject;
 import com.kelompok_b.petshop.Api.ApiClient;
 import com.kelompok_b.petshop.Api.UserApiInterface;
 import com.kelompok_b.petshop.Api.UserResponse;
@@ -33,6 +35,8 @@ import com.kelompok_b.petshop.R;
 import com.kelompok_b.petshop.model.User;
 import com.kelompok_b.petshop.ui.home.HomeFragment;
 
+import org.json.JSONObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,6 +44,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText input_Email, input_password;
+    private TextInputLayout email_layout, password_layout;
     private MaterialButton btn_login;
     private MaterialTextView text_register;
 
@@ -54,7 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         input_Email = findViewById(R.id.input_email_login);
+        email_layout = findViewById(R.id.input_email_login_layout);
         input_password = findViewById(R.id.input_password_login);
+        password_layout = findViewById(R.id.input_password_login_layout);
         btn_login = findViewById(R.id.btn_sign_in);
         text_register = findViewById(R.id.text_register);
 
@@ -70,6 +77,15 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (input_Email.getText().toString().isEmpty()) {
+                    input_Email.setError("input email");
+                    return;
+                }
+                if (input_password.getText().toString().isEmpty()) {
+                    input_password.setError("input password");
+                    return;
+                }
+
                 login();
 //                final String email = input_Email.getText().toString().trim();
 //                String password = input_password.getText().toString().trim();
@@ -121,30 +137,48 @@ public class LoginActivity extends AppCompatActivity {
         userDAOCall.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                    if (response.body().getMessage().equalsIgnoreCase("Login successfull")) {
-                        if (response.body().getUsers().getEmail().equalsIgnoreCase("admin")) {
-                            Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finish();
-                        } else {
-                            User user = response.body().getUsers();
-                            Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                            i.putExtra("id", user.getId());
-                            i.putExtra("name", user.getName());
-                            i.putExtra("gender", user.getName());
-                            i.putExtra("image",user.getImage());
-                            i.putExtra("age", user.getName());
-                            i.putExtra("name", user.getName());
-                            i.putExtra("name", user.getName());
-                            Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                            createNotificationChannel();
-                            addNotification();
-                            startActivity(i);
-                            finish();
-                        }
-                    } else
+
+                if (response.code() == 200) {
+                    if (response.body().getUsers().getEmail().equalsIgnoreCase("admin")) {
                         Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    } else {
+                        User user = response.body().getUsers();
+                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                        i.putExtra("id", user.getId());
+                        i.putExtra("name", user.getName());
+                        i.putExtra("gender", user.getName());
+                        i.putExtra("image", user.getImage());
+                        i.putExtra("age", user.getName());
+                        i.putExtra("name", user.getName());
+                        i.putExtra("name", user.getName());
+                        Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                        createNotificationChannel();
+                        addNotification();
+                        startActivity(i);
+                        finish();
+                    }
+                } else {
+                    try {
+                        JSONObject object = new JSONObject(response.errorBody().string());
+
+                        if (object.get("message") instanceof JSONObject) {
+                            if (object.getJSONObject("message").has("email")) {
+                                email_layout.setError(object.getJSONObject("message").getJSONArray("email").get(0).toString());
+                            }
+                            if (object.getJSONObject("message").has("password")) {
+                                email_layout.setError(object.getJSONObject("message").getJSONArray("password").get(0).toString());
+                            }
+                        } else
+                            Toast.makeText(LoginActivity.this, object.getString("message"), Toast.LENGTH_SHORT).show();
+
+                    } catch (Exception e) {
+                        Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
+
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 //failure
