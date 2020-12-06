@@ -78,7 +78,11 @@ dependencies {
     implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.42.6'
     implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-places-v9:0.12.0'
 
-    //swipe menu
+    //Easy Swipe Layout library untuk swipe di recycle view
     implementation 'com.github.anzaizai:EasySwipeMenuLayout:1.1.4'
+
+    //VOLLEY ini merupakan library yang memudahkan aplikasi android
+    // untuk mengakses jaringan dengan mudah dan cepat.
+    implementation 'com.android.volley:volley:1.1.0'
 
 }

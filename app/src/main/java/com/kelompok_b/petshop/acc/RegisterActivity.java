@@ -60,52 +60,59 @@ public class RegisterActivity extends AppCompatActivity {
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String email = input_Email.getText().toString().trim();
-                String password = input_password.getText().toString().trim();
-
-//                if (firebaseAuth.getCurrentUser() != null){
-//                    startActivity( new Intent(MainActivity.this,LoginActivity.class));
-//                    finish();
-//                }
-                if (TextUtils.isEmpty(email)){
-//                    input_Email.setError("Input Email");
-                    Toast.makeText(RegisterActivity.this, "Email Invalid", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (TextUtils.isEmpty(password)){
-//                    input_password.setError("Input Password");
-                    Toast.makeText(RegisterActivity.this, "Password Invalid", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (password.length() < 6){
-//                    input_password.setError("Password too short");
-                    Toast.makeText(RegisterActivity.this, "Password too short", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                progressBar.setVisibility(View.VISIBLE);
-
-                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        if (task.isSuccessful()) {
-                            firebaseAuth.signOut();
-                            createNotificationChannel();
-                            addNotification();
-                            Toast.makeText(RegisterActivity.this, "Successfully Registered, Upload complete!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Toast.makeText(RegisterActivity.this, "Registration Failed, " +task.getException().getMessage() , Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+            public void onClick(View view) {
+                //
             }
         });
+
+//        btn_register.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String email = input_Email.getText().toString().trim();
+//                String password = input_password.getText().toString().trim();
+//
+////                if (firebaseAuth.getCurrentUser() != null){
+////                    startActivity( new Intent(MainActivity.this,LoginActivity.class));
+////                    finish();
+////                }
+//                if (TextUtils.isEmpty(email)){
+////                    input_Email.setError("Input Email");
+//                    Toast.makeText(RegisterActivity.this, "Email Invalid", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                if (TextUtils.isEmpty(password)){
+////                    input_password.setError("Input Password");
+//                    Toast.makeText(RegisterActivity.this, "Password Invalid", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                if (password.length() < 6){
+////                    input_password.setError("Password too short");
+//                    Toast.makeText(RegisterActivity.this, "Password too short", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//                progressBar.setVisibility(View.VISIBLE);
+//
+//                firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//
+//                        if (task.isSuccessful()) {
+//                            firebaseAuth.signOut();
+//                            createNotificationChannel();
+//                            addNotification();
+//                            Toast.makeText(RegisterActivity.this, "Successfully Registered, Upload complete!", Toast.LENGTH_SHORT).show();
+//                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                            startActivity(intent);
+//                            finish();
+//                        } else {
+//                            Toast.makeText(RegisterActivity.this, "Registration Failed, " +task.getException().getMessage() , Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//                });
+//            }
+//        });
     }
 
     private void createNotificationChannel() {
