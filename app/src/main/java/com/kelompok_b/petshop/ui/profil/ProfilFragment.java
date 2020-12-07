@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -35,10 +36,12 @@ import java.io.ByteArrayOutputStream;
 public class ProfilFragment extends Fragment {
 
 
+    String sId, sName, sAge, sGender, sImage, sEmail;
     private String CHANNEL_ID = "Channel 1";
 
     private int REQUEST_IMAGE_CAPTURE = 100;
     private int RESULT_OK = -1;
+    MaterialTextView text_email, text_name, text_age, text_gender;
 
     public ImageView image_acc_view, imageView;
 
@@ -47,6 +50,7 @@ public class ProfilFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -55,13 +59,35 @@ public class ProfilFragment extends Fragment {
         final View root = inflater.inflate(R.layout.fragment_profil, container, false);
         ImageView image_acc_layout = root.findViewById(R.id.edit_pic);
 
+
+        text_email = root.findViewById(R.id.profil_email_tag);
+        text_name = root.findViewById(R.id.profil_fullname_tag);
+        text_age = root.findViewById(R.id.profil_age_tag);
+        text_gender = root.findViewById(R.id.profil_gender_tag);
+
+
         image_acc_view = root.findViewById(R.id.profilImage);
+
+
+        Intent i = getActivity().getIntent();
+        sId = i.getStringExtra("id");
+        sName = i.getStringExtra("name");
+        sAge = i.getStringExtra("age");
+        sImage = i.getStringExtra("image");
+        sGender = i.getStringExtra("gender");
+        sEmail = i.getStringExtra("email");
+
+
+        text_email.setText(sEmail);
+        text_name.setText(sName);
+        text_age.setText(sAge);
+        text_gender.setText(sGender);
 
         // Firebase Upload Image Profile
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null){
+        if (user != null) {
             Toast.makeText(getContext(), "onCreate: " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-            if(user.getPhotoUrl() != null){
+            if (user.getPhotoUrl() != null) {
                 Glide.with(getActivity())
                         .load(user.getPhotoUrl())
                         .into(image_acc_view);
@@ -84,8 +110,8 @@ public class ProfilFragment extends Fragment {
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
-    private void createNotificationChannel(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.BASE){
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BASE) {
             CharSequence name = "Channel 1";
             String description = "This is Channel 1";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -97,7 +123,7 @@ public class ProfilFragment extends Fragment {
         }
     }
 
-    private void  takePictureIntent() {
+    private void takePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -115,7 +141,7 @@ public class ProfilFragment extends Fragment {
         }
     }
 
-    private void handleUpload(Bitmap bitmap){
+    private void handleUpload(Bitmap bitmap) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
 
@@ -139,7 +165,7 @@ public class ProfilFragment extends Fragment {
                 });
     }
 
-    private  void getDownloadUrl(StorageReference reference){
+    private void getDownloadUrl(StorageReference reference) {
         reference.getDownloadUrl()
                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
@@ -150,8 +176,8 @@ public class ProfilFragment extends Fragment {
                 });
     }
 
-    private void setUserProfileUrl(Uri uri){
-        FirebaseUser user  = FirebaseAuth.getInstance().getCurrentUser();
+    private void setUserProfileUrl(Uri uri) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         UserProfileChangeRequest request = new UserProfileChangeRequest.Builder()
                 .setPhotoUri(uri)
