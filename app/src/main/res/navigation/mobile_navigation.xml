@@ -50,14 +50,14 @@
 
     <fragment
         android:id="@+id/nav_dog_shop"
-        android:name="com.kelompok_b.petshop.DogShopFragment"
+        android:name="com.kelompok_b.petshop.Views.ViewsDog"
         android:label="@string/dog"
         tools:layout="@layout/dog_shop_fragment" >
     </fragment>
 
     <fragment
         android:id="@+id/nav_cat_shop"
-        android:name="com.kelompok_b.petshop.CatShopFragment"
+        android:name="com.kelompok_b.petshop.Views.ViewsCat"
         android:label="@string/cat"
         tools:layout="@layout/cat_shop_fragment" >
     </fragment>
