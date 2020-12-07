@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/frame_view_cat"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.shop.ShopFragment">
 
@@ -43,7 +44,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/pet_adapter_recycler_view"/>
+            tools:listitem="@layout/activity_adapter_dog"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

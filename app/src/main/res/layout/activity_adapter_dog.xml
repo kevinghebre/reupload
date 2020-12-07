@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <data>
-        <variable
-            name="cat"
-            type="com.kelompok_b.petshop.model.Cat" />
-    </data>
-
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/cardCat"
+        android:id="@+id/cardDog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
@@ -67,7 +61,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text=""
                             android:textSize="12dp" />
                     </LinearLayout>
 
@@ -88,7 +81,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text=""
                             android:textSize="12dp" />
                     </LinearLayout>
 
@@ -109,7 +101,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text=""
                             android:textSize="12dp" />
                     </LinearLayout>
 
@@ -130,7 +121,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text=""
                             android:textSize="12dp" />
                     </LinearLayout>
 
@@ -151,7 +141,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text=""
                             android:textSize="12dp" />
                     </LinearLayout>
 
@@ -172,7 +161,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text=""
                             android:textSize="12dp" />
                     </LinearLayout>
                 </LinearLayout>

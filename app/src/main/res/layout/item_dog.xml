@@ -9,12 +9,11 @@
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/ParentAdapter"
+        android:id="@+id/cardDog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        tools:context=".adapter.DogRecyclerViewAdapter">
-
+        tools:context=".adapter.AdapterCat">
 
         <com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout
             android:layout_width="match_parent"
@@ -38,10 +37,9 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/ivFotoProfil"
+                        android:id="@+id/ivFotoCat"
                         android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:loadImage="@{dog.imgURL}">
+                        android:layout_height="120dp">
 
                     </ImageView>
                 </LinearLayout>
@@ -49,8 +47,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -63,17 +60,15 @@
                             android:layout_height="wrap_content"
                             android:text="Name"
                             android:textSize="14dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/textColor"/>
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tvName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="@{dog.name}"
-                            android:textSize="12dp"
-                            android:textColor="@color/textColor"/>
+                            android:text=""
+                            android:textSize="12dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -86,17 +81,15 @@
                             android:layout_height="wrap_content"
                             android:text="Race"
                             android:textSize="14dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/textColor"/>
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvNama"
+                            android:id="@+id/tvType"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="@{dog.race}"
-                            android:textSize="12dp"
-                            android:textColor="@color/textColor"/>
+                            android:text=""
+                            android:textSize="12dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -109,17 +102,15 @@
                             android:layout_height="wrap_content"
                             android:text="Age"
                             android:textSize="14dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/textColor"/>
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvFakultas"
+                            android:id="@+id/tvAge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="@{dog.age}"
-                            android:textSize="12dp"
-                            android:textColor="@color/textColor"/>
+                            android:text=""
+                            android:textSize="12dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -132,17 +123,15 @@
                             android:layout_height="wrap_content"
                             android:text="Gender"
                             android:textSize="14dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/textColor"/>
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvJurusan"
+                            android:id="@+id/tvGender"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="@{dog.gender}"
-                            android:textSize="12dp"
-                            android:textColor="@color/textColor"/>
+                            android:text=""
+                            android:textSize="12dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -153,19 +142,17 @@
                         <TextView
                             android:layout_width="60dp"
                             android:layout_height="wrap_content"
-                            android:text="Size"
+                            android:text="Weight"
                             android:textSize="14dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/textColor"/>
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvIpk"
+                            android:id="@+id/tvWeight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="@{dog.size}"
-                            android:textSize="12dp"
-                            android:textColor="@color/textColor"/>
+                            android:text=""
+                            android:textSize="12dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -176,23 +163,20 @@
                         <TextView
                             android:layout_width="60dp"
                             android:layout_height="wrap_content"
-                            android:text="Height"
+                            android:text="Price"
                             android:textSize="14dp"
-                            android:textStyle="bold"
-                            android:textColor="@color/textColor"/>
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvHobi"
+                            android:id="@+id/tvPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="@{dog.height}"
-                            android:textSize="12dp"
-                            android:textColor="@color/textColor"/>
+                            android:text=""
+                            android:textSize="12dp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-
             <LinearLayout
                 android:id="@+id/right"
                 android:layout_width="wrap_content"
@@ -205,7 +189,7 @@
                     android:id="@+id/ivEdit"
                     android:layout_width="120dp"
                     android:layout_height="75dp"
-                    android:background="#FFA500"
+                    android:background="#304FFE"
                     android:drawableTint="#FFFFFF"
                     android:gravity="center_vertical"
                     android:padding="12dp"
@@ -228,6 +212,7 @@
                     android:textSize="15sp" />
             </LinearLayout>
         </com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout>
+
     </androidx.cardview.widget.CardView>
 
 </layout>

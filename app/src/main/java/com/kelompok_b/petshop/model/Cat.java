@@ -1,94 +1,101 @@
 package com.kelompok_b.petshop.model;
 
-import android.widget.ImageView;
+import java.io.Serializable;
 
-import androidx.databinding.BindingAdapter;
+public class Cat implements Serializable {
 
-import com.bumptech.glide.Glide;
+    public int idCat;
+    public String nama_cat, jenis_cat, jk_cat, kategori;
+    public String image_cat;
+    public Double harga_cat, berat_cat, umur_cat;
 
-public class Cat {
-
-    public String name;
-    public String race;
-    public String age;
-    public String gender;
-    public String size;
-    public String height;
-    public String imgURL;
-
-    public Cat(String name, String race, String age, String gender, String size, String height, String imgURL) {
-        this.name = name;
-        this.race = race;
-        this.age = age;
-        this.gender = gender;
-        this.size = size;
-        this.height = height;
-        this.imgURL = imgURL;
+    public Cat(int idCat, String nama_cat, String jenis_cat, String jk_cat, String image_cat, String kategori, Double harga_cat, Double berat_cat, Double umur_cat) {
+        this.idCat = idCat;
+        this.nama_cat = nama_cat;
+        this.jenis_cat = jenis_cat;
+        this.jk_cat = jk_cat;
+        this.image_cat = image_cat;
+        this.harga_cat = harga_cat;
+        this.berat_cat = berat_cat;
+        this.umur_cat = umur_cat;
+        this.kategori = "Kucing";
     }
 
-    public String getName() {
-        return name;
+    public Cat(String nama_cat, String jenis_cat, String jk_cat, Double harga_cat, Double berat_cat, Double umur_cat) {
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Cat(Integer idCat, String nama_cat, String jenis_cat, String jk_cat, String image_cat, Double harga_cat, Double berat_cat, Double umur_cat) {
     }
 
-    public String getRace() {
-        return race;
+    public int getIdCat() {
+        return idCat;
     }
 
-    public void setRace(String race) {
-        this.race = race;
+    public void setIdCat(int idCat) {
+        this.idCat = idCat;
     }
 
-    public String getAge() {
-        return age;
+    public String getNama_cat() {
+        return nama_cat;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setNama_cat(String nama_cat) {
+        this.nama_cat = nama_cat;
     }
 
-    public String getGender() {
-        return gender;
+    public String getJenis_cat() {
+        return jenis_cat;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setJenis_cat(String jenis_cat) {
+        this.jenis_cat = jenis_cat;
     }
 
-    public String getSize() {
-        return size;
+    public String getJk_cat() {
+        return jk_cat;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setJk_cat(String jk_cat) {
+        this.jk_cat = jk_cat;
     }
 
-    public String getHeight() {
-        return height;
+    public String getImage_cat() {
+        return image_cat;
     }
 
-    public void setHeight(String height) {
-        this.height = height;
+    public void setImage_cat(String image_cat) {
+        this.image_cat = image_cat;
     }
 
-    public String getImgURL() {
-        return imgURL;
+    public Double getHarga_cat() {
+        return harga_cat;
     }
 
-    public void setImgURL(String imgURL) {
-        this.imgURL = imgURL;
+    public void setHarga_cat(Double harga_cat) {
+        this.harga_cat = harga_cat;
     }
 
-    @BindingAdapter("android:loadImage")
-    public static void loadImage(ImageView imgView, String imgURL) {
-        Glide.with(imgView)
-                .load(imgURL)
-                .into(imgView);
+    public Double getBerat_cat() {
+        return berat_cat;
+    }
 
+    public void setBerat_cat(Double berat_cat) {
+        this.berat_cat = berat_cat;
+    }
+
+    public Double getUmur_cat() {
+        return umur_cat;
+    }
+
+    public void setUmur_cat(Double umur_cat) {
+        this.umur_cat = umur_cat;
+    }
+
+    public String getKategori() {
+        return kategori;
+    }
+
+    public void setKategori(String kategori) {
+        this.kategori = kategori;
     }
 }
-
-

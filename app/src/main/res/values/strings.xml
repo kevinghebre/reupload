@@ -39,4 +39,14 @@
     <string name="cat">cat</string>
     <string name="dog">dog</string>
     <string name="tips_trick"><![CDATA[Tips & Trick]]></string>
+
+    <string-array name="jenisKelamin">
+        <item>Laki-Laki</item>
+        <item>Perempuan</item>
+    </string-array>
+
+    <string-array name="tipe">
+        <item>Anjing</item>
+        <item>Kucing</item>
+    </string-array>
 </resources>

@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <data>
-        <variable
-            name="cat"
-            type="com.kelompok_b.petshop.model.Cat" />
-    </data>
-
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/ParentAdapter"
+        android:id="@+id/cardCat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        tools:context=".adapter.CatRecyclerViewAdapter">
+        tools:context=".adapter.AdapterCat">
 
         <com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout
             android:layout_width="match_parent"
@@ -37,10 +31,9 @@
                     android:orientation="vertical">
 
                     <ImageView
-                        android:id="@+id/ivFotoProfil"
+                        android:id="@+id/ivFotoCat"
                         android:layout_width="120dp"
-                        android:layout_height="120dp"
-                        android:loadImage="@{cat.imgURL}">
+                        android:layout_height="120dp">
 
                     </ImageView>
                 </LinearLayout>
@@ -68,7 +61,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="@{cat.name}"
                             android:textSize="12dp" />
                     </LinearLayout>
 
@@ -85,11 +77,10 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvNama"
+                            android:id="@+id/tvType"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="@{cat.race}"
                             android:textSize="12dp" />
                     </LinearLayout>
 
@@ -106,11 +97,10 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvFakultas"
+                            android:id="@+id/tvAge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="@{cat.age}"
                             android:textSize="12dp" />
                     </LinearLayout>
 
@@ -127,11 +117,10 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvJurusan"
+                            android:id="@+id/tvGender"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="@{cat.gender}"
                             android:textSize="12dp" />
                     </LinearLayout>
 
@@ -143,16 +132,15 @@
                         <TextView
                             android:layout_width="60dp"
                             android:layout_height="wrap_content"
-                            android:text="Size"
+                            android:text="Weight"
                             android:textSize="14dp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvIpk"
+                            android:id="@+id/tvWeight"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="@{cat.size}"
                             android:textSize="12dp" />
                     </LinearLayout>
 
@@ -164,16 +152,15 @@
                         <TextView
                             android:layout_width="60dp"
                             android:layout_height="wrap_content"
-                            android:text="Height"
+                            android:text="Price"
                             android:textSize="14dp"
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tvHobi"
+                            android:id="@+id/tvPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="7dp"
-                            android:text="@{cat.height}"
                             android:textSize="12dp" />
                     </LinearLayout>
                 </LinearLayout>

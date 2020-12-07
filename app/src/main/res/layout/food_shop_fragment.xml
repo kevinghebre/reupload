@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/frame_view_dog"
+    android:id="@+id/frame_view_food"
     tools:context=".ui.shop.ShopFragment">
 
     <com.google.android.material.navigation.NavigationView
@@ -24,7 +24,7 @@
                 android:layout_marginVertical="15dp"
                 android:layout_marginLeft="20dp"
                 android:textColor="@color/textColor"
-                android:text="Dog List"
+                android:text="Food List"
                 android:textSize="20dp" />
 
         </LinearLayout>
@@ -37,13 +37,13 @@
         android:layout_below="@id/header">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_dog_list"
+            android:id="@+id/recycler_food_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/activity_adapter_dog" />
+            tools:listitem="@layout/activity_adapter_food" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </RelativeLayout>

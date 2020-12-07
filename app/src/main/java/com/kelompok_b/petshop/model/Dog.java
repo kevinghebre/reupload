@@ -1,92 +1,101 @@
 package com.kelompok_b.petshop.model;
 
-import android.widget.ImageView;
+import java.io.Serializable;
 
-import androidx.databinding.BindingAdapter;
+public class Dog implements Serializable {
 
-import com.bumptech.glide.Glide;
+    public int idDog;
+    public String nama_dog, jenis_dog, jk_dog, kategori;
+    public String image_dog;
+    public Double harga_dog, berat_dog, umur_dog;
 
-public class Dog {
-
-    public String name;
-    public String race;
-    public String age;
-    public String gender;
-    public String size;
-    public String height;
-    public String imgURL;
-
-    public Dog(String name, String race, String age, String gender, String size, String height, String imgURL) {
-        this.name = name;
-        this.race = race;
-        this.age = age;
-        this.gender = gender;
-        this.size = size;
-        this.height = height;
-        this.imgURL = imgURL;
+    public Dog(int idDog, String nama_dog, String jenis_dog, String jk_dog, String kategori, String image_dog, Double harga_dog, Double berat_dog, Double umur_dog) {
+        this.idDog = idDog;
+        this.nama_dog = nama_dog;
+        this.jenis_dog = jenis_dog;
+        this.jk_dog = jk_dog;
+        this.kategori = kategori;
+        this.image_dog = image_dog;
+        this.harga_dog = harga_dog;
+        this.berat_dog = berat_dog;
+        this.umur_dog = umur_dog;
     }
 
-    public String getName() {
-        return name;
+    public Dog(String nama_dog, String jenis_dog, String jk_dog, Double harga_dog, Double berat_dog, Double umur_dog) {
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Dog(Integer idDog, String nama_dog, String jenis_dog, String jk_dog, Double berat_dog, Double umur_dog, Double harga_dog, String image_dog) {
     }
 
-    public String getRace() {
-        return race;
+    public int getIdDog() {
+        return idDog;
     }
 
-    public void setRace(String race) {
-        this.race = race;
+    public void setIdDog(int idDog) {
+        this.idDog = idDog;
     }
 
-    public String getAge() {
-        return age;
+    public String getNama_dog() {
+        return nama_dog;
     }
 
-    public void setAge(String age) {
-        this.age = age;
+    public void setNama_dog(String nama_dog) {
+        this.nama_dog = nama_dog;
     }
 
-    public String getGender() {
-        return gender;
+    public String getJenis_dog() {
+        return jenis_dog;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setJenis_dog(String jenis_dog) {
+        this.jenis_dog = jenis_dog;
     }
 
-    public String getSize() {
-        return size;
+    public String getJk_dog() {
+        return jk_dog;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setJk_dog(String jk_dog) {
+        this.jk_dog = jk_dog;
     }
 
-    public String getHeight() {
-        return height;
+    public String getKategori() {
+        return kategori;
     }
 
-    public void setHeight(String height) {
-        this.height = height;
+    public void setKategori(String kategori) {
+        this.kategori = kategori;
     }
 
-    public String getImgURL() {
-        return imgURL;
+    public String getImage_dog() {
+        return image_dog;
     }
 
-    public void setImgURL(String imgURL) {
-        this.imgURL = imgURL;
+    public void setImage_dog(String image_dog) {
+        this.image_dog = image_dog;
     }
 
-    @BindingAdapter("android:loadImage")
-    public static void loadImage (ImageView imgView, String imgURL){
-        Glide.with(imgView)
-                .load(imgURL)
-                .into(imgView);
+    public Double getHarga_dog() {
+        return harga_dog;
+    }
 
+    public void setHarga_dog(Double harga_dog) {
+        this.harga_dog = harga_dog;
+    }
+
+    public Double getBerat_dog() {
+        return berat_dog;
+    }
+
+    public void setBerat_dog(Double berat_dog) {
+        this.berat_dog = berat_dog;
+    }
+
+    public Double getUmur_dog() {
+        return umur_dog;
+    }
+
+    public void setUmur_dog(Double umur_dog) {
+        this.umur_dog = umur_dog;
     }
 }

@@ -12,4 +12,6 @@ public class FoodAPI {
     public static final String URL_ADD          = ROOT_API+"food";
     public static final String URL_UPDATE       = ROOT_API+"food/";
     public static final String URL_DELETE       = ROOT_API+"food/";
+    public static final String URL_SELECT       = ROOT_API+"food";
+    public static final String URL_IMAGE        = ROOT_API+"images";
 }
