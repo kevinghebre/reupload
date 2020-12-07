@@ -48,9 +48,10 @@ public class ViewsDog extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.cat_shop_fragment, container, false);
+        view = inflater.inflate(R.layout.dog_shop_fragment, container, false);
 
         loadDaftarDog();
+        System.out.println("aaaaaa");
         return view;
     }
 
@@ -95,12 +96,12 @@ public class ViewsDog extends Fragment{
         if (id == R.id.btnAdd) {
             Bundle data = new Bundle();
             data.putString("status", "tambah");
-            TambahEditCat tambahEditCat = new TambahEditCat();
-            tambahEditCat.setArguments(data);
+            TambahEditDog tambahEditDog = new TambahEditDog();
+            tambahEditDog.setArguments(data);
 
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             fragmentManager .beginTransaction()
-                    .replace(R.id.frame_view_dog, tambahEditCat)
+                    .replace(R.id.frame_view_dog, tambahEditDog)
                     .commit();
         }
         return super.onOptionsItemSelected(item);
@@ -109,6 +110,7 @@ public class ViewsDog extends Fragment{
     public void loadDaftarDog(){
         setAdapter();
         getDog();
+        System.out.println("aaaaa");
     }
 
     public void setAdapter(){
@@ -117,7 +119,7 @@ public class ViewsDog extends Fragment{
         sedangakan untuk landscape 4 data dalam 1 baris*/
         final int col = getResources().getInteger(R.integer.gallery_columns);
         listDog = new ArrayList<Dog>();
-        recyclerView = view.findViewById(R.id.recycler_dog_list);
+        recyclerView = view.findViewById(R.id.recycler_view);
         adapter = new AdapterDog(view.getContext(), listDog, new AdapterDog.deleteItemListener(){
             @Override
             public void deleteItem(Boolean delete) {
@@ -145,7 +147,7 @@ public class ViewsDog extends Fragment{
         progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
-        final JsonObjectRequest stringRequest = new JsonObjectRequest(GET, PetAPI.URL_SELECT
+        final JsonObjectRequest stringRequest = new JsonObjectRequest(GET, PetAPI.URL_SHOW_DOG
                 , null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -153,7 +155,7 @@ public class ViewsDog extends Fragment{
                 progressDialog.dismiss();
                 try {
                     //Mengambil data response json object yang berupa data mahasiswa
-                    JSONArray jsonArray = response.getJSONArray("dataCat");
+                    JSONArray jsonArray = response.getJSONArray("dataDog");
 
                     if(!listDog.isEmpty())
                         listDog.clear();
@@ -162,17 +164,18 @@ public class ViewsDog extends Fragment{
                         //Mengubah data jsonArray tertentu menjadi json Object
                         JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 
-                        Integer idDog      = jsonObject.optInt("idPet");
-                        String nama_dog     = jsonObject.optString("namaPet");
-                        String jenis_dog    = jsonObject.optString("jenisHewan");
-                        String jk_dog    = jsonObject.optString("jenisKelamin");
-                        Double berat_dog        = jsonObject.optDouble("berat");
-                        Double umur_dog       = jsonObject.optDouble("age");
-                        Double harga_dog        = jsonObject.optDouble("harga");
-                        String image_dog       = jsonObject.optString("gambar");
+                        Integer idDog       = jsonObject.optInt("idDOg");
+                        String nama_dog     = jsonObject.optString("nama_dog");
+                        String jenis_dog    = jsonObject.optString("jenis_dog");
+                        String jk_dog       = jsonObject.optString("jk_dog");
+                        Double berat_dog    = jsonObject.optDouble("berat_dog");
+                        Double umur_dog     = jsonObject.optDouble("umur_dog");
+                        Double harga_dog    = jsonObject.optDouble("harga_dog");
+                        String image_dog    = jsonObject.optString("image_dog");
+                        String kategori    = "Anjing";
 
                         //Membuat objek user
-                        Dog dog = new Dog(idDog,nama_dog, jenis_dog, jk_dog, berat_dog, umur_dog,harga_dog,image_dog);
+                        Dog dog = new Dog(idDog,nama_dog,jenis_dog,jk_dog,kategori, image_dog,harga_dog,berat_dog,umur_dog);
 
                         //Menambahkan objek user tadi ke list user
                         listDog.add(dog);

@@ -41,12 +41,8 @@
     <string name="tips_trick"><![CDATA[Tips & Trick]]></string>
 
     <string-array name="jenisKelamin">
-        <item>Laki-Laki</item>
-        <item>Perempuan</item>
+        <item>Jantan</item>
+        <item>Betina</item>
     </string-array>
 
-    <string-array name="tipe">
-        <item>Anjing</item>
-        <item>Kucing</item>
-    </string-array>
 </resources>
