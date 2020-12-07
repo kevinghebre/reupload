@@ -144,7 +144,7 @@ public class ViewsCat extends Fragment{
         progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
-        final JsonObjectRequest stringRequest = new JsonObjectRequest(GET, PetAPI.URL_SELECT
+        final JsonObjectRequest stringRequest = new JsonObjectRequest(GET, PetAPI.URL_SHOW_CAT
                 , null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

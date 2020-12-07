@@ -56,12 +56,12 @@ import static com.android.volley.Request.Method.POST;
 import static com.android.volley.Request.Method.PUT;
 
 public class TambahEditDog  extends Fragment {
-    private TextInputEditText txtNamaPet, txtHarga, txtUmur, txtBerat, txtJenisKucing;
-    private String status, selectedJenisKelamin;
+    private TextInputEditText txtNamaPet, txtHarga, txtUmur, txtBerat, txtJenisAnjing;
+    private String status, selectedJenisKelamin, txtKategori;
     private ImageView ivGambar;
     private Button btnSimpan, btnBatal, btnUnggah;
     private String selected;
-    private int idPet;
+    private int idDog;
     private Dog dog;
     private View view;
     private Bitmap bitmap;
@@ -104,7 +104,8 @@ public class TambahEditDog  extends Fragment {
         txtUmur                 = view.findViewById(R.id.txtUmur);
         txtBerat                = view.findViewById(R.id.txtBerat);
         txtHarga                = view.findViewById(R.id.txtHarga);
-        txtJenisKucing           = view.findViewById(R.id.txtJenisHewan);
+        txtJenisAnjing          = view.findViewById(R.id.txtJenisHewan);
+        txtKategori             = "dog";
         btnSimpan               = view.findViewById(R.id.btnSimpan);
         btnBatal                = view.findViewById(R.id.btnBatal);
         btnUnggah               = view.findViewById(R.id.btnUnggah);
@@ -114,9 +115,9 @@ public class TambahEditDog  extends Fragment {
         status = getArguments().getString("status");
         if(status.equals("edit"))
         {
-            idPet = dog.getIdDog();
+            idDog = dog.getIdDog();
             txtNamaPet.setText(dog.getNama_dog());
-            txtJenisKucing.setText(dog.getJenis_dog());
+            txtJenisAnjing.setText("Anjing");
             txtBerat.setText(String.valueOf(dog.getBerat_dog()));
             txtUmur.setText(String.valueOf(dog.getUmur_dog()));
             txtHarga.setText(String.valueOf(Math.round(dog.getHarga_dog())));
@@ -212,8 +213,9 @@ public class TambahEditDog  extends Fragment {
             @Override
             public void onClick(View v) {
                 String nama_dog  = txtNamaPet.getText().toString();
-                String jenis_dog = txtJenisKucing.getText().toString();
+                String jenis_dog = txtJenisAnjing.getText().toString();
                 String jk_dog = selectedJenisKelamin;
+                String kategori = "dog";
 
                 if(nama_dog.isEmpty() || txtUmur.getText().toString().isEmpty() || txtHarga.getText().toString().isEmpty() || jenis_dog.isEmpty() || jk_dog.isEmpty()
                         || txtBerat.getText().toString().isEmpty() )
@@ -223,7 +225,7 @@ public class TambahEditDog  extends Fragment {
                     Double berat_dog   = Double.parseDouble(txtBerat.getText().toString());
                     Double umur_dog     = Double.parseDouble(txtUmur.getText().toString());
 
-                    dog = new Dog(nama_dog,jenis_dog, jk_dog, harga_dog,berat_dog,umur_dog);
+                    dog = new Dog(nama_dog,jenis_dog, jk_dog,kategori, harga_dog,berat_dog,umur_dog);
                     if(status.equals("tambah")) {
                         String bytesString = "";
                         if (bitmap != null) {
@@ -251,7 +253,7 @@ public class TambahEditDog  extends Fragment {
         btnBatal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new ViewsCat());
+                loadFragment(new ViewsDog());
             }
         });
     }
@@ -349,7 +351,7 @@ public class TambahEditDog  extends Fragment {
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Menambahkan data Kucing");
+        progressDialog.setTitle("Menambahkan data Anjing");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
@@ -391,13 +393,13 @@ public class TambahEditDog  extends Fragment {
                     API.
                 */
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("namaPet", dog.getNama_dog());
-                params.put("jenisHewan", dog.getJenis_dog());
-                params.put("umur", dog.getUmur_dog().toString());
-                params.put("harga", dog.getHarga_dog().toString());
-                params.put("berat", dog.getBerat_dog().toString());
-                params.put("jenisKelamin", dog.getJk_dog());
-                params.put("gambar", gambar);
+                params.put("nama_dog", dog.getNama_dog());
+                params.put("jenis_dog", dog.getJenis_dog());
+                params.put("umur_dog", dog.getUmur_dog().toString());
+                params.put("harga_dog", dog.getHarga_dog().toString());
+                params.put("berat_dog", dog.getBerat_dog().toString());
+                params.put("jk_dog", dog.getJk_dog());
+                params.put("image_dog", gambar);
 
                 return params;
             }
@@ -416,12 +418,12 @@ public class TambahEditDog  extends Fragment {
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Mengedit data Kucing");
+        progressDialog.setTitle("Mengedit data Anjing");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
         //Memulai membuat permintaan request menghapus data ke jaringan
-        StringRequest stringRequest = new StringRequest(PUT, PetAPI.URL_UPDATE + idPet, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(PUT, PetAPI.URL_UPDATE + idDog, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Disini bagian jika response jaringan berhasil tidak terdapat ganguan/error
@@ -458,13 +460,13 @@ public class TambahEditDog  extends Fragment {
                     API.
                 */
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("namaPet", dog.getNama_dog());
-                params.put("jenisHewan", dog.getJenis_dog());
-                params.put("umur", dog.getUmur_dog().toString());
-                params.put("harga", dog.getHarga_dog().toString());
-                params.put("berat", dog.getBerat_dog().toString());
-                params.put("jenisKelamin", dog.getJk_dog());
-                params.put("gambar", gambar);
+                params.put("nama_dog", dog.getNama_dog());
+                params.put("jenis_dog", dog.getJenis_dog());
+                params.put("umur_dog", dog.getUmur_dog().toString());
+                params.put("harga_dog", dog.getHarga_dog().toString());
+                params.put("berat_dog", dog.getBerat_dog().toString());
+                params.put("jk_dog", dog.getJk_dog());
+                params.put("image_dog", gambar);
                 return params;
             }
         };

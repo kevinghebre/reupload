@@ -77,12 +77,13 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
         final Dog dog = dogListFiltered.get(position);
 
         NumberFormat formatter = new DecimalFormat("#,###");
-        holder.pet_name.setText(dog.getNama_dog());
-        holder.type_name.setText(dog.getJenis_dog());
-        holder.weight.setText(formatter.format(dog.getBerat_dog()) + "Kg");
-        holder.age.setText(formatter.format(dog.getUmur_dog()) + "Tahun");
-        holder.gender.setText(dog.getJk_dog());
-        holder.price.setText("Rp "+ formatter.format(dog.getHarga_dog()));
+        holder.nama_dog.setText(dog.getNama_dog());
+        holder.jenis_dog.setText(dog.getJenis_dog());
+        holder.berat_dog.setText(formatter.format(dog.getBerat_dog()) + "Kg");
+        holder.umur_dog.setText(formatter.format(dog.getUmur_dog()) + "Tahun");
+        holder.jk_dog.setText(dog.getJk_dog());
+        holder.kategori.setText("dog");
+        holder.harga_dog.setText("Rp "+ formatter.format(dog.getHarga_dog()));
         Glide.with(context)
                 .load(PetAPI.URL_IMAGE+dog.getImage_dog())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -131,18 +132,18 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
     }
 
     public class adapterDogViewHolder extends RecyclerView.ViewHolder {
-        private TextView type_name, pet_name, gender, price, weight, age, ivEdit, ivHapus;;
+        private TextView nama_dog, jenis_dog,berat_dog, umur_dog,jk_dog, kategori,harga_dog , ivEdit, ivHapus;
         private ImageView ivGambar;
         private CardView cardDog;
 
         public adapterDogViewHolder(@NonNull View itemView) {
             super(itemView);
-            pet_name        = itemView.findViewById(R.id.tvName);
-            type_name       = itemView.findViewById(R.id.tvType);
-            gender          = itemView.findViewById(R.id.tvGender);
-            age             = itemView.findViewById(R.id.tvAge);
-            weight          = itemView.findViewById(R.id.tvWeight);
-            price           = itemView.findViewById(R.id.tvPrice);
+            nama_dog        = itemView.findViewById(R.id.tvName);
+            jenis_dog       = itemView.findViewById(R.id.tvType);
+            jk_dog          = itemView.findViewById(R.id.tvGender);
+            umur_dog             = itemView.findViewById(R.id.tvAge);
+            berat_dog          = itemView.findViewById(R.id.tvWeight);
+            harga_dog           = itemView.findViewById(R.id.tvPrice);
             ivGambar        = itemView.findViewById(R.id.ivFotoCat);
             ivEdit          = (TextView) itemView.findViewById(R.id.ivEdit);
             ivHapus         = (TextView) itemView.findViewById(R.id.ivHapus);

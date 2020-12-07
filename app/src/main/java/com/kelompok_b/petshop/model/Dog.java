@@ -21,10 +21,15 @@ public class Dog implements Serializable {
         this.umur_dog = umur_dog;
     }
 
-    public Dog(String nama_dog, String jenis_dog, String jk_dog, Double harga_dog, Double berat_dog, Double umur_dog) {
-    }
 
-    public Dog(Integer idDog, String nama_dog, String jenis_dog, String jk_dog, Double berat_dog, Double umur_dog, Double harga_dog, String image_dog) {
+    public Dog(String nama_dog, String jenis_dog, String jk_dog, String kategori, Double harga_dog, Double berat_dog, Double umur_dog) {
+        this.nama_dog = nama_dog;
+        this.jenis_dog = jenis_dog;
+        this.jk_dog = jk_dog;
+        this.kategori = kategori;
+        this.harga_dog = harga_dog;
+        this.berat_dog = berat_dog;
+        this.umur_dog = umur_dog;
     }
 
     public int getIdDog() {
