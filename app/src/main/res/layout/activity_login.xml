@@ -95,11 +95,9 @@
                 android:autofillHints=""
                 android:textColor="@color/textColor"
                 android:hint="Password"
-                android:inputType="text" />
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
-
     </LinearLayout>
-
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_sign_in"

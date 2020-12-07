@@ -7,6 +7,7 @@ import androidx.core.app.NotificationCompat;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -78,11 +79,13 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (input_Email.getText().toString().isEmpty()) {
-                    input_Email.setError("input email");
-                    return;
+                    email_layout.setError("input email");
                 }
                 if (input_password.getText().toString().isEmpty()) {
-                    input_password.setError("input password");
+                    password_layout.setError("input password");
+                    return;
+                }else if (input_password.length() < 6) {
+                    password_layout.setError("Password minimal 6 karakter");
                     return;
                 }
 
@@ -132,6 +135,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login() {
+
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("loading....");
+        progressDialog.setTitle("Logging in");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
         UserApiInterface userApiInterface = ApiClient.getClient().create(UserApiInterface.class);
         Call<UserResponse> userDAOCall = userApiInterface.loginUser(input_Email.getText().toString(), input_password.getText().toString());
         userDAOCall.enqueue(new Callback<UserResponse>() {
@@ -139,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
 
                 if (response.code() == 200) {
+
                     if (response.body().getUsers().getEmail().equalsIgnoreCase("admin")) {
                         Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
@@ -148,15 +160,16 @@ public class LoginActivity extends AppCompatActivity {
                         Intent i = new Intent(LoginActivity.this, MainActivity.class);
                         i.putExtra("id", user.getId());
                         i.putExtra("name", user.getName());
-                        i.putExtra("gender", user.getName());
+                        i.putExtra("password", user.getPassword());
+                        i.putExtra("email", user.getEmail());
+                        i.putExtra("gender", user.getGender());
                         i.putExtra("image", user.getImage());
-                        i.putExtra("age", user.getName());
-                        i.putExtra("name", user.getName());
-                        i.putExtra("name", user.getName());
+                        i.putExtra("age", user.getAge());
                         Toast.makeText(LoginActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         createNotificationChannel();
                         addNotification();
                         startActivity(i);
+                        progressDialog.dismiss();
                         finish();
                     }
                 } else {
@@ -170,11 +183,14 @@ public class LoginActivity extends AppCompatActivity {
                             if (object.getJSONObject("message").has("password")) {
                                 email_layout.setError(object.getJSONObject("message").getJSONArray("password").get(0).toString());
                             }
+                            progressDialog.dismiss();
                         } else
                             Toast.makeText(LoginActivity.this, object.getString("message"), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
 
                     } catch (Exception e) {
                         Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                     }
                 }
             }
@@ -183,6 +199,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 //failure
                 Toast.makeText(LoginActivity.this, "error", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }

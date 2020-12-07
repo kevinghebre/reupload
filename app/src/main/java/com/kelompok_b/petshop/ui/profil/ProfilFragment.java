@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,6 +29,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.kelompok_b.petshop.MainActivity;
 import com.kelompok_b.petshop.R;
 
 import java.io.ByteArrayOutputStream;
@@ -42,6 +44,8 @@ public class ProfilFragment extends Fragment {
     private int REQUEST_IMAGE_CAPTURE = 100;
     private int RESULT_OK = -1;
     MaterialTextView text_email, text_name, text_age, text_gender;
+
+    MaterialButton btn_back, btn_update;
 
     public ImageView image_acc_view, imageView;
 
@@ -64,6 +68,8 @@ public class ProfilFragment extends Fragment {
         text_name = root.findViewById(R.id.profil_fullname_tag);
         text_age = root.findViewById(R.id.profil_age_tag);
         text_gender = root.findViewById(R.id.profil_gender_tag);
+        btn_back = root.findViewById(R.id.btn_back);
+        btn_update = root.findViewById(R.id.btn_update);
 
 
         image_acc_view = root.findViewById(R.id.profilImage);
@@ -82,6 +88,18 @@ public class ProfilFragment extends Fragment {
         text_name.setText(sName);
         text_age.setText(sAge);
         text_gender.setText(sGender);
+
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
+
 
         // Firebase Upload Image Profile
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

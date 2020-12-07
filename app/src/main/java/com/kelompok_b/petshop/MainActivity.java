@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
+
         FirebaseMessaging.getInstance().subscribeToTopic("news")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

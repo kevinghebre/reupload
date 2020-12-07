@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,6 +53,7 @@ import static com.android.volley.Request.Method.POST;
 public class RegisterActivity extends AppCompatActivity {
 
     private TextInputEditText input_email, input_password, input_name, input_age, input_gender;
+    private TextInputLayout email_layout, name_layout, age_layout,gender_layout,password_layout;
     private MaterialButton btn_register;
     private MaterialTextView text_login;
 
@@ -73,6 +75,11 @@ public class RegisterActivity extends AppCompatActivity {
         input_age = findViewById(R.id.input_age_register);
         input_name = findViewById(R.id.input_name_register);
         input_gender = findViewById(R.id.input_gender_register);
+        email_layout = findViewById(R.id.input_email_register_layout);
+        name_layout =findViewById(R.id.input_name_register_layout);
+        age_layout = findViewById(R.id.input_age_register_layout);
+        gender_layout =findViewById(R.id.input_email_gender_layout);
+        password_layout=findViewById(R.id.input_password_register_layout);
 
         btn_register = findViewById(R.id.btn_register);
         text_login = findViewById(R.id.text_login);
@@ -93,6 +100,25 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                regist();
+                if (input_name.getText().toString().isEmpty()) {
+                    name_layout.setError("Please Input Name");
+                }
+                if (input_age.getText().toString().isEmpty()) {
+                   age_layout.setError("Please Input Age");
+                }
+                if (input_gender.getText().toString().isEmpty()) {
+                    gender_layout.setError("Please Input Gender");
+                }
+                if (input_email.getText().toString().isEmpty()) {
+                    email_layout.setError("Please Input Email");
+                }
+                if (input_password.getText().toString().isEmpty()) {
+                    password_layout.setError("Please Input Password");
+                    return;
+                } else if (input_password.length() < 6) {
+                    password_layout.setError("Password Minimal 6 Karakter");
+                    return;
+                }
                 saveUser();
             }
         });

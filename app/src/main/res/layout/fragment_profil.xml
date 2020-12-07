@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="32dp"
-    android:paddingRight="32dp"
     android:paddingTop="10dp"
+    android:paddingRight="32dp"
     tools:context=".ui.profil.ProfilFragment">
 
     <com.google.android.material.textview.MaterialTextView
@@ -22,7 +22,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp" >
+        android:layout_height="100dp">
 
         <ImageView
             android:id="@+id/profilImage"
@@ -46,9 +46,9 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:onClick="takePhoto"
             android:src="@drawable/ic_baseline_edit_24"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:onClick="takePhoto"
             app:layout_constraintStart_toEndOf="@+id/profilImage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -59,22 +59,22 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profil_email"
-            android:layout_width="160dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:drawableStart="@drawable/ic_email"
             android:drawablePadding="10dp"
+            android:padding="10dp"
             android:text="Email"
-            android:textColor="@color/textColor"
-            android:drawableStart="@drawable/ic_email"/>
+            android:textColor="@color/textColor" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profil_email_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textColor="@color/textColor"
             android:drawablePadding="10dp"
-            android:text="Kevin@gmail.com" />
+            android:padding="10dp"
+            android:text="Kevin@gmail.com"
+            android:textColor="@color/textColor" />
     </LinearLayout>
 
     <LinearLayout
@@ -84,22 +84,22 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profil_fullname"
-            android:layout_width="160dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textColor="@color/textColor"
+            android:drawableStart="@drawable/ic_person_profil"
             android:drawablePadding="10dp"
+            android:padding="10dp"
             android:text="Fullname : "
-            android:drawableStart="@drawable/ic_person_profil"/>
+            android:textColor="@color/textColor" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profil_fullname_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColor"
-            android:padding="10dp"
             android:drawablePadding="10dp"
-            android:text="Kevin Ghebre" />
+            android:padding="10dp"
+            android:text="Kevin Ghebre"
+            android:textColor="@color/textColor" />
     </LinearLayout>
 
     <LinearLayout
@@ -109,22 +109,22 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profil_age"
-            android:layout_width="160dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:drawableStart="@drawable/ic_age"
             android:drawablePadding="10dp"
-            android:textColor="@color/textColor"
+            android:padding="10dp"
             android:text="Age"
-            android:drawableStart="@drawable/ic_age"/>
+            android:textColor="@color/textColor" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profil_age_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColor"
-            android:padding="10dp"
             android:drawablePadding="10dp"
-            android:text="20" />
+            android:padding="10dp"
+            android:text="20"
+            android:textColor="@color/textColor" />
     </LinearLayout>
 
     <LinearLayout
@@ -134,22 +134,22 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profil_gender"
-            android:layout_width="160dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColor"
-            android:padding="10dp"
+            android:drawableStart="@drawable/ic_baseline_loyalty_24"
             android:drawablePadding="10dp"
+            android:padding="10dp"
             android:text="Gender"
-            android:drawableStart="@drawable/ic_baseline_loyalty_24"/>
+            android:textColor="@color/textColor" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profil_gender_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColor"
-            android:padding="10dp"
             android:drawablePadding="10dp"
-            android:text="Man" />
+            android:padding="10dp"
+            android:text="Man"
+            android:textColor="@color/textColor" />
 
     </LinearLayout>
 
@@ -160,30 +160,39 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profil_phone"
-            android:layout_width="160dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:drawableStart="@drawable/ic_phone"
             android:drawablePadding="10dp"
-            android:textColor="@color/textColor"
-            android:text="Phone Number"
-            android:drawableStart="@drawable/ic_phone"/>
+            android:padding="10dp"
+            android:text="Phone Num"
+            android:textColor="@color/textColor" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/profil_phone_tag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColor"
-            android:padding="10dp"
             android:drawablePadding="10dp"
-            android:text="08XXXXXXX" />
+            android:padding="10dp"
+            android:text="08XXXXXXXXX"
+            android:textColor="@color/textColor" />
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_register"
+        android:id="@+id/btn_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textColor="@color/textColor"
-        android:text="Back To Home" />
+        android:text="Back To Home"
+        android:textColor="@color/textColor" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_update"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:text="Update profile"
+        android:textColor="@color/textColor" />
 
 </LinearLayout>
