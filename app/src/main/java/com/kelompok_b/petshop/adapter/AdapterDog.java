@@ -73,7 +73,7 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull adapterDogViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AdapterDog.adapterDogViewHolder holder, int position) {
         final Dog dog = dogListFiltered.get(position);
 
         NumberFormat formatter = new DecimalFormat("#,###");
