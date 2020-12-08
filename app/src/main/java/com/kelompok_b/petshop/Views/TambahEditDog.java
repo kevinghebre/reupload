@@ -1,7 +1,6 @@
 package com.kelompok_b.petshop.Views;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -31,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -41,7 +41,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kelompok_b.petshop.Api.PetAPI;
 import com.kelompok_b.petshop.R;
-import com.kelompok_b.petshop.model.Cat;
 import com.kelompok_b.petshop.model.Dog;
 
 import org.json.JSONException;
@@ -52,13 +51,11 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.app.Activity.RESULT_OK;
 import static com.android.volley.Request.Method.POST;
 import static com.android.volley.Request.Method.PUT;
 
 public class TambahEditDog extends Fragment {
     private TextInputEditText txtNamaPet, txtHarga, txtUmur, txtBerat, txtJenisAnjing, txtKategori;
-    //    private AutoCompleteTextView txtJKAnjing;
     private String status, selectedJenisKelamin;
     private ImageView ivGambar;
     private Button btnSimpan, btnBatal, btnUnggah;
@@ -234,13 +231,13 @@ public class TambahEditDog extends Fragment {
                 String kategori = "dog";
 //                String gambar = selectedImage.getPath().toString();
                 String gambar = imageString;
+
                 if (txtNamaPet.getText().toString().isEmpty() ||
                         txtUmur.getText().toString().isEmpty() ||
                         txtHarga.getText().toString().isEmpty() ||
                         txtJenisAnjing.getText().toString().isEmpty() ||
                         txtHarga.getText().toString().isEmpty() ||
                         txtBerat.getText().toString().isEmpty())
-
                     Toast.makeText(getContext(), "Data Tidak Boleh Kosong !", Toast.LENGTH_SHORT).show();
                 else {
                     dog = new Dog(kategori, jenis_dog, Double.parseDouble(harga_dog), nama_dog, Double.parseDouble(umur_dog), jk_dog, Double.parseDouble(berat_dog));
@@ -252,9 +249,9 @@ public class TambahEditDog extends Fragment {
                             byte[] bytes = byteArrayOutputStream.toByteArray();
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
-
-                        tambahDog(kategori, jenis_dog, Double.parseDouble(harga_dog), nama_dog, Integer.parseInt(umur_dog), jk_dog, Double.parseDouble(berat_dog), gambar);
 //                        Toast.makeText(getContext(), "masuk if" + gambar, Toast.LENGTH_SHORT).show();
+                        tambahDog(kategori, jenis_dog, Double.parseDouble(harga_dog), nama_dog,
+                                Integer.parseInt(umur_dog), jk_dog, Double.parseDouble(berat_dog), gambar);
                     } else {
                         String bytesString = "";
                         if (bitmap != null) {
@@ -263,7 +260,7 @@ public class TambahEditDog extends Fragment {
                             byte[] bytes = byteArrayOutputStream.toByteArray();
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
-                        editDog(dog, bytesString);
+                        editDog(dog, "null");
                     }
                 }
             }
@@ -430,8 +427,12 @@ public class TambahEditDog extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 //Disini bagian jika response jaringan terdapat ganguan/error
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), "eorr RESSSSSS", Toast.LENGTH_SHORT).show();
-//                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                NetworkResponse networkResponse = error.networkResponse;
+                System.out.println(error);
+//                if (networkResponse != null && networkResponse.data != null) {
+//                    String jsonError = new String(networkResponse.data);
+//                    Toast.makeText(getContext(), jsonError, Toast.LENGTH_SHORT).show();
+////                }
             }
         }) {
             @Override
@@ -449,6 +450,7 @@ public class TambahEditDog extends Fragment {
                 params.put("price", String.valueOf(price));
                 params.put("weight", String.valueOf(weight));
                 params.put("gender", gender);
+
                 if (gambar != null) {
                     params.put("pet_image", gambar);
                 }
@@ -456,7 +458,11 @@ public class TambahEditDog extends Fragment {
             }
         };
 //        Toast.makeText(getContext(), "masuk tambahdog" + gambar, Toast.LENGTH_SHORT).show();
-        //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
+//        Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                1200000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
 
@@ -506,13 +512,13 @@ public class TambahEditDog extends Fragment {
                     API.
                 */
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("nama_dog", dog.getNama_dog());
-                params.put("jenis_dog", dog.getJenis_dog());
-                params.put("umur_dog", dog.getUmur_dog().toString());
-                params.put("harga_dog", dog.getHarga_dog().toString());
-                params.put("berat_dog", dog.getBerat_dog().toString());
-                params.put("jk_dog", dog.getJk_dog());
-                params.put("image_dog", gambar);
+                params.put("pet_name", dog.getNama_dog());
+                params.put("type_name", dog.getJenis_dog());
+                params.put("age", dog.getUmur_dog().toString());
+                params.put("price", dog.getHarga_dog().toString());
+                params.put("weight", dog.getBerat_dog().toString());
+                params.put("gender", dog.getJk_dog());
+                params.put("pet_image", gambar);
                 return params;
             }
         };

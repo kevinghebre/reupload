@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Food implements Serializable {
     private int idFood;
-    private String category, food_name, food_image,supplier;
+    private String category, food_name, food_image, supplier;
     private double price, calories, net_weight, stock;
 
 

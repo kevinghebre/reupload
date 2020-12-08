@@ -33,6 +33,7 @@ import com.kelompok_b.petshop.Api.FoodAPI;
 import com.kelompok_b.petshop.Api.PetAPI;
 import com.kelompok_b.petshop.R;
 import com.kelompok_b.petshop.Views.TambahEditCat;
+import com.kelompok_b.petshop.Views.TambahEditFood;
 import com.kelompok_b.petshop.model.Dog;
 import com.kelompok_b.petshop.model.Food;
 
@@ -55,15 +56,15 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.adapterFoodVie
     private AdapterDog.deleteItemListener mListener;
 
     public AdapterFood(Context context, List<Food> foodList,
-                      AdapterDog.deleteItemListener mListener) {
-        this.context            = context;
-        this.foodList           = foodList;
-        this.foodListFiltered   = foodList;
-        this.mListener          = mListener;
+                       AdapterDog.deleteItemListener mListener) {
+        this.context = context;
+        this.foodList = foodList;
+        this.foodListFiltered = foodList;
+        this.mListener = mListener;
     }
 
     public interface deleteItemListener {
-        void deleteItem( Boolean delete);
+        void deleteItem(Boolean delete);
     }
 
     @NonNull
@@ -71,7 +72,7 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.adapterFoodVie
     public AdapterFood.adapterFoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         view = layoutInflater.inflate(R.layout.activity_adapter_food, parent, false);
-        return new AdapterFood.adapterFoodViewHolder(view);
+        return new adapterFoodViewHolder(view);
     }
 
     @Override
@@ -84,7 +85,7 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.adapterFoodVie
         holder.weight.setText(formatter.format(food.getNet_weight()) + "gr");
         holder.stock.setText(formatter.format(food.getStock()) + "pcs");
         holder.calories.setText(formatter.format(food.getCalories()) + "cal");
-        holder.price.setText("Rp "+ formatter.format(food.getPrice()));
+        holder.price.setText("Rp " + formatter.format(food.getPrice()));
         holder.supplier.setText(food.getSupplier());
 //        Glide.with(context)
 //                .load(FoodAPI.URL_IMAGE+food.getFood_image())
@@ -109,9 +110,9 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.adapterFoodVie
                 Bundle data = new Bundle();
                 data.putSerializable("food", food);
                 data.putString("status", "edit");
-                TambahEditCat tambahEditDog = new TambahEditCat();
-                tambahEditDog.setArguments(data);
-                loadFragment(tambahEditDog);
+                TambahEditFood tambahEditFood = new TambahEditFood();
+                tambahEditFood.setArguments(data);
+                loadFragment(tambahEditFood);
             }
         });
 
@@ -143,24 +144,32 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.adapterFoodVie
         return (foodListFiltered != null) ? foodListFiltered.size() : 0;
     }
 
-    public class adapterFoodViewHolder extends RecyclerView.ViewHolder {
-        private TextView food_name,calories,  category, supplier, price, weight, stock, ivEdit, ivHapus;;
-        private ImageView ivGambar;
-        private CardView cardFood;
+    public static class adapterFoodViewHolder extends RecyclerView.ViewHolder {
+        private final TextView food_name;
+        private final TextView calories;
+        private final TextView category;
+        private final TextView supplier;
+        private final TextView price;
+        private final TextView weight;
+        private final TextView stock;
+        private final TextView ivEdit;
+        private final TextView ivHapus;
+        ;
+        private final ImageView ivGambar;
 
         public adapterFoodViewHolder(@NonNull View itemView) {
             super(itemView);
-            food_name        = itemView.findViewById(R.id.tvName);
-            category       = itemView.findViewById(R.id.tvType);
-            supplier          = itemView.findViewById(R.id.tvSupplier);
-            stock             = itemView.findViewById(R.id.tvStok);
-            weight          = itemView.findViewById(R.id.tvWeight);
-            calories          = itemView.findViewById(R.id.tvCalories);
-            price           = itemView.findViewById(R.id.tvPrice);
-            ivGambar        = itemView.findViewById(R.id.ivFotoFood);
-            ivEdit          = (TextView) itemView.findViewById(R.id.ivEdit);
-            ivHapus         = (TextView) itemView.findViewById(R.id.ivHapus);
-            cardFood         = itemView.findViewById(R.id.cardFood);
+            food_name = itemView.findViewById(R.id.tvName);
+            category = itemView.findViewById(R.id.tvType);
+            supplier = itemView.findViewById(R.id.tvSupplier);
+            stock = itemView.findViewById(R.id.tvStok);
+            weight = itemView.findViewById(R.id.tvWeight);
+            calories = itemView.findViewById(R.id.tvCalories);
+            price = itemView.findViewById(R.id.tvPrice);
+            ivGambar = itemView.findViewById(R.id.ivFotoFood);
+            ivEdit = (TextView) itemView.findViewById(R.id.ivEdit);
+            ivHapus = (TextView) itemView.findViewById(R.id.ivHapus);
+            CardView cardFood = itemView.findViewById(R.id.cardFood);
         }
     }
 
@@ -171,11 +180,10 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.adapterFoodVie
                 String userInput = charSequence.toString();
                 if (userInput.isEmpty()) {
                     foodListFiltered = foodList;
-                }
-                else {
+                } else {
                     List<Food> filteredList = new ArrayList<>();
-                    for(Food food : foodList) {
-                        if(String.valueOf(food.getFood_name()).toLowerCase().contains(userInput) ||
+                    for (Food food : foodList) {
+                        if (String.valueOf(food.getFood_name()).toLowerCase().contains(userInput) ||
                                 food.getCategory().toLowerCase().contains(userInput)) {
                             filteredList.add(food);
                         }
@@ -186,6 +194,7 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.adapterFoodVie
                 filterResults.values = foodListFiltered;
                 return filterResults;
             }
+
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 foodListFiltered = (ArrayList<Food>) filterResults.values;
@@ -198,11 +207,11 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.adapterFoodVie
         AppCompatActivity activity = (AppCompatActivity) view.getContext();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_view_food,fragment)
+        fragmentTransaction.replace(R.id.frame_view_food, fragment)
                 .commit();
     }
 
-    public void deleteFood(String idFood){
+    public void deleteFood(String idFood) {
         //Tambahkan hapus buku disini
         RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -238,7 +247,6 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.adapterFoodVie
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
         //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
         queue.add(stringRequest);
     }

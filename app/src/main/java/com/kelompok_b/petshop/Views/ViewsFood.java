@@ -97,12 +97,12 @@ public class ViewsFood extends Fragment {
         if (id == R.id.btnAdd) {
             Bundle data = new Bundle();
             data.putString("status", "tambah");
-            TambahEditCat tambahEditCat = new TambahEditCat();
-            tambahEditCat.setArguments(data);
+            TambahEditFood tambahEditFood = new TambahEditFood();
+            tambahEditFood.setArguments(data);
 
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()
-                    .replace(R.id.frame_view_food, tambahEditCat)
+                    .replace(R.id.frame_view_food, tambahEditFood)
                     .commit();
         }
         return super.onOptionsItemSelected(item);
@@ -168,7 +168,7 @@ public class ViewsFood extends Fragment {
                         String food_name = jsonObject.optString("food_name");
                         String category = jsonObject.optString("category");
                         Double stock = jsonObject.optDouble("stock");
-                        Double net_weight = jsonObject.optDouble("net_weight");
+                        Double net_weight = jsonObject.optDouble("calories");
                         Double calories = jsonObject.optDouble("calories");
                         Double price = jsonObject.optDouble("price");
                         String supplier = jsonObject.optString("supplier");
