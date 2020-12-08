@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,18 +54,15 @@ public class AdapterCat extends RecyclerView.Adapter<AdapterCat.adapterCatViewHo
     private AdapterCat.deleteItemListener mListener;
 
     public AdapterCat(Context context, List<Cat> catList,
-                       AdapterCat.deleteItemListener mListener) {
-        this.context            = context;
-        this.catList           = catList;
-        this.catListFiltered   = catList;
-        this.mListener          = mListener;
-    }
-
-    public AdapterCat(Context context, ArrayList<Pet> catList) {
+                      AdapterCat.deleteItemListener mListener) {
+        this.context = context;
+        this.catList = catList;
+        this.catListFiltered = catList;
+        this.mListener = mListener;
     }
 
     public interface deleteItemListener {
-        void deleteItem( Boolean delete);
+        void deleteItem(Boolean delete);
     }
 
     @NonNull
@@ -72,7 +70,7 @@ public class AdapterCat extends RecyclerView.Adapter<AdapterCat.adapterCatViewHo
     public AdapterCat.adapterCatViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         view = layoutInflater.inflate(R.layout.activity_adapter_cat, parent, false);
-        return new AdapterCat.adapterCatViewHolder(view);
+        return new adapterCatViewHolder(view);
     }
 
     @Override
@@ -85,12 +83,21 @@ public class AdapterCat extends RecyclerView.Adapter<AdapterCat.adapterCatViewHo
         holder.weight.setText(formatter.format(cat.getBerat_cat()) + "Kg");
         holder.age.setText(formatter.format(cat.getUmur_cat()) + "Tahun");
         holder.gender.setText(cat.getJk_cat());
-        holder.price.setText("Rp "+ formatter.format(cat.getHarga_cat()));
-        Glide.with(context)
-                .load(PetAPI.URL_IMAGE+cat.getImage_cat())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(holder.ivGambar);
+        holder.price.setText("Rp " + formatter.format(cat.getHarga_cat()));
+//        Glide.with(context)
+//                .load(PetAPI.URL_IMAGE+cat.getImage_cat())
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .skipMemoryCache(true)
+//                .into(holder.ivGambar);
+        if (cat.getImage_cat() != null) {
+            byte[] imageByteArray = Base64.decode(cat.getImage_cat(), Base64.DEFAULT);
+            Glide.with(context)
+                    .load(imageByteArray)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .placeholder(R.drawable.ic_baseline_pets_24)
+                    .into(holder.ivGambar);
+        }
 
         holder.ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,23 +140,30 @@ public class AdapterCat extends RecyclerView.Adapter<AdapterCat.adapterCatViewHo
         return (catListFiltered != null) ? catListFiltered.size() : 0;
     }
 
-    public class adapterCatViewHolder extends RecyclerView.ViewHolder {
-        private TextView type_name, pet_name, gender, price, weight, age, ivEdit, ivHapus;;
-        private ImageView ivGambar;
-        private CardView cardCat;
+    public static class adapterCatViewHolder extends RecyclerView.ViewHolder {
+        private final TextView type_name;
+        private final TextView pet_name;
+        private final TextView gender;
+        private final TextView price;
+        private final TextView weight;
+        private final TextView age;
+        private final TextView ivEdit;
+        private final TextView ivHapus;
+        ;
+        private final ImageView ivGambar;
 
         public adapterCatViewHolder(@NonNull View itemView) {
             super(itemView);
-            pet_name        = itemView.findViewById(R.id.tvName);
-            type_name       = itemView.findViewById(R.id.tvType);
-            gender          = itemView.findViewById(R.id.tvGender);
-            age             = itemView.findViewById(R.id.tvAge);
-            weight          = itemView.findViewById(R.id.tvWeight);
-            price           = itemView.findViewById(R.id.tvPrice);
-            ivGambar        = itemView.findViewById(R.id.ivFotoCat);
-            ivEdit          = (TextView) itemView.findViewById(R.id.ivEdit);
-            ivHapus         = (TextView) itemView.findViewById(R.id.ivHapus);
-            cardCat        = itemView.findViewById(R.id.cardCat);
+            pet_name = itemView.findViewById(R.id.tvName);
+            type_name = itemView.findViewById(R.id.tvType);
+            gender = itemView.findViewById(R.id.tvGender);
+            age = itemView.findViewById(R.id.tvAge);
+            weight = itemView.findViewById(R.id.tvWeight);
+            price = itemView.findViewById(R.id.tvPrice);
+            ivGambar = itemView.findViewById(R.id.ivFotoCat);
+            ivEdit = (TextView) itemView.findViewById(R.id.ivEdit);
+            ivHapus = (TextView) itemView.findViewById(R.id.ivHapus);
+            CardView cardCat = itemView.findViewById(R.id.cardCat);
         }
     }
 
@@ -160,12 +174,11 @@ public class AdapterCat extends RecyclerView.Adapter<AdapterCat.adapterCatViewHo
                 String userInput = charSequence.toString();
                 if (userInput.isEmpty()) {
                     catListFiltered = catList;
-                }
-                else {
+                } else {
                     List<Cat> filteredList = new ArrayList<>();
-                    for(Cat cat : catList) {
-                        if(String.valueOf(cat.getNama_cat()).toLowerCase().contains(userInput) ||
-                                cat.getJenis_cat().toLowerCase().contains(userInput)){
+                    for (Cat cat : catList) {
+                        if (String.valueOf(cat.getNama_cat()).toLowerCase().contains(userInput) ||
+                                cat.getJenis_cat().toLowerCase().contains(userInput)) {
                             filteredList.add(cat);
                         }
                     }
@@ -175,6 +188,7 @@ public class AdapterCat extends RecyclerView.Adapter<AdapterCat.adapterCatViewHo
                 filterResults.values = catListFiltered;
                 return filterResults;
             }
+
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 catListFiltered = (ArrayList<Cat>) filterResults.values;
@@ -187,18 +201,18 @@ public class AdapterCat extends RecyclerView.Adapter<AdapterCat.adapterCatViewHo
         AppCompatActivity activity = (AppCompatActivity) view.getContext();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_view_cat,fragment)
+        fragmentTransaction.replace(R.id.frame_view_cat, fragment)
                 .commit();
     }
 
-    public void deleteCat(String idCat){
+    public void deleteCat(String idCat) {
         //Tambahkan hapus buku disini
         RequestQueue queue = Volley.newRequestQueue(context);
 
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Menghapus data Kucing");
+        progressDialog.setTitle("Deleting Data Cat");
         progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 

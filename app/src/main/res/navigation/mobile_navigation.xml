@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/nav_shop"
         android:name="com.kelompok_b.petshop.ui.shop.ShopFragment"
-        android:label="@string/menu_slideshow"
+        android:label="Shopping Center"
         tools:layout="@layout/dog_shop_fragment">
         <action
             android:id="@+id/action_nav_shop_to_nav_cat_shop"
@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_nav_shop_to_nav_dog_shop"
             app:destination="@id/nav_dog_shop" />
+        <action
+            android:id="@+id/action_nav_shop_to_nav_food_shop"
+            app:destination="@id/nav_food_shop" />
     </fragment>
 
     <fragment
@@ -60,6 +63,13 @@
         android:name="com.kelompok_b.petshop.Views.ViewsCat"
         android:label="@string/cat"
         tools:layout="@layout/cat_shop_fragment" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_food_shop"
+        android:name="com.kelompok_b.petshop.Views.ViewsFood"
+        android:label="Food"
+        tools:layout="@layout/food_shop_fragment" >
     </fragment>
 
     <fragment

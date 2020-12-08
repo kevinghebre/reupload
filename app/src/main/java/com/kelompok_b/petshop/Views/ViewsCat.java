@@ -37,7 +37,7 @@ import java.util.List;
 
 import static com.android.volley.Request.Method.GET;
 
-public class ViewsCat extends Fragment{
+public class ViewsCat extends Fragment {
 
     private RecyclerView recyclerView;
     private AdapterCat adapter;
@@ -72,6 +72,7 @@ public class ViewsCat extends Fragment{
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String s) {
                 adapter.getFilter().filter(s);
@@ -98,29 +99,30 @@ public class ViewsCat extends Fragment{
             tambahEditCat.setArguments(data);
 
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager .beginTransaction()
+            fragmentManager.beginTransaction()
                     .replace(R.id.frame_view_cat, tambahEditCat)
                     .commit();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void loadDaftarCat(){
+    public void loadDaftarCat() {
         setAdapter();
         getCat();
     }
 
-    public void setAdapter(){
-        getActivity().setTitle("Data Kucing");
+    public void setAdapter() {
+//        getActivity().setTitle("Data Kucing");
+        getActivity().setTitle("Data Cat");
         /*Buat tampilan untuk adapter jika potrait menampilkan 2 data dalam 1 baris,
         sedangakan untuk landscape 4 data dalam 1 baris*/
         final int col = getResources().getInteger(R.integer.gallery_columns);
         listCat = new ArrayList<Cat>();
         recyclerView = view.findViewById(R.id.recycler_cat_list);
-        adapter = new AdapterCat(view.getContext(), listCat, new AdapterCat.deleteItemListener(){
+        adapter = new AdapterCat(view.getContext(), listCat, new AdapterCat.deleteItemListener() {
             @Override
             public void deleteItem(Boolean delete) {
-                if(delete){
+                if (delete) {
                     loadDaftarCat();
                 }
             }
@@ -140,7 +142,7 @@ public class ViewsCat extends Fragment{
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Menampilkan data buku");
+        progressDialog.setTitle("Menampilkan Data Cat");
         progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
@@ -152,32 +154,33 @@ public class ViewsCat extends Fragment{
                 progressDialog.dismiss();
                 try {
                     //Mengambil data response json object yang berupa data mahasiswa
-                    JSONArray jsonArray = response.getJSONArray("dataCat");
+                    JSONArray jsonArray = response.getJSONArray("data");
 
-                    if(!listCat.isEmpty())
+                    if (!listCat.isEmpty())
                         listCat.clear();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         //Mengubah data jsonArray tertentu menjadi json Object
                         JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 
-                        Integer idCat      = jsonObject.optInt("idPet");
-                        String nama_cat     = jsonObject.optString("namaPet");
-                        String jenis_cat    = jsonObject.optString("jenisHewan");
-                        String jk_cat    = jsonObject.optString("jenisKelamin");
-                        Double berat_cat        = jsonObject.optDouble("berat");
-                        Double umur_cat        = jsonObject.optDouble("age");
-                        Double harga_cat        = jsonObject.optDouble("harga");
-                        String image_cat       = jsonObject.optString("gambar");
+                        int idCat = jsonObject.optInt("id");
+                        String nama_cat = jsonObject.optString("pet_name");
+                        String jenis_cat = jsonObject.optString("type_name");
+                        String jk_cat = jsonObject.optString("gender");
+                        Double berat_cat = jsonObject.optDouble("weight");
+                        Double umur_cat = jsonObject.optDouble("age");
+                        Double harga_cat = jsonObject.optDouble("price");
+                        String image_cat = jsonObject.optString("pet_image");
+                        String kategori = jsonObject.optString("category");
 
                         //Membuat objek user
-                        Cat cat = new Cat (idCat,nama_cat,jenis_cat,jk_cat,image_cat,harga_cat,berat_cat,umur_cat);
+                        Cat cat = new Cat(idCat, nama_cat, jenis_cat, jk_cat, kategori, image_cat, harga_cat, berat_cat, umur_cat);
 
                         //Menambahkan objek user tadi ke list user
                         listCat.add(cat);
                     }
                     adapter.notifyDataSetChanged();
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 Toast.makeText(view.getContext(), response.optString("message"),

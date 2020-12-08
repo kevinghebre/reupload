@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,14 +55,14 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
 
     public AdapterDog(Context context, List<Dog> dogList,
                       AdapterDog.deleteItemListener mListener) {
-        this.context            = context;
-        this.dogList           = dogList;
-        this.dogListFiltered   = dogList;
-        this.mListener          = mListener;
+        this.context = context;
+        this.dogList = dogList;
+        this.dogListFiltered = dogList;
+        this.mListener = mListener;
     }
 
     public interface deleteItemListener {
-        void deleteItem( Boolean delete);
+        void deleteItem(Boolean delete);
     }
 
     @NonNull
@@ -69,7 +70,7 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
     public AdapterDog.adapterDogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         view = layoutInflater.inflate(R.layout.activity_adapter_dog, parent, false);
-        return new AdapterDog.adapterDogViewHolder(view);
+        return new adapterDogViewHolder(view);
     }
 
     @Override
@@ -83,13 +84,23 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
         holder.umur_dog.setText(formatter.format(dog.getUmur_dog()) + " Month");
         holder.jk_dog.setText(dog.getJk_dog());
 //        holder.kategori.setText();
-        holder.harga_dog.setText("Rp "+ formatter.format(dog.getHarga_dog()));
-        Glide.with(context)
-                .load(PetAPI.URL_IMAGE+dog.getImage_dog())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(holder.ivGambar);
-//
+        holder.harga_dog.setText("Rp " + formatter.format(dog.getHarga_dog()));
+//        Glide.with(context)
+//                .load(PetAPI.URL_IMAGE + dog.getImage_dog())
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .skipMemoryCache(true)
+//                .into(holder.ivGambar);
+
+        if (dog.getImage_dog() != null) {
+            byte[] imageByteArray = Base64.decode(dog.getImage_dog(), Base64.DEFAULT);
+            Glide.with(context)
+                    .load(imageByteArray)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .placeholder(R.drawable.ic_baseline_pets_24)
+                    .into(holder.ivGambar);
+        }
+
         holder.ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,7 +122,7 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
                 builder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        deleteDog();
+                        deleteDog(String.valueOf(dog.getIdDog()));
                     }
                 });
                 builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -131,24 +142,31 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
         return (dogListFiltered != null) ? dogListFiltered.size() : 0;
     }
 
-    public class adapterDogViewHolder extends RecyclerView.ViewHolder {
-        private TextView nama_dog, jenis_dog,berat_dog, umur_dog,jk_dog, kategori,harga_dog , ivEdit, ivHapus;
-        private ImageView ivGambar;
-        private CardView cardDog;
+    public static class adapterDogViewHolder extends RecyclerView.ViewHolder {
+        private final TextView nama_dog;
+        private final TextView jenis_dog;
+        private final TextView berat_dog;
+        private final TextView umur_dog;
+        private final TextView jk_dog;
+        private TextView kategori;
+        private final TextView harga_dog;
+        private final TextView ivEdit;
+        private final TextView ivHapus;
+        private final ImageView ivGambar;
 
         public adapterDogViewHolder(@NonNull View itemView) {
             super(itemView);
-            nama_dog        = itemView.findViewById(R.id.tvName);
-            jenis_dog       = itemView.findViewById(R.id.tvType);
-            jk_dog          = itemView.findViewById(R.id.tvGender);
-            umur_dog             = itemView.findViewById(R.id.tvAge);
+            nama_dog = itemView.findViewById(R.id.tvName);
+            jenis_dog = itemView.findViewById(R.id.tvType);
+            jk_dog = itemView.findViewById(R.id.tvGender);
+            umur_dog = itemView.findViewById(R.id.tvAge);
 //            kategori = itemView.findViewById(R.id.ca)
-            berat_dog          = itemView.findViewById(R.id.tvWeight);
-            harga_dog           = itemView.findViewById(R.id.tvPrice);
-            ivGambar        = itemView.findViewById(R.id.ivFotoCat);
-            ivEdit          = (TextView) itemView.findViewById(R.id.ivEdit);
-            ivHapus         = (TextView) itemView.findViewById(R.id.ivHapus);
-            cardDog         = itemView.findViewById(R.id.cardDog);
+            berat_dog = itemView.findViewById(R.id.tvWeight);
+            harga_dog = itemView.findViewById(R.id.tvPrice);
+            ivGambar = itemView.findViewById(R.id.ivFotoCat);
+            ivEdit = (TextView) itemView.findViewById(R.id.ivEdit);
+            ivHapus = (TextView) itemView.findViewById(R.id.ivHapus);
+            CardView cardDog = itemView.findViewById(R.id.cardDog);
         }
     }
 
@@ -159,11 +177,10 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
                 String userInput = charSequence.toString();
                 if (userInput.isEmpty()) {
                     dogListFiltered = dogList;
-                }
-                else {
+                } else {
                     List<Dog> filteredList = new ArrayList<>();
-                    for(Dog dog : dogList) {
-                        if(String.valueOf(dog.getNama_dog()).toLowerCase().contains(userInput) ||
+                    for (Dog dog : dogList) {
+                        if (String.valueOf(dog.getNama_dog()).toLowerCase().contains(userInput) ||
                                 dog.getJenis_dog().toLowerCase().contains(userInput)) {
                             filteredList.add(dog);
                         }
@@ -174,6 +191,7 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
                 filterResults.values = dogListFiltered;
                 return filterResults;
             }
+
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 dogListFiltered = (ArrayList<Dog>) filterResults.values;
@@ -186,11 +204,11 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
         AppCompatActivity activity = (AppCompatActivity) view.getContext();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame_view_dog,fragment)
+        fragmentTransaction.replace(R.id.frame_view_dog, fragment)
                 .commit();
     }
 
-    public void deleteDog(){
+    public void deleteDog(String id) {
         //Tambahkan hapus buku disini
         RequestQueue queue = Volley.newRequestQueue(context);
 
@@ -202,7 +220,7 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
         progressDialog.show();
 
         //Memulai membuat permintaan request menghapus data ke jaringan
-        StringRequest stringRequest = new StringRequest(DELETE, PetAPI.URL_DELETE, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(DELETE, PetAPI.URL_DELETE + id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Disini bagian jika response jaringan berhasil tidak terdapat ganguan/error

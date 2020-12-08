@@ -18,7 +18,7 @@ import com.kelompok_b.petshop.R;
 public class ShopFragment extends Fragment {
 
     private ShopViewModel mViewModel;
-    Button dog, cat;
+    Button dog, cat, food, med;
 
     @Nullable
     @Override
@@ -28,6 +28,7 @@ public class ShopFragment extends Fragment {
 
         dog = root.findViewById(R.id.dog);
         cat = root.findViewById(R.id.cat);
+        food = root.findViewById(R.id.food);
 
         dog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +41,12 @@ public class ShopFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(root).navigate(R.id.nav_cat_shop);
+            }
+        });
+        food.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(root).navigate(R.id.nav_food_shop);
             }
         });
         return root;

@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,11 +86,21 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.adapterFoodVie
         holder.calories.setText(formatter.format(food.getCalories()) + "cal");
         holder.price.setText("Rp "+ formatter.format(food.getPrice()));
         holder.supplier.setText(food.getSupplier());
-        Glide.with(context)
-                .load(FoodAPI.URL_IMAGE+food.getFood_image())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(holder.ivGambar);
+//        Glide.with(context)
+//                .load(FoodAPI.URL_IMAGE+food.getFood_image())
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                .skipMemoryCache(true)
+//                .into(holder.ivGambar);
+
+        if (food.getFood_image() != null) {
+            byte[] imageByteArray = Base64.decode(food.getFood_image(), Base64.DEFAULT);
+            Glide.with(context)
+                    .load(imageByteArray)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .placeholder(R.drawable.ic_baseline_food_bank_24)
+                    .into(holder.ivGambar);
+        }
 
         holder.ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override

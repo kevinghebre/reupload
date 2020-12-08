@@ -115,7 +115,8 @@ public class ViewsDog extends Fragment {
     }
 
     public void setAdapter() {
-        getActivity().setTitle("Data Anjing");
+//        getActivity().setTitle("Data Anjing");
+        getActivity().setTitle("Data Dog");
         /*Buat tampilan untuk adapter jika potrait menampilkan 2 data dalam 1 baris,
         sedangakan untuk landscape 4 data dalam 1 baris*/
         final int col = getResources().getInteger(R.integer.gallery_columns);
@@ -144,7 +145,7 @@ public class ViewsDog extends Fragment {
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Menampilkan data Anjing");
+        progressDialog.setTitle("Menampilkan Data Anjing");
         progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
@@ -165,7 +166,7 @@ public class ViewsDog extends Fragment {
                         //Mengubah data jsonArray tertentu menjadi json Object
                         JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 
-                        Integer idDog = jsonObject.optInt("id");
+                        int idDog = jsonObject.optInt("id");
                         String nama_dog = jsonObject.optString("pet_name");
                         String jenis_dog = jsonObject.optString("type_name");
                         String jk_dog = jsonObject.optString("gender");
@@ -186,8 +187,8 @@ public class ViewsDog extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                Toast.makeText(view.getContext(), response.optString("message"),
-//                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), response.optString("message"),
+                        Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -196,7 +197,7 @@ public class ViewsDog extends Fragment {
                 progressDialog.dismiss();
 //                Toast.makeText(view.getContext(), error.getMessage(),
 //                        Toast.LENGTH_SHORT).show();
-                Toast.makeText(view.getContext(), "error.getMessage()",
+                Toast.makeText(view.getContext(), error.getMessage(),
                         Toast.LENGTH_SHORT).show();
             }
         });

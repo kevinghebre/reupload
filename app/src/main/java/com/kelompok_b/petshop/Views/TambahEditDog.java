@@ -1,6 +1,7 @@
 package com.kelompok_b.petshop.Views;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -55,9 +56,10 @@ import static android.app.Activity.RESULT_OK;
 import static com.android.volley.Request.Method.POST;
 import static com.android.volley.Request.Method.PUT;
 
-public class TambahEditDog  extends Fragment {
-    private TextInputEditText txtNamaPet, txtHarga, txtUmur, txtBerat, txtJenisAnjing;
-    private String status, selectedJenisKelamin, txtKategori;
+public class TambahEditDog extends Fragment {
+    private TextInputEditText txtNamaPet, txtHarga, txtUmur, txtBerat, txtJenisAnjing, txtKategori;
+    //    private AutoCompleteTextView txtJKAnjing;
+    private String status, selectedJenisKelamin;
     private ImageView ivGambar;
     private Button btnSimpan, btnBatal, btnUnggah;
     private String selected;
@@ -67,6 +69,10 @@ public class TambahEditDog  extends Fragment {
     private Bitmap bitmap;
     private Uri selectedImage = null;
     private static final int PERMISSION_CODE = 1000;
+    private static final int CAMERA_PERMISSION_CODE = 100;
+    private int REQUEST_IMAGE_CAPTURE = 100;
+    private int RESULT_OK = -1;
+    private String imageString;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,7 +80,6 @@ public class TambahEditDog  extends Fragment {
         view = inflater.inflate(R.layout.fragment_tambah_edit_dog, container, false);
         init();
         setAttribut();
-
         return view;
     }
 
@@ -92,51 +97,66 @@ public class TambahEditDog  extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if(menu.findItem(R.id.btnSearch) != null)
+        if (menu.findItem(R.id.btnSearch) != null)
             menu.findItem(R.id.btnSearch).setVisible(false);
-        if(menu.findItem(R.id.btnAdd) != null)
+        if (menu.findItem(R.id.btnAdd) != null)
             menu.findItem(R.id.btnAdd).setVisible(false);
     }
 
-    public void init(){
-        dog                     = (Dog) getArguments().getSerializable("dog");
-        txtNamaPet              = view.findViewById(R.id.txtNamaPet);
-        txtUmur                 = view.findViewById(R.id.txtUmur);
-        txtBerat                = view.findViewById(R.id.txtBerat);
-        txtHarga                = view.findViewById(R.id.txtHarga);
-        txtJenisAnjing          = view.findViewById(R.id.txtJenisHewan);
-        txtKategori             = "dog";
-        btnSimpan               = view.findViewById(R.id.btnSimpan);
-        btnBatal                = view.findViewById(R.id.btnBatal);
-        btnUnggah               = view.findViewById(R.id.btnUnggah);
-        ivGambar                = view.findViewById(R.id.ivGambar);
+    public void init() {
+        dog = (Dog) getArguments().getSerializable("dog");
+        txtNamaPet = view.findViewById(R.id.txtNamaPet);
+        txtUmur = view.findViewById(R.id.txtUmur);
+        txtBerat = view.findViewById(R.id.txtBerat);
+        txtHarga = view.findViewById(R.id.txtHarga);
+        txtJenisAnjing = view.findViewById(R.id.txtJenisHewan);
+//        txtJKAnjing = view.findViewById(R.id.txtJenis_Kelamin);
+//        txtKategori = view.findViewById(R.id.txt);
+        btnSimpan = view.findViewById(R.id.btnSimpan);
+        btnBatal = view.findViewById(R.id.btnBatal);
+        btnUnggah = view.findViewById(R.id.btnUnggah);
+        ivGambar = view.findViewById(R.id.ivGambar);
         final String[] JKArray = getResources().getStringArray(R.array.jenisKelamin);
 
         status = getArguments().getString("status");
-        if(status.equals("edit"))
-        {
+        if (status.equals("edit")) {
             idDog = dog.getIdDog();
             txtNamaPet.setText(dog.getNama_dog());
-            txtJenisAnjing.setText("Anjing");
+            txtJenisAnjing.setText(dog.getJenis_dog());
             txtBerat.setText(String.valueOf(dog.getBerat_dog()));
             txtUmur.setText(String.valueOf(dog.getUmur_dog()));
+//            txtJKAnjing.
+
+//            txt
             txtHarga.setText(String.valueOf(Math.round(dog.getHarga_dog())));
             Glide.with(view.getContext())
-                    .load(PetAPI.URL_IMAGE +dog.getImage_dog())
+                    .load(PetAPI.URL_IMAGE + dog.getImage_dog())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(ivGambar);
 
-            for(String jk : JKArray)
-            {
-                if(jk.equals(dog.getJk_dog()))
+            for (String jk : JKArray) {
+                if (jk.equals(dog.getJk_dog()))
                     selectedJenisKelamin = jk;
             }
 
         }
 
+
+    }
+
+    private void setAttribut() {
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.jenisKelamin, android.R.layout.simple_spinner_item);
+
+//        final String[] JKArray = getResources().getStringArray(R.array.jenisKelamin);
+//        for(String jk : JKArray)
+//        {
+//            if(jk.equals(dog.getJk_dog()))
+//                selectedJenisKelamin = jk;
+//        }
+
         final AutoCompleteTextView jenisKelaminDropdown = view.findViewById(R.id.txtJenis_Kelamin);
         jenisKelaminDropdown.setText(selectedJenisKelamin);
         jenisKelaminDropdown.setAdapter(adapter);
@@ -146,9 +166,8 @@ public class TambahEditDog  extends Fragment {
                 selectedJenisKelamin = jenisKelaminDropdown.getEditableText().toString();
             }
         });
-    }
 
-    private void setAttribut() {
+
         btnUnggah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,21 +181,18 @@ public class TambahEditDog  extends Fragment {
 
                 btnKamera.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        selected="kamera";
-                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
-                        {
-                            if(getActivity().checkSelfPermission(Manifest.permission.CAMERA)==
+                        selected = "kamera";
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (getActivity().checkSelfPermission(Manifest.permission.CAMERA) ==
                                     PackageManager.PERMISSION_DENIED ||
-                                    getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)==
-                                            PackageManager.PERMISSION_DENIED){
-                                String[] permission = {Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                                requestPermissions(permission,PERMISSION_CODE);
-                            }
-                            else{
+                                    getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                                            PackageManager.PERMISSION_DENIED) {
+                                String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                                requestPermissions(permission, PERMISSION_CODE);
+                            } else {
                                 openCamera();
                             }
-                        }
-                        else{
+                        } else {
                             openCamera();
                         }
                         alertD.dismiss();
@@ -185,19 +201,16 @@ public class TambahEditDog  extends Fragment {
 
                 btnGaleri.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        selected="galeri";
-                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
-                        {
-                            if(getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)==
-                                    PackageManager.PERMISSION_DENIED){
+                        selected = "galeri";
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                                    PackageManager.PERMISSION_DENIED) {
                                 String[] permission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                                requestPermissions(permission,PERMISSION_CODE);
-                            }
-                            else{
+                                requestPermissions(permission, PERMISSION_CODE);
+                            } else {
                                 openGallery();
                             }
-                        }
-                        else{
+                        } else {
                             openGallery();
                         }
                         alertD.dismiss();
@@ -212,21 +225,26 @@ public class TambahEditDog  extends Fragment {
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nama_dog  = txtNamaPet.getText().toString();
+                String nama_dog = txtNamaPet.getText().toString();
                 String jenis_dog = txtJenisAnjing.getText().toString();
                 String jk_dog = selectedJenisKelamin;
+                String harga_dog = txtHarga.getText().toString();
+                String berat_dog = txtBerat.getText().toString();
+                String umur_dog = txtUmur.getText().toString();
                 String kategori = "dog";
+//                String gambar = selectedImage.getPath().toString();
+                String gambar = imageString;
+                if (txtNamaPet.getText().toString().isEmpty() ||
+                        txtUmur.getText().toString().isEmpty() ||
+                        txtHarga.getText().toString().isEmpty() ||
+                        txtJenisAnjing.getText().toString().isEmpty() ||
+                        txtHarga.getText().toString().isEmpty() ||
+                        txtBerat.getText().toString().isEmpty())
 
-                if(nama_dog.isEmpty() || txtUmur.getText().toString().isEmpty() || txtHarga.getText().toString().isEmpty() || jenis_dog.isEmpty() || jk_dog.isEmpty()
-                        || txtBerat.getText().toString().isEmpty() )
                     Toast.makeText(getContext(), "Data Tidak Boleh Kosong !", Toast.LENGTH_SHORT).show();
-                else{
-                    Double harga_dog    = Double.parseDouble(txtHarga.getText().toString());
-                    Double berat_dog   = Double.parseDouble(txtBerat.getText().toString());
-                    Double umur_dog     = Double.parseDouble(txtUmur.getText().toString());
-
-                    dog = new Dog(nama_dog,jenis_dog, jk_dog,kategori, harga_dog,berat_dog,umur_dog);
-                    if(status.equals("tambah")) {
+                else {
+                    dog = new Dog(kategori, jenis_dog, Double.parseDouble(harga_dog), nama_dog, Double.parseDouble(umur_dog), jk_dog, Double.parseDouble(berat_dog));
+                    if (status.equals("tambah")) {
                         String bytesString = "";
                         if (bitmap != null) {
                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -234,9 +252,10 @@ public class TambahEditDog  extends Fragment {
                             byte[] bytes = byteArrayOutputStream.toByteArray();
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
-                        tambahDog(dog, bytesString);
-                    }
-                    else {
+
+                        tambahDog(kategori, jenis_dog, Double.parseDouble(harga_dog), nama_dog, Integer.parseInt(umur_dog), jk_dog, Double.parseDouble(berat_dog), gambar);
+//                        Toast.makeText(getContext(), "masuk if" + gambar, Toast.LENGTH_SHORT).show();
+                    } else {
                         String bytesString = "";
                         if (bitmap != null) {
                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -253,12 +272,13 @@ public class TambahEditDog  extends Fragment {
         btnBatal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new ViewsDog());
+                closeFragment();
+//                loadFragment(new ViewsDog());
             }
         });
     }
 
-    private void openGallery(){
+    private void openGallery() {
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, 1);
     }
@@ -266,31 +286,51 @@ public class TambahEditDog  extends Fragment {
     private void openCamera() {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent,2);
+        startActivityForResult(intent, 2);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case PERMISSION_CODE:{
-                if(grantResults.length > 0 && grantResults[0] ==
-                        PackageManager.PERMISSION_GRANTED){
-                    if(selected.equals("kamera"))
+        switch (requestCode) {
+            case PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] ==
+                        PackageManager.PERMISSION_GRANTED) {
+                    if (selected.equals("kamera"))
                         openCamera();
                     else
                         openGallery();
-                }else{
-                    Toast.makeText(getContext() ,"Permision denied",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Permision denied", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
 
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK && requestCode == 1) {
+//            selectedImage = data.getData();
+//            try {
+//                InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedImage);
+//                bitmap = BitmapFactory.decodeStream(inputStream);
+//            } catch (Exception e) {
+//                Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//            ivGambar.setImageBitmap(bitmap);
+//            bitmap = getResizedBitmap(bitmap, 512);
+//        } else if (resultCode == RESULT_OK && requestCode == 2) {
+//            Bundle extras = data.getExtras();
+//            bitmap = (Bitmap) extras.get("data");
+//            ivGambar.setImageBitmap(bitmap);
+//            bitmap = getResizedBitmap(bitmap, 512);
+//        }
+//    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == 1)
-        {
+        if (resultCode == RESULT_OK && requestCode == 1) {
             selectedImage = data.getData();
             try {
                 InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedImage);
@@ -300,14 +340,22 @@ public class TambahEditDog  extends Fragment {
             }
             ivGambar.setImageBitmap(bitmap);
             bitmap = getResizedBitmap(bitmap, 512);
-        }
-        else if(resultCode == RESULT_OK && requestCode == 2)
-        {
+            handleUpload(bitmap);
+        } else if (resultCode == RESULT_OK && requestCode == 2) {
             Bundle extras = data.getExtras();
             bitmap = (Bitmap) extras.get("data");
             ivGambar.setImageBitmap(bitmap);
             bitmap = getResizedBitmap(bitmap, 512);
+            handleUpload(bitmap);
         }
+    }
+
+    private void handleUpload(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+
+        imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 
     public void loadFragment(Fragment fragment) {
@@ -322,7 +370,7 @@ public class TambahEditDog  extends Fragment {
                 .commit();
     }
 
-    public void closeFragment(){
+    public void closeFragment() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.hide(TambahEditDog.this).detach(this)
                 .attach(this).commit();
@@ -332,7 +380,7 @@ public class TambahEditDog  extends Fragment {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        float bitmapRatio = (float)width / (float) height;
+        float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 1) {
             width = maxSize;
             height = (int) (width / bitmapRatio);
@@ -343,7 +391,9 @@ public class TambahEditDog  extends Fragment {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
-    public void tambahDog(final Dog dog, final String gambar){
+    public void tambahDog(final String category, final String type_name, final Double price, final String pet_name,
+                          final int age, final String gender, final Double weight, final String gambar) {
+
         //Tambahkan tambah buku disini
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(getContext());
@@ -365,15 +415,14 @@ public class TambahEditDog  extends Fragment {
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
                     //obj.getString("message") digunakan untuk mengambil pesan status dari response
-                    if(obj.getString("status").equals("Success"))
-                    {
+                    if (obj.getString("message").equals("Add Pet Success")) {
                         loadFragment(new ViewsDog());
                     }
-
                     //obj.getString("message") digunakan untuk mengambil pesan message dari response
-                    Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "kosong!!", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(getContext(), "errorrrr", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -381,37 +430,37 @@ public class TambahEditDog  extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 //Disini bagian jika response jaringan terdapat ganguan/error
                 progressDialog.dismiss();
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "eorr RESSSSSS", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }){
+        }) {
             @Override
-            protected Map<String, String> getParams()
-            {
+            protected Map<String, String> getParams() {
                 /*
                     Disini adalah proses memasukan/mengirimkan parameter key dengan data value,
                     dan nama key nya harus sesuai dengan parameter key yang diminta oleh jaringan
                     API.
                 */
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("nama_dog", dog.getNama_dog());
-                params.put("jenis_dog", dog.getJenis_dog());
-                params.put("umur_dog", dog.getUmur_dog().toString());
-                params.put("harga_dog", dog.getHarga_dog().toString());
-                params.put("berat_dog", dog.getBerat_dog().toString());
-                params.put("jk_dog", dog.getJk_dog());
-                params.put("image_dog", gambar);
-
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("category", category);
+                params.put("pet_name", pet_name);
+                params.put("type_name", type_name);
+                params.put("age", String.valueOf(age));
+                params.put("price", String.valueOf(price));
+                params.put("weight", String.valueOf(weight));
+                params.put("gender", gender);
+                if (gambar != null) {
+                    params.put("pet_image", gambar);
+                }
                 return params;
             }
         };
-
+//        Toast.makeText(getContext(), "masuk tambahdog" + gambar, Toast.LENGTH_SHORT).show();
         //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
         queue.add(stringRequest);
     }
 
     public void editDog(final Dog dog, final String gambar) {
-        //Tambahkan edit buku disini
-        //Tambahkan tambah buku disini
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
@@ -432,11 +481,9 @@ public class TambahEditDog  extends Fragment {
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
                     //obj.getString("message") digunakan untuk mengambil pesan status dari response
-                    if(obj.getString("status").equals("Success"))
-                    {
+                    if (obj.getString("message").equals("Update pet Success")) {
                         loadFragment(new ViewsDog());
                     }
-
                     //obj.getString("message") digunakan untuk mengambil pesan message dari response
                     Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
@@ -450,16 +497,15 @@ public class TambahEditDog  extends Fragment {
                 progressDialog.dismiss();
                 Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }){
+        }) {
             @Override
-            protected Map<String, String> getParams()
-            {
+            protected Map<String, String> getParams() {
                 /*
                     Disini adalah proses memasukan/mengirimkan parameter key dengan data value,
                     dan nama key nya harus sesuai dengan parameter key yang diminta oleh jaringan
                     API.
                 */
-                Map<String, String>  params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("nama_dog", dog.getNama_dog());
                 params.put("jenis_dog", dog.getJenis_dog());
                 params.put("umur_dog", dog.getUmur_dog().toString());

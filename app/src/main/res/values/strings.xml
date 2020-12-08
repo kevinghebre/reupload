@@ -43,6 +43,7 @@
     <string-array name="jenisKelamin">
         <item>Jantan</item>
         <item>Betina</item>
+        <item>boy</item>
     </string-array>
 
 </resources>

@@ -74,6 +74,7 @@ public class ViewsFood extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String s) {
                 adapter.getFilter().filter(s);
@@ -100,29 +101,29 @@ public class ViewsFood extends Fragment {
             tambahEditCat.setArguments(data);
 
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager .beginTransaction()
+            fragmentManager.beginTransaction()
                     .replace(R.id.frame_view_food, tambahEditCat)
                     .commit();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void loadDaftarFood(){
+    public void loadDaftarFood() {
         setAdapter();
         getFood();
     }
 
-    public void setAdapter(){
+    public void setAdapter() {
         getActivity().setTitle("Data Food");
         /*Buat tampilan untuk adapter jika potrait menampilkan 2 data dalam 1 baris,
         sedangakan untuk landscape 4 data dalam 1 baris*/
         final int col = getResources().getInteger(R.integer.gallery_columns);
         listFood = new ArrayList<Food>();
         recyclerView = view.findViewById(R.id.recycler_food_list);
-        adapter = new AdapterFood(view.getContext(), listFood, new AdapterDog.deleteItemListener(){
+        adapter = new AdapterFood(view.getContext(), listFood, new AdapterDog.deleteItemListener() {
             @Override
             public void deleteItem(Boolean delete) {
-                if(delete){
+                if (delete) {
                     loadDaftarFood();
                 }
             }
@@ -142,7 +143,7 @@ public class ViewsFood extends Fragment {
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Menampilkan data Anjing");
+        progressDialog.setTitle("Getting Data Food");
         progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
@@ -154,33 +155,33 @@ public class ViewsFood extends Fragment {
                 progressDialog.dismiss();
                 try {
                     //Mengambil data response json object yang berupa data mahasiswa
-                    JSONArray jsonArray = response.getJSONArray("dataFood");
+                    JSONArray jsonArray = response.getJSONArray("data");
 
-                    if(!listFood.isEmpty())
+                    if (!listFood.isEmpty())
                         listFood.clear();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         //Mengubah data jsonArray tertentu menjadi json Object
                         JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 
-                        Integer idFood      = jsonObject.optInt("idPet");
-                        String food_name    = jsonObject.optString("namaFood");
-                        String category    = jsonObject.optString("jenisFood");
-                        Double stock    = jsonObject.optDouble("stokFood");
-                        Double net_weight        = jsonObject.optDouble("beratFood");
-                        Double calories       = jsonObject.optDouble("kalori");
-                        Double price       = jsonObject.optDouble("hargaFood");
-                        String supplier        = jsonObject.optString("supplier");
-                        String food_image       = jsonObject.optString("gambar");
+                        int idFood = jsonObject.optInt("id");
+                        String food_name = jsonObject.optString("food_name");
+                        String category = jsonObject.optString("category");
+                        Double stock = jsonObject.optDouble("stock");
+                        Double net_weight = jsonObject.optDouble("net_weight");
+                        Double calories = jsonObject.optDouble("calories");
+                        Double price = jsonObject.optDouble("price");
+                        String supplier = jsonObject.optString("supplier");
+                        String food_image = jsonObject.optString("food_image");
 
                         //Membuat objek user
-                       Food food = new Food(idFood, category,food_name,food_image,supplier,price,calories, net_weight,stock);
+                        Food food = new Food(idFood, category, food_name, food_image, supplier, price, calories, net_weight, stock);
 
                         //Menambahkan objek user tadi ke list user
                         listFood.add(food);
                     }
                     adapter.notifyDataSetChanged();
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 Toast.makeText(view.getContext(), response.optString("message"),
