@@ -30,7 +30,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.kelompok_b.petshop.Api.PetAPI;
 import com.kelompok_b.petshop.R;
-import com.kelompok_b.petshop.Views.TambahEditCat;
+import com.kelompok_b.petshop.Views.TambahEditDog;
 import com.kelompok_b.petshop.model.Dog;
 import com.kelompok_b.petshop.model.Pet;
 
@@ -79,17 +79,17 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
         NumberFormat formatter = new DecimalFormat("#,###");
         holder.nama_dog.setText(dog.getNama_dog());
         holder.jenis_dog.setText(dog.getJenis_dog());
-        holder.berat_dog.setText(formatter.format(dog.getBerat_dog()) + "Kg");
-        holder.umur_dog.setText(formatter.format(dog.getUmur_dog()) + "Tahun");
+        holder.berat_dog.setText(formatter.format(dog.getBerat_dog()) + " Kg");
+        holder.umur_dog.setText(formatter.format(dog.getUmur_dog()) + " Month");
         holder.jk_dog.setText(dog.getJk_dog());
-        holder.kategori.setText("dog");
+//        holder.kategori.setText();
         holder.harga_dog.setText("Rp "+ formatter.format(dog.getHarga_dog()));
         Glide.with(context)
                 .load(PetAPI.URL_IMAGE+dog.getImage_dog())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(holder.ivGambar);
-
+//
         holder.ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +97,7 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
                 Bundle data = new Bundle();
                 data.putSerializable("dog", dog);
                 data.putString("status", "edit");
-                TambahEditCat tambahEditDog = new TambahEditCat();
+                TambahEditDog tambahEditDog = new TambahEditDog();
                 tambahEditDog.setArguments(data);
                 loadFragment(tambahEditDog);
             }
@@ -111,7 +111,7 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
                 builder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        deleteDog(String.valueOf(dog.getIdDog()));
+                        deleteDog();
                     }
                 });
                 builder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -142,6 +142,7 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
             jenis_dog       = itemView.findViewById(R.id.tvType);
             jk_dog          = itemView.findViewById(R.id.tvGender);
             umur_dog             = itemView.findViewById(R.id.tvAge);
+//            kategori = itemView.findViewById(R.id.ca)
             berat_dog          = itemView.findViewById(R.id.tvWeight);
             harga_dog           = itemView.findViewById(R.id.tvPrice);
             ivGambar        = itemView.findViewById(R.id.ivFotoCat);
@@ -189,19 +190,19 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
                 .commit();
     }
 
-    public void deleteDog(String idDog){
+    public void deleteDog(){
         //Tambahkan hapus buku disini
         RequestQueue queue = Volley.newRequestQueue(context);
 
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Menghapus data Anjing");
+        progressDialog.setTitle("Menghapus Data Anjing");
         progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
         //Memulai membuat permintaan request menghapus data ke jaringan
-        StringRequest stringRequest = new StringRequest(DELETE, PetAPI.URL_DELETE + idDog, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(DELETE, PetAPI.URL_DELETE, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //Disini bagian jika response jaringan berhasil tidak terdapat ganguan/error

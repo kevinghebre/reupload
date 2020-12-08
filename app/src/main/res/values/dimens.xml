@@ -6,6 +6,6 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
 
-    <integer name="gallery_columns">2</integer>
+    <integer name="gallery_columns">1</integer>
     <integer name="gallery_columns_cart">1</integer>
 </resources>

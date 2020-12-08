@@ -83,7 +83,6 @@ public class ProfilFragment extends Fragment {
         sGender = i.getStringExtra("gender");
         sEmail = i.getStringExtra("email");
 
-
         text_email.setText(sEmail);
         text_name.setText(sName);
         text_age.setText(sAge);

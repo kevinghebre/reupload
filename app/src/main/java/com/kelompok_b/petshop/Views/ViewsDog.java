@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.JsonArray;
 import com.kelompok_b.petshop.Api.PetAPI;
 import com.kelompok_b.petshop.R;
 import com.kelompok_b.petshop.adapter.AdapterCat;
@@ -38,7 +39,7 @@ import java.util.List;
 
 import static com.android.volley.Request.Method.GET;
 
-public class ViewsDog extends Fragment{
+public class ViewsDog extends Fragment {
 
     private RecyclerView recyclerView;
     private AdapterDog adapter;
@@ -74,6 +75,7 @@ public class ViewsDog extends Fragment{
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String s) {
                 adapter.getFilter().filter(s);
@@ -100,30 +102,29 @@ public class ViewsDog extends Fragment{
             tambahEditDog.setArguments(data);
 
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            fragmentManager .beginTransaction()
+            fragmentManager.beginTransaction()
                     .replace(R.id.frame_view_dog, tambahEditDog)
                     .commit();
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void loadDaftarDog(){
+    public void loadDaftarDog() {
         setAdapter();
         getDog();
-        System.out.println("aaaaa");
     }
 
-    public void setAdapter(){
+    public void setAdapter() {
         getActivity().setTitle("Data Anjing");
         /*Buat tampilan untuk adapter jika potrait menampilkan 2 data dalam 1 baris,
         sedangakan untuk landscape 4 data dalam 1 baris*/
         final int col = getResources().getInteger(R.integer.gallery_columns);
         listDog = new ArrayList<Dog>();
         recyclerView = view.findViewById(R.id.recycler_view);
-        adapter = new AdapterDog(view.getContext(), listDog, new AdapterDog.deleteItemListener(){
+        adapter = new AdapterDog(view.getContext(), listDog, new AdapterDog.deleteItemListener() {
             @Override
             public void deleteItem(Boolean delete) {
-                if(delete){
+                if (delete) {
                     loadDaftarDog();
                 }
             }
@@ -155,44 +156,47 @@ public class ViewsDog extends Fragment{
                 progressDialog.dismiss();
                 try {
                     //Mengambil data response json object yang berupa data mahasiswa
-                    JSONArray jsonArray = response.getJSONArray("dataDog");
+                    JSONArray jsonArray = response.getJSONArray("data");
 
-                    if(!listDog.isEmpty())
+                    if (!listDog.isEmpty())
                         listDog.clear();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         //Mengubah data jsonArray tertentu menjadi json Object
                         JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 
-                        Integer idDog       = jsonObject.optInt("idDOg");
-                        String nama_dog     = jsonObject.optString("nama_dog");
-                        String jenis_dog    = jsonObject.optString("jenis_dog");
-                        String jk_dog       = jsonObject.optString("jk_dog");
-                        Double berat_dog    = jsonObject.optDouble("berat_dog");
-                        Double umur_dog     = jsonObject.optDouble("umur_dog");
-                        Double harga_dog    = jsonObject.optDouble("harga_dog");
-                        String image_dog    = jsonObject.optString("image_dog");
-                        String kategori    = "Anjing";
+                        Integer idDog = jsonObject.optInt("id");
+                        String nama_dog = jsonObject.optString("pet_name");
+                        String jenis_dog = jsonObject.optString("type_name");
+                        String jk_dog = jsonObject.optString("gender");
+                        Double berat_dog = jsonObject.optDouble("weight");
+                        Double umur_dog = jsonObject.optDouble("age");
+                        Double harga_dog = jsonObject.optDouble("price");
+                        String image_dog = jsonObject.optString("pet_image");
+                        String kategori = jsonObject.optString("category");
 
                         //Membuat objek user
-                        Dog dog = new Dog(idDog,nama_dog,jenis_dog,jk_dog,kategori, image_dog,harga_dog,berat_dog,umur_dog);
+                        Dog dog = new Dog(idDog, nama_dog, jenis_dog, jk_dog, kategori, image_dog, harga_dog, berat_dog, umur_dog);
 
                         //Menambahkan objek user tadi ke list user
                         listDog.add(dog);
                     }
+                    Toast.makeText(view.getContext(), Integer.toString(jsonArray.length()), Toast.LENGTH_SHORT).show();
                     adapter.notifyDataSetChanged();
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(view.getContext(), response.optString("message"),
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(view.getContext(), response.optString("message"),
+//                        Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //Disini bagian jika response jaringan terdapat ganguan/error
                 progressDialog.dismiss();
-                Toast.makeText(view.getContext(), error.getMessage(),
+//                Toast.makeText(view.getContext(), error.getMessage(),
+//                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "error.getMessage()",
                         Toast.LENGTH_SHORT).show();
             }
         });

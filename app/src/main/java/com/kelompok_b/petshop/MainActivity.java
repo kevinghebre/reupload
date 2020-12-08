@@ -23,6 +23,9 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.kelompok_b.petshop.Api.ApiClient;
+import com.kelompok_b.petshop.Api.UserApiInterface;
+import com.kelompok_b.petshop.Api.UserResponse;
 import com.kelompok_b.petshop.acc.LoginActivity;
 
 import androidx.annotation.NonNull;
@@ -34,10 +37,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 //    TextView email_header;
+
+//    String nameUser, emailUser;
+//    TextView name, email;
 
     // Ini fungsi untuk menampilkan pop up sebelum logout
     private void logoutPopup() {
@@ -99,11 +111,24 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         Toolbar toolbar = findViewById(R.id.toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
+//        email = findViewById(R.id.email_header_user);
+//        name = findViewById(R.id.nameUser);
 
 
 //        String email = getIntent().getStringExtra("email_user");
 //        email_header = findViewById(R.id.email_header_user);
 //        email_header.setText(email);
+
+//        Intent i = getIntent();
+//        nameUser = i.getStringExtra("name");
+//        emailUser = i.getStringExtra("email");
+//        sAge = i.getStringExtra("age");
+//        sImage = i.getStringExtra("image");
+//        sGender = i.getStringExtra("gender");
+//        sEmail = i.getStringExtra("email");
+
+//        email.setText(nameUser);
+//        name.setText(emailUser);
 
 
 //----------------------- Hide or Show Menu -------------------

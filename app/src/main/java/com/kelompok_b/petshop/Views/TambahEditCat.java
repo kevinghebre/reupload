@@ -125,7 +125,6 @@ public class TambahEditCat extends Fragment {
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(ivGambar);
-
             for(String jk : JKArray)
             {
                 if(jk.equals(cat.getJk_cat()))

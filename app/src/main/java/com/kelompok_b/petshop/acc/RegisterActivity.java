@@ -53,7 +53,7 @@ import static com.android.volley.Request.Method.POST;
 public class RegisterActivity extends AppCompatActivity {
 
     private TextInputEditText input_email, input_password, input_name, input_age, input_gender;
-    private TextInputLayout email_layout, name_layout, age_layout,gender_layout,password_layout;
+    private TextInputLayout email_layout, name_layout, age_layout, gender_layout, password_layout;
     private MaterialButton btn_register;
     private MaterialTextView text_login;
 
@@ -76,10 +76,10 @@ public class RegisterActivity extends AppCompatActivity {
         input_name = findViewById(R.id.input_name_register);
         input_gender = findViewById(R.id.input_gender_register);
         email_layout = findViewById(R.id.input_email_register_layout);
-        name_layout =findViewById(R.id.input_name_register_layout);
+        name_layout = findViewById(R.id.input_name_register_layout);
         age_layout = findViewById(R.id.input_age_register_layout);
-        gender_layout =findViewById(R.id.input_email_gender_layout);
-        password_layout=findViewById(R.id.input_password_register_layout);
+        gender_layout = findViewById(R.id.input_email_gender_layout);
+        password_layout = findViewById(R.id.input_password_register_layout);
 
         btn_register = findViewById(R.id.btn_register);
         text_login = findViewById(R.id.text_login);
@@ -104,7 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
                     name_layout.setError("Please Input Name");
                 }
                 if (input_age.getText().toString().isEmpty()) {
-                   age_layout.setError("Please Input Age");
+                    age_layout.setError("Please Input Age");
                 }
                 if (input_gender.getText().toString().isEmpty()) {
                     gender_layout.setError("Please Input Gender");
@@ -300,20 +300,71 @@ public class RegisterActivity extends AppCompatActivity {
         add.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, retrofit2.Response<UserResponse> response) {
-                Toast.makeText(RegisterActivity.this, "Berhasil menambah user", Toast.LENGTH_SHORT).show();
+                name_layout.setError(null);
+                gender_layout.setError(null);
+                age_layout.setError(null);
+                email_layout.setError(null);
+                password_layout.setError(null);
                 progressDialog.dismiss();
-                Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
-                createNotificationChannel();
-                addNotification();
-                startActivity(i);
-                finish();
+                if (response.code() == 200) {
+                    Toast.makeText(RegisterActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
+                    createNotificationChannel();
+                    addNotification();
+                    startActivity(i);
+                    finish();
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+
+                        if (jObjError.get("message") instanceof JSONObject) {
+                            if (jObjError.getJSONObject("message").has("email")) {
+                                email_layout.setError(jObjError.getJSONObject("message").getJSONArray("email").get(0).toString());
+                            }
+                            if (jObjError.getJSONObject("message").has("password")) {
+                                password_layout.setError(jObjError.getJSONObject("message").getJSONArray("password").get(0).toString());
+                            }
+                            if (jObjError.getJSONObject("message").has("name")) {
+                                name_layout.setError(jObjError.getJSONObject("message").getJSONArray("name").get(0).toString());
+                            }
+                            if (jObjError.getJSONObject("message").has("gender")) {
+                                gender_layout.setError(jObjError.getJSONObject("message").getJSONArray("gender").get(0).toString());
+                            }
+                            if (jObjError.getJSONObject("message").has("age")) {
+                                age_layout.setError(jObjError.getJSONObject("message").getJSONArray("age").get(0).toString());
+                            }
+                        } else
+                            Toast.makeText(RegisterActivity.this, jObjError.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
             }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
-                Toast.makeText(RegisterActivity.this, "Gagal menambah user", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
     }
+//        add.enqueue(new Callback<UserResponse>() {
+//            @Override
+//            public void onResponse(Call<UserResponse> call, retrofit2.Response<UserResponse> response) {
+//                Toast.makeText(RegisterActivity.this, "Berhasil menambah user", Toast.LENGTH_SHORT).show();
+//                progressDialog.dismiss();
+//                Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
+//                createNotificationChannel();
+//                addNotification();
+//                startActivity(i);
+//                finish();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<UserResponse> call, Throwable t) {
+//                Toast.makeText(RegisterActivity.this, "Gagal menambah user", Toast.LENGTH_SHORT).show();
+//                progressDialog.dismiss();
+//            }
+//        });
+//    }
 }
