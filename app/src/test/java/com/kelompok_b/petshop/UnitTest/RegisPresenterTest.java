@@ -6,7 +6,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -67,6 +66,8 @@ public class RegisPresenterTest {
         System.out.println("email : " + view.getEmail());
         when(view.getPassword()).thenReturn("123456");
         System.out.println("password : " + view.getPassword());
+        when(service.getValid(view, view.getName(), view.getAge(), view.getGender(), view.getEmail(),
+                view.getPassword())).thenReturn(false);
         presenter.onRegisClicked();
         verify(view).showPasswordError("Umur Tidak Boleh Kosong");
     }
@@ -132,6 +133,8 @@ public class RegisPresenterTest {
         when(view.getPassword()).thenReturn("123");
         System.out.println("password : " + view.getPassword());
         presenter.onRegisClicked();
+//        when(service.getValid(view, view.getName(), view.getAge(), view.getGender(), view.getEmail(),
+//                view.getPassword())).thenReturn(true);
         verify(view).showPasswordError("Password Kurang dari 6 digit");
     }
 
@@ -153,6 +156,4 @@ public class RegisPresenterTest {
                 view.getPassword()));
         presenter.onRegisClicked();
     }
-
-
 }
