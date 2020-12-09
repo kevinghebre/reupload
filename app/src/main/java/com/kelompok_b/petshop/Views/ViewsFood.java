@@ -120,7 +120,7 @@ public class ViewsFood extends Fragment {
         final int col = getResources().getInteger(R.integer.gallery_columns);
         listFood = new ArrayList<Food>();
         recyclerView = view.findViewById(R.id.recycler_food_list);
-        adapter = new AdapterFood(view.getContext(), listFood, new AdapterDog.deleteItemListener() {
+        adapter = new AdapterFood(view.getContext(), listFood, new AdapterFood.deleteItemListener() {
             @Override
             public void deleteItem(Boolean delete) {
                 if (delete) {

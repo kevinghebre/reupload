@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frame_view_food"
@@ -11,10 +10,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_food_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/activity_adapter_food" />
+        android:layout_height="match_parent"
+        android:background="#BADEF4"
+        android:padding="5dp" />
 
-</RelativeLayout>
+</FrameLayout>

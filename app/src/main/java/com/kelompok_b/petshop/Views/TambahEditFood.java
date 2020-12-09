@@ -40,9 +40,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.textfield.TextInputEditText;
 import com.kelompok_b.petshop.Api.FoodAPI;
-import com.kelompok_b.petshop.Api.PetAPI;
 import com.kelompok_b.petshop.R;
-import com.kelompok_b.petshop.model.Dog;
 import com.kelompok_b.petshop.model.Food;
 
 import org.json.JSONException;
@@ -53,7 +51,6 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.app.Activity.RESULT_OK;
 import static com.android.volley.Request.Method.POST;
 import static com.android.volley.Request.Method.PUT;
 
@@ -107,12 +104,12 @@ public class TambahEditFood extends Fragment {
     public void init() {
         food = (Food) getArguments().getSerializable("food");
         txtNamaFood = view.findViewById(R.id.txtNamaFood);
-        txtStokFood = view.findViewById(R.id.txtStock);
-        txtBeratFood = view.findViewById(R.id.txtBerat);
-        txtHargaFood = view.findViewById(R.id.txtWeight);
-        txtCalories = view.findViewById(R.id.txtCalories);
-        txtSupplier = view.findViewById(R.id.txtSupplier);
         txtKategoriFood = view.findViewById(R.id.txtJenisFood);
+        txtCalories = view.findViewById(R.id.txtCalories);
+        txtStokFood = view.findViewById(R.id.txtStock);
+        txtBeratFood = view.findViewById(R.id.txtWeight);
+        txtHargaFood = view.findViewById(R.id.txtPrice);
+        txtSupplier = view.findViewById(R.id.txtSupplier);
         btnSimpan = view.findViewById(R.id.btnSimpan);
         btnBatal = view.findViewById(R.id.btnBatal);
         btnUnggah = view.findViewById(R.id.btnUnggah);
@@ -200,15 +197,15 @@ public class TambahEditFood extends Fragment {
                 String harga_food = txtHargaFood.getText().toString();
                 String berat_food = txtBeratFood.getText().toString();
                 String kalori = txtCalories.getText().toString();
-                String stok_food =txtStokFood.getText().toString();
+                String stok_food = txtStokFood.getText().toString();
                 String gambar = imageString;
 
                 if (name_food.isEmpty() || txtStokFood.getText().toString().isEmpty() || txtHargaFood.getText().toString().isEmpty() || jenis_food.isEmpty() || supplier.isEmpty()
                         || txtBeratFood.getText().toString().isEmpty())
                     Toast.makeText(getContext(), "Data Tidak Boleh Kosong !", Toast.LENGTH_SHORT).show();
                 else {
-                    food = new Food(jenis_food, name_food, gambar, supplier,
-                            Double.parseDouble(harga_food), Double.parseDouble(kalori), Double.parseDouble(berat_food), Double.parseDouble(stok_food));
+//                    food = new Food(jenis_food, name_food, gambar, supplier,
+//                            Double.parseDouble(harga_food), Double.parseDouble(kalori), Double.parseDouble(berat_food), Double.parseDouble(stok_food));
                     if (status.equals("tambah")) {
                         String bytesString = "";
                         if (bitmap != null) {
@@ -217,8 +214,8 @@ public class TambahEditFood extends Fragment {
                             byte[] bytes = byteArrayOutputStream.toByteArray();
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
-                        tambahFood(jenis_food, name_food, gambar, Double.parseDouble(supplier),
-                                Double.parseDouble(harga_food), Double.parseDouble(kalori), Double.parseDouble(berat_food), String.valueOf(stok_food));
+                        tambahFood(jenis_food, name_food, supplier, Double.parseDouble(harga_food),
+                    Double.parseDouble(kalori), Double.parseDouble(berat_food), Double.parseDouble(stok_food), gambar);
                     } else {
                         String bytesString = "";
                         if (bitmap != null) {
@@ -328,7 +325,7 @@ public class TambahEditFood extends Fragment {
         if (Build.VERSION.SDK_INT >= 26) {
             fragmentTransaction.setReorderingAllowed(false);
         }
-        fragmentTransaction.replace(R.id.frame_tambah_edit_dog, fragment)
+        fragmentTransaction.replace(R.id.frame_tambah_edit_food, fragment)
                 .detach(this)
                 .attach(this)
                 .commit();
@@ -432,7 +429,7 @@ public class TambahEditFood extends Fragment {
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Mengedit data Kucing");
+        progressDialog.setTitle("Mengedit data Food");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
@@ -446,12 +443,12 @@ public class TambahEditFood extends Fragment {
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
                     //obj.getString("message") digunakan untuk mengambil pesan status dari response
-                    if (obj.getString("status").equals("Success")) {
-                        loadFragment(new ViewsDog());
+                    if (obj.getString("message").equals("Update Food Success")) {
+                        loadFragment(new ViewsFood());
                     }
 
                     //obj.getString("message") digunakan untuk mengambil pesan message dari response
-                    Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

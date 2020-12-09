@@ -69,8 +69,7 @@
         android:id="@+id/nav_dog_shop"
         android:name="com.kelompok_b.petshop.Views.ViewsDog"
         android:label="@string/dog"
-        tools:layout="@layout/dog_shop_fragment" >
-    </fragment>
+        tools:layout="@layout/dog_shop_fragment" />
 
     <fragment
         android:id="@+id/nav_cat_shop"

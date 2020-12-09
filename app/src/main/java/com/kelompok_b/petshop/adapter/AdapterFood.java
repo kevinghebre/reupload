@@ -30,11 +30,8 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.kelompok_b.petshop.Api.FoodAPI;
-import com.kelompok_b.petshop.Api.PetAPI;
 import com.kelompok_b.petshop.R;
-import com.kelompok_b.petshop.Views.TambahEditCat;
 import com.kelompok_b.petshop.Views.TambahEditFood;
-import com.kelompok_b.petshop.model.Dog;
 import com.kelompok_b.petshop.model.Food;
 
 import org.json.JSONException;
@@ -53,10 +50,10 @@ public class AdapterFood extends RecyclerView.Adapter<AdapterFood.adapterFoodVie
     private List<Food> foodListFiltered;
     private Context context;
     private View view;
-    private AdapterDog.deleteItemListener mListener;
+    private AdapterFood.deleteItemListener mListener;
 
     public AdapterFood(Context context, List<Food> foodList,
-                       AdapterDog.deleteItemListener mListener) {
+                       AdapterFood.deleteItemListener mListener) {
         this.context = context;
         this.foodList = foodList;
         this.foodListFiltered = foodList;
