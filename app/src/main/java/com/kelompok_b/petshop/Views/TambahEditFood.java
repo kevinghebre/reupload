@@ -224,7 +224,8 @@ public class TambahEditFood extends Fragment {
                             byte[] bytes = byteArrayOutputStream.toByteArray();
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
-                        editFood(food, "null");
+                        editFood(jenis_food, name_food, supplier, Double.parseDouble(harga_food),
+                                Double.parseDouble(kalori), Double.parseDouble(berat_food), Double.parseDouble(stok_food), "null");
                     }
                 }
             }
@@ -420,7 +421,8 @@ public class TambahEditFood extends Fragment {
         queue.add(stringRequest);
     }
 
-    public void editFood(final Food food, final String gambar) {
+    public void editFood(final String category, final String food_name, final String supplier, final double price,
+                         final double calories, final double net_weight, final double stock, final String gambar) {
         //Tambahkan edit buku disini
         //Tambahkan tambah buku disini
         //Pendeklarasian queue
@@ -469,13 +471,13 @@ public class TambahEditFood extends Fragment {
                     API.
                 */
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("food_name", food.getFood_name());
-                params.put("category", food.getCategory());
-                params.put("stock", food.getStock().toString());
-                params.put("price", food.getPrice().toString());
-                params.put("net_weight", food.getNet_weight().toString());
-                params.put("calories", food.getCalories().toString());
-                params.put("supplier", food.getSupplier());
+                params.put("category", category);
+                params.put("price", String.valueOf(price));
+                params.put("stock", String.valueOf(stock));
+                params.put("food_name", food_name);
+                params.put("supplier", supplier);
+                params.put("calories", String.valueOf(calories));
+                params.put("net_weight", String.valueOf(net_weight));
                 if (gambar != null) {
                     params.put("food_image", gambar);
                 }

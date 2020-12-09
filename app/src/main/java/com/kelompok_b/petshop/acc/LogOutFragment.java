@@ -20,6 +20,7 @@ import com.kelompok_b.petshop.R;
  * Use the {@link LogOutFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class LogOutFragment extends Fragment {
 
     public LogOutFragment() {
