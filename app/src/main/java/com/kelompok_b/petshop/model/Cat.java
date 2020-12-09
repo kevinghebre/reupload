@@ -27,6 +27,17 @@ public class Cat implements Serializable {
     public Cat(Integer idCat, String nama_cat, String jenis_cat, String jk_cat, String image_cat, Double harga_cat, Double berat_cat, Double umur_cat) {
     }
 
+    public Cat(String kategori, String jenis_cat, Double harga_cat, String nama_cat, Double umur_cat, String jk_cat, Double berat_cat) {
+
+        this.nama_cat = nama_cat;
+        this.jenis_cat = jenis_cat;
+        this.jk_cat = jk_cat;
+        this.harga_cat = harga_cat;
+        this.berat_cat = berat_cat;
+        this.umur_cat = umur_cat;
+        this.kategori = "Kucing";
+    }
+
     public int getIdCat() {
         return idCat;
     }

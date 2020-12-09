@@ -107,8 +107,6 @@ public class TambahEditDog extends Fragment {
         txtBerat = view.findViewById(R.id.txtBerat);
         txtHarga = view.findViewById(R.id.txtHarga);
         txtJenisAnjing = view.findViewById(R.id.txtJenisHewan);
-//        txtJKAnjing = view.findViewById(R.id.txtJenis_Kelamin);
-//        txtKategori = view.findViewById(R.id.txt);
         btnSimpan = view.findViewById(R.id.btnSimpan);
         btnBatal = view.findViewById(R.id.btnBatal);
         btnUnggah = view.findViewById(R.id.btnUnggah);
@@ -122,16 +120,12 @@ public class TambahEditDog extends Fragment {
             txtJenisAnjing.setText(dog.getJenis_dog());
             txtBerat.setText(String.valueOf(dog.getBerat_dog()));
             txtUmur.setText(String.valueOf(dog.getUmur_dog()));
-//            txtJKAnjing.
-
-//            txt
             txtHarga.setText(String.valueOf(Math.round(dog.getHarga_dog())));
             Glide.with(view.getContext())
                     .load(PetAPI.URL_IMAGE + dog.getImage_dog())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(ivGambar);
-
             for (String jk : JKArray) {
                 if (jk.equals(dog.getJk_dog()))
                     selectedJenisKelamin = jk;
