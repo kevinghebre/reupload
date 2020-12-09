@@ -216,12 +216,15 @@ public class TambahEditCat extends Fragment {
                 String kategori = "cat";
                 String gambar = imageString;
 
-
-                if (nama_cat.isEmpty() || txtUmur.getText().toString().isEmpty() || txtHarga.getText().toString().isEmpty() || jenis_cat.isEmpty() || jk_cat.isEmpty()
-                        || txtBerat.getText().toString().isEmpty())
+                if (nama_cat.isEmpty() ||
+                        txtUmur.getText().toString().isEmpty() ||
+                        txtHarga.getText().toString().isEmpty() ||
+                        jenis_cat.isEmpty() ||
+                        jk_cat.isEmpty() ||
+                        txtBerat.getText().toString().isEmpty())
                     Toast.makeText(getContext(), "Data Tidak Boleh Kosong !", Toast.LENGTH_SHORT).show();
                 else {
-                    cat = new Cat(nama_cat, jenis_cat, jk_cat, Double.parseDouble(harga_cat), Double.parseDouble(berat_cat), Double.parseDouble(umur_cat));
+//                    cat = new Cat(nama_cat, jenis_cat, jk_cat, Double.parseDouble(harga_cat), Double.parseDouble(berat_cat), Double.parseDouble(umur_cat));
                     if (status.equals("tambah")) {
                         String bytesString = "";
                         if (bitmap != null) {
@@ -230,16 +233,16 @@ public class TambahEditCat extends Fragment {
                             byte[] bytes = byteArrayOutputStream.toByteArray();
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
-                        tambahCat(kategori, jenis_cat, Double.parseDouble(harga_cat), nama_cat,
+                        tambahCat(kategori, jenis_cat, Double.valueOf(harga_cat), nama_cat,
                                 Integer.parseInt(umur_cat), jk_cat, Double.parseDouble(berat_cat), gambar);
                     } else {
                         String bytesString = "";
-                        if (bitmap != null) {
-                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                            byte[] bytes = byteArrayOutputStream.toByteArray();
-                            bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
-                        }
+//                        if (bitmap != null) {
+//                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+//                            byte[] bytes = byteArrayOutputStream.toByteArray();
+//                            bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
+//                        }
                         editCat(cat, "null");
                     }
                 }
@@ -445,7 +448,6 @@ public class TambahEditCat extends Fragment {
     public void editCat(final Cat cat, final String gambar) {
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(getContext());
-
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("loading....");
@@ -466,7 +468,6 @@ public class TambahEditCat extends Fragment {
                     if (obj.getString("message").equals("Update pet Success")) {
                         loadFragment(new ViewsCat());
                     }
-
                     //obj.getString("message") digunakan untuk mengambil pesan message dari response
                     Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {

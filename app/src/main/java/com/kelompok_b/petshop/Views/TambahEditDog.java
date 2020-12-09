@@ -214,7 +214,6 @@ public class TambahEditDog extends Fragment {
                 String berat_dog = txtBerat.getText().toString();
                 String umur_dog = txtUmur.getText().toString();
                 String kategori = "dog";
-//                String gambar = selectedImage.getPath().toString();
                 String gambar = imageString;
 
                 if (txtNamaPet.getText().toString().isEmpty() ||
@@ -225,7 +224,7 @@ public class TambahEditDog extends Fragment {
                         txtBerat.getText().toString().isEmpty())
                     Toast.makeText(getContext(), "Data Tidak Boleh Kosong !", Toast.LENGTH_SHORT).show();
                 else {
-                    dog = new Dog(kategori, jenis_dog, Double.parseDouble(harga_dog), nama_dog, Double.parseDouble(umur_dog), jk_dog, Double.parseDouble(berat_dog));
+//                    dog = new Dog(kategori, jenis_dog, Double.parseDouble(harga_dog), nama_dog, Double.parseDouble(umur_dog), jk_dog, Double.parseDouble(berat_dog));
                     if (status.equals("tambah")) {
                         String bytesString = "";
                         if (bitmap != null) {
@@ -452,7 +451,6 @@ public class TambahEditDog extends Fragment {
     public void editDog(final Dog dog, final String gambar) {
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(getContext());
-
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("loading....");
