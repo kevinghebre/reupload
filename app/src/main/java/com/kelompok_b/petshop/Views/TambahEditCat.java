@@ -244,7 +244,7 @@ public class TambahEditCat extends Fragment {
 //                            bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
 //                        }
                         editCat(kategori, jenis_cat, Double.valueOf(harga_cat), nama_cat,
-                                Integer.parseInt(umur_cat), jk_cat, Double.parseDouble(berat_cat), "null");
+                                (int) Double.parseDouble(umur_cat), jk_cat, Double.parseDouble(berat_cat), "null");
                     }
                 }
             }

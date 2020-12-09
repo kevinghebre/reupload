@@ -85,7 +85,7 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
         holder.jk_dog.setText(dog.getJk_dog());
         holder.harga_dog.setText("Rp " + formatter.format(dog.getHarga_dog()));
         Glide.with(context)
-                .load(R.drawable.dog_paw)
+                .load(R.drawable.ic_baseline_pets_24)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(holder.ivGambar);
