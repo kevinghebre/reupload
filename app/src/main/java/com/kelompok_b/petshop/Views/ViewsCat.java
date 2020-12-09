@@ -112,7 +112,6 @@ public class ViewsCat extends Fragment {
     }
 
     public void setAdapter() {
-//        getActivity().setTitle("Data Kucing");
         getActivity().setTitle("Data Cat");
         /*Buat tampilan untuk adapter jika potrait menampilkan 2 data dalam 1 baris,
         sedangakan untuk landscape 4 data dalam 1 baris*/

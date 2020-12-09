@@ -241,7 +241,6 @@ public class AdapterCat extends RecyclerView.Adapter<AdapterCat.adapterCatViewHo
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
         //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
         queue.add(stringRequest);
     }
