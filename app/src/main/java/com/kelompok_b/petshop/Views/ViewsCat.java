@@ -155,7 +155,6 @@ public class ViewsCat extends Fragment {
                 try {
                     //Mengambil data response json object yang berupa data mahasiswa
                     JSONArray jsonArray = response.getJSONArray("data");
-
                     if (!listCat.isEmpty())
                         listCat.clear();
 

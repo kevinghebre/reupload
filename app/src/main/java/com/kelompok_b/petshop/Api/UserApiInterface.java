@@ -15,6 +15,10 @@ public interface UserApiInterface {
     @GET("users")
     Call<UserResponse> getAllUser();
 
+    @GET("users/{id}")
+    Call<UserResponse> getUser(@Path("id") String id);
+
+
     @POST("login")
     @FormUrlEncoded
     Call<UserResponse> loginUser(@Field("email") String email,

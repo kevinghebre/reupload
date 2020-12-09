@@ -43,7 +43,21 @@
         android:id="@+id/nav_profil"
         android:name="com.kelompok_b.petshop.ui.profil.ProfilFragment"
         android:label="@string/menu_profil"
-        tools:layout="@layout/fragment_profil" />
+        tools:layout="@layout/fragment_profil" >
+        <action
+            android:id="@+id/action_nav_profil_to_nav_profil_update"
+            app:destination="@id/nav_profil_update" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_profil_update"
+        android:name="com.kelompok_b.petshop.ui.profil.EditProfileFragment"
+        android:label="Update Profil"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_nav_profil_update_to_nav_profil"
+            app:destination="@id/nav_profil" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_settings"

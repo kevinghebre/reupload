@@ -106,7 +106,8 @@
                         android:id="@+id/txtCalories"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:inputType="number"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -120,7 +121,8 @@
                         android:id="@+id/txtStock"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:inputType="number"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -134,7 +136,8 @@
                         android:id="@+id/txtWeight"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:inputType="number"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -148,7 +151,8 @@
                         android:id="@+id/txtPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:inputType="number"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

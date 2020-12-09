@@ -30,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -57,6 +58,7 @@ import static com.android.volley.Request.Method.POST;
 import static com.android.volley.Request.Method.PUT;
 
 public class TambahEditFood extends Fragment {
+
     private TextInputEditText txtNamaFood, txtHargaFood, txtStokFood, txtBeratFood, txtKategoriFood, txtSupplier, txtCalories;
     private String status;
     private ImageView ivGambar;
@@ -75,7 +77,6 @@ public class TambahEditFood extends Fragment {
         view = inflater.inflate(R.layout.fragment_tambah_edit_food, container, false);
         init();
         setAttribut();
-
         return view;
     }
 
@@ -93,29 +94,28 @@ public class TambahEditFood extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if(menu.findItem(R.id.btnSearch) != null)
+        if (menu.findItem(R.id.btnSearch) != null)
             menu.findItem(R.id.btnSearch).setVisible(false);
-        if(menu.findItem(R.id.btnAdd) != null)
+        if (menu.findItem(R.id.btnAdd) != null)
             menu.findItem(R.id.btnAdd).setVisible(false);
     }
 
-    public void init(){
-        food                     = (Food) getArguments().getSerializable("food");
-        txtNamaFood              = view.findViewById(R.id.txtNamaFood);
-        txtStokFood                 = view.findViewById(R.id.txtStock);
-        txtBeratFood                = view.findViewById(R.id.txtBerat);
-        txtHargaFood                = view.findViewById(R.id.txtHarga);
-        txtCalories           = view.findViewById(R.id.txtCalories);
-        txtSupplier           = view.findViewById(R.id.txtSupplier);
-        txtKategoriFood         = view.findViewById(R.id.txtJenisFood);
-        btnSimpan               = view.findViewById(R.id.btnSimpan);
-        btnBatal                = view.findViewById(R.id.btnBatal);
-        btnUnggah               = view.findViewById(R.id.btnUnggah);
-        ivGambar                = view.findViewById(R.id.ivGambar);
+    public void init() {
+        food = (Food) getArguments().getSerializable("food");
+        txtNamaFood = view.findViewById(R.id.txtNamaFood);
+        txtStokFood = view.findViewById(R.id.txtStock);
+        txtBeratFood = view.findViewById(R.id.txtBerat);
+        txtHargaFood = view.findViewById(R.id.txtHarga);
+        txtCalories = view.findViewById(R.id.txtCalories);
+        txtSupplier = view.findViewById(R.id.txtSupplier);
+        txtKategoriFood = view.findViewById(R.id.txtJenisFood);
+        btnSimpan = view.findViewById(R.id.btnSimpan);
+        btnBatal = view.findViewById(R.id.btnBatal);
+        btnUnggah = view.findViewById(R.id.btnUnggah);
+        ivGambar = view.findViewById(R.id.ivGambar);
 
         status = getArguments().getString("status");
-        if(status.equals("edit"))
-        {
+        if (status.equals("edit")) {
             idFood = food.getIdFood();
             txtNamaFood.setText(food.getFood_name());
             txtKategoriFood.setText(food.getCategory());
@@ -125,7 +125,7 @@ public class TambahEditFood extends Fragment {
             txtCalories.setText(String.valueOf(Math.round(food.getCalories())));
             txtSupplier.setText(food.getSupplier());
             Glide.with(view.getContext())
-                    .load(PetAPI.URL_IMAGE +food.getFood_image())
+                    .load(food.getFood_image())
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .into(ivGambar);
@@ -146,21 +146,18 @@ public class TambahEditFood extends Fragment {
 
                 btnKamera.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        selected="kamera";
-                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
-                        {
-                            if(getActivity().checkSelfPermission(Manifest.permission.CAMERA)==
+                        selected = "kamera";
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (getActivity().checkSelfPermission(Manifest.permission.CAMERA) ==
                                     PackageManager.PERMISSION_DENIED ||
-                                    getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)==
-                                            PackageManager.PERMISSION_DENIED){
-                                String[] permission = {Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                                requestPermissions(permission,PERMISSION_CODE);
-                            }
-                            else{
+                                    getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                                            PackageManager.PERMISSION_DENIED) {
+                                String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                                requestPermissions(permission, PERMISSION_CODE);
+                            } else {
                                 openCamera();
                             }
-                        }
-                        else{
+                        } else {
                             openCamera();
                         }
                         alertD.dismiss();
@@ -169,19 +166,16 @@ public class TambahEditFood extends Fragment {
 
                 btnGaleri.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
-                        selected="galeri";
-                        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M)
-                        {
-                            if(getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)==
-                                    PackageManager.PERMISSION_DENIED){
+                        selected = "galeri";
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                                    PackageManager.PERMISSION_DENIED) {
                                 String[] permission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                                requestPermissions(permission,PERMISSION_CODE);
-                            }
-                            else{
+                                requestPermissions(permission, PERMISSION_CODE);
+                            } else {
                                 openGallery();
                             }
-                        }
-                        else{
+                        } else {
                             openGallery();
                         }
                         alertD.dismiss();
@@ -196,22 +190,20 @@ public class TambahEditFood extends Fragment {
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name_food  = txtNamaFood.getText().toString();
-                String jenis_food =  txtKategoriFood.getText().toString();
-                String supplier =  txtSupplier.getText().toString();
+                String name_food = txtNamaFood.getText().toString();
+                String jenis_food = txtKategoriFood.getText().toString();
+                String supplier = txtSupplier.getText().toString();
+                Double harga_food = Double.parseDouble(txtHargaFood.getText().toString());
+                Double berat_food = Double.parseDouble(txtBeratFood.getText().toString());
+                Double kalori = Double.parseDouble(txtCalories.getText().toString());
+                Double stok_food = Double.parseDouble(txtStokFood.getText().toString());
 
-
-                if(name_food.isEmpty() || txtStokFood.getText().toString().isEmpty() || txtHargaFood.getText().toString().isEmpty() || jenis_food.isEmpty() || supplier.isEmpty()
-                        || txtBeratFood.getText().toString().isEmpty() )
+                if (name_food.isEmpty() || txtStokFood.getText().toString().isEmpty() || txtHargaFood.getText().toString().isEmpty() || jenis_food.isEmpty() || supplier.isEmpty()
+                        || txtBeratFood.getText().toString().isEmpty())
                     Toast.makeText(getContext(), "Data Tidak Boleh Kosong !", Toast.LENGTH_SHORT).show();
-                else{
-                    Double harga_food    = Double.parseDouble(txtHargaFood.getText().toString());
-                    Double berat_food   = Double.parseDouble(txtBeratFood.getText().toString());
-                    Double kalori     = Double.parseDouble(txtCalories.getText().toString());
-                    Double stok_food     = Double.parseDouble(txtStokFood.getText().toString());
-
+                else {
                     food = new Food(name_food, jenis_food, supplier, harga_food, berat_food, kalori, stok_food);
-                    if(status.equals("tambah")) {
+                    if (status.equals("tambah")) {
                         String bytesString = "";
                         if (bitmap != null) {
                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -220,8 +212,7 @@ public class TambahEditFood extends Fragment {
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
                         tambahFood(food, bytesString);
-                    }
-                    else {
+                    } else {
                         String bytesString = "";
                         if (bitmap != null) {
                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
@@ -243,7 +234,7 @@ public class TambahEditFood extends Fragment {
         });
     }
 
-    private void openGallery(){
+    private void openGallery() {
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, 1);
     }
@@ -251,21 +242,21 @@ public class TambahEditFood extends Fragment {
     private void openCamera() {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent,2);
+        startActivityForResult(intent, 2);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case PERMISSION_CODE:{
-                if(grantResults.length > 0 && grantResults[0] ==
-                        PackageManager.PERMISSION_GRANTED){
-                    if(selected.equals("kamera"))
+        switch (requestCode) {
+            case PERMISSION_CODE: {
+                if (grantResults.length > 0 && grantResults[0] ==
+                        PackageManager.PERMISSION_GRANTED) {
+                    if (selected.equals("kamera"))
                         openCamera();
                     else
                         openGallery();
-                }else{
-                    Toast.makeText(getContext() ,"Permision denied",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Permision denied", Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -274,8 +265,7 @@ public class TambahEditFood extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == 1)
-        {
+        if (resultCode == RESULT_OK && requestCode == 1) {
             selectedImage = data.getData();
             try {
                 InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedImage);
@@ -285,9 +275,7 @@ public class TambahEditFood extends Fragment {
             }
             ivGambar.setImageBitmap(bitmap);
             bitmap = getResizedBitmap(bitmap, 512);
-        }
-        else if(resultCode == RESULT_OK && requestCode == 2)
-        {
+        } else if (resultCode == RESULT_OK && requestCode == 2) {
             Bundle extras = data.getExtras();
             bitmap = (Bitmap) extras.get("data");
             ivGambar.setImageBitmap(bitmap);
@@ -307,7 +295,7 @@ public class TambahEditFood extends Fragment {
                 .commit();
     }
 
-    public void closeFragment(){
+    public void closeFragment() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.hide(TambahEditFood.this).detach(this)
                 .attach(this).commit();
@@ -317,7 +305,7 @@ public class TambahEditFood extends Fragment {
         int width = image.getWidth();
         int height = image.getHeight();
 
-        float bitmapRatio = (float)width / (float) height;
+        float bitmapRatio = (float) width / (float) height;
         if (bitmapRatio > 1) {
             width = maxSize;
             height = (int) (width / bitmapRatio);
@@ -328,7 +316,7 @@ public class TambahEditFood extends Fragment {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
-    public void tambahFood(final Food food, final String gambar){
+    public void tambahFood(final Food food, final String gambar) {
         //Tambahkan tambah buku disini
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(getContext());
@@ -350,8 +338,7 @@ public class TambahEditFood extends Fragment {
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
                     //obj.getString("message") digunakan untuk mengambil pesan status dari response
-                    if(obj.getString("status").equals("Success"))
-                    {
+                    if (obj.getString("status").equals("Success")) {
                         loadFragment(new ViewsFood());
                     }
 
@@ -368,16 +355,15 @@ public class TambahEditFood extends Fragment {
                 progressDialog.dismiss();
                 Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }){
+        }) {
             @Override
-            protected Map<String, String> getParams()
-            {
+            protected Map<String, String> getParams() {
                 /*
                     Disini adalah proses memasukan/mengirimkan parameter key dengan data value,
                     dan nama key nya harus sesuai dengan parameter key yang diminta oleh jaringan
                     API.
                 */
-                Map<String, String>  params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("namaFood", food.getFood_name());
                 params.put("jenisFood", food.getCategory());
                 params.put("stokFood", food.getStock().toString());
@@ -385,7 +371,9 @@ public class TambahEditFood extends Fragment {
                 params.put("beratFood", food.getNet_weight().toString());
                 params.put("kalori", food.getCalories().toString());
                 params.put("supplier", food.getSupplier());
-                params.put("gambar", gambar);
+                if (gambar != null) {
+                    params.put("food_image", gambar);
+                }
 
                 return params;
             }
@@ -418,8 +406,7 @@ public class TambahEditFood extends Fragment {
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
                     //obj.getString("message") digunakan untuk mengambil pesan status dari response
-                    if(obj.getString("status").equals("Success"))
-                    {
+                    if (obj.getString("status").equals("Success")) {
                         loadFragment(new ViewsDog());
                     }
 
@@ -436,28 +423,32 @@ public class TambahEditFood extends Fragment {
                 progressDialog.dismiss();
                 Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }){
+        }) {
             @Override
-            protected Map<String, String> getParams()
-            {
+            protected Map<String, String> getParams() {
                 /*
                     Disini adalah proses memasukan/mengirimkan parameter key dengan data value,
                     dan nama key nya harus sesuai dengan parameter key yang diminta oleh jaringan
                     API.
                 */
-                Map<String, String>  params = new HashMap<String, String>();
-                params.put("namaFood", food.getFood_name());
-                params.put("jenisFood", food.getCategory());
-                params.put("stokFood", food.getStock().toString());
-                params.put("hargaFood", food.getPrice().toString());
-                params.put("beratFood", food.getNet_weight().toString());
-                params.put("kalori", food.getCalories().toString());
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("food_name", food.getFood_name());
+                params.put("category", food.getCategory());
+                params.put("stock", food.getStock().toString());
+                params.put("price", food.getPrice().toString());
+                params.put("net_weight", food.getNet_weight().toString());
+                params.put("calories", food.getCalories().toString());
                 params.put("supplier", food.getSupplier());
-                params.put("gambar", gambar);
+                if (gambar != null) {
+                    params.put("food_image", gambar);
+                }
                 return params;
             }
         };
-
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                1200000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
         queue.add(stringRequest);
     }

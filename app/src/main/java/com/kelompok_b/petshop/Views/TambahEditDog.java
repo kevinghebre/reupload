@@ -122,9 +122,6 @@ public class TambahEditDog extends Fragment {
             txtJenisAnjing.setText(dog.getJenis_dog());
             txtBerat.setText(String.valueOf(dog.getBerat_dog()));
             txtUmur.setText(String.valueOf(dog.getUmur_dog()));
-//            txtJKAnjing.
-
-//            txt
             txtHarga.setText(String.valueOf(Math.round(dog.getHarga_dog())));
             Glide.with(view.getContext())
                     .load(PetAPI.URL_IMAGE + dog.getImage_dog())
@@ -249,7 +246,6 @@ public class TambahEditDog extends Fragment {
                             byte[] bytes = byteArrayOutputStream.toByteArray();
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
-//                        Toast.makeText(getContext(), "masuk if" + gambar, Toast.LENGTH_SHORT).show();
                         tambahDog(kategori, jenis_dog, Double.parseDouble(harga_dog), nama_dog,
                                 Integer.parseInt(umur_dog), jk_dog, Double.parseDouble(berat_dog), gambar);
                     } else {
@@ -450,7 +446,6 @@ public class TambahEditDog extends Fragment {
                 params.put("price", String.valueOf(price));
                 params.put("weight", String.valueOf(weight));
                 params.put("gender", gender);
-
                 if (gambar != null) {
                     params.put("pet_image", gambar);
                 }
@@ -494,6 +489,7 @@ public class TambahEditDog extends Fragment {
                     Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -518,7 +514,9 @@ public class TambahEditDog extends Fragment {
                 params.put("price", dog.getHarga_dog().toString());
                 params.put("weight", dog.getBerat_dog().toString());
                 params.put("gender", dog.getJk_dog());
-                params.put("pet_image", gambar);
+                if (gambar != null) {
+                    params.put("pet_image", gambar);
+                }
                 return params;
             }
         };
