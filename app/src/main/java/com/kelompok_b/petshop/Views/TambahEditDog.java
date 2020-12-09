@@ -243,7 +243,8 @@ public class TambahEditDog extends Fragment {
                             byte[] bytes = byteArrayOutputStream.toByteArray();
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
-                        editDog(dog, "null");
+                        editDog(kategori, jenis_dog, Double.parseDouble(harga_dog), nama_dog,
+                                Integer.parseInt(umur_dog), jk_dog, Double.parseDouble(berat_dog), "null");
                     }
                 }
             }
@@ -448,7 +449,8 @@ public class TambahEditDog extends Fragment {
         queue.add(stringRequest);
     }
 
-    public void editDog(final Dog dog, final String gambar) {
+    public void editDog(final String category, final String type_name, final Double price, final String pet_name,
+                        final int age, final String gender, final Double weight, final String gambar) {
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(getContext());
         final ProgressDialog progressDialog;
@@ -494,12 +496,13 @@ public class TambahEditDog extends Fragment {
                     API.
                 */
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("pet_name", dog.getNama_dog());
-                params.put("type_name", dog.getJenis_dog());
-                params.put("age", dog.getUmur_dog().toString());
-                params.put("price", dog.getHarga_dog().toString());
-                params.put("weight", dog.getBerat_dog().toString());
-                params.put("gender", dog.getJk_dog());
+                params.put("category", category);
+                params.put("pet_name", pet_name);
+                params.put("type_name", type_name);
+                params.put("age", String.valueOf(age));
+                params.put("price", String.valueOf(price));
+                params.put("weight", String.valueOf(weight));
+                params.put("gender", gender);
                 if (gambar != null) {
                     params.put("pet_image", gambar);
                 }
