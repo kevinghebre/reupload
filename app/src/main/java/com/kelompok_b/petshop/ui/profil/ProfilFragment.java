@@ -2,23 +2,36 @@ package com.kelompok_b.petshop.ui.profil;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
@@ -29,10 +42,28 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.kelompok_b.petshop.Api.ApiClient;
+import com.kelompok_b.petshop.Api.PetAPI;
+import com.kelompok_b.petshop.Api.UserAPI;
+import com.kelompok_b.petshop.Api.UserApiInterface;
+import com.kelompok_b.petshop.Api.UserResponse;
 import com.kelompok_b.petshop.MainActivity;
 import com.kelompok_b.petshop.R;
+import com.kelompok_b.petshop.acc.LoginActivity;
+import com.kelompok_b.petshop.model.Cat;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.android.volley.Request.Method.GET;
+import static com.android.volley.Request.Method.PUT;
 
 
 public class ProfilFragment extends Fragment {
@@ -75,6 +106,7 @@ public class ProfilFragment extends Fragment {
         image_acc_view = root.findViewById(R.id.profilImage);
 
 
+
         Intent i = getActivity().getIntent();
         sId = i.getStringExtra("id");
         sName = i.getStringExtra("name");
@@ -87,18 +119,23 @@ public class ProfilFragment extends Fragment {
         text_name.setText(sName);
         text_age.setText(sAge);
         text_gender.setText(sGender);
-
-
+//        loadUser();
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
                 getActivity().finish();
+//                getCat();
             }
         });
 
-
+        btn_update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(root).navigate(R.id.nav_profil_update);
+            }
+        });
 
         // Firebase Upload Image Profile
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -119,6 +156,50 @@ public class ProfilFragment extends Fragment {
         });
 
         return root;
+    }
+
+    public void getCat() {
+        //Tambahkan tampil buku disini
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+
+        //Meminta tanggapan string dari URL yang telah disediakan menggunakan method GET
+        //untuk request ini tidak memerlukan parameter
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("loading....");
+        progressDialog.setTitle("Menampilkan Data Profil");
+        progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(GET, UserAPI.URL_GET, new com.android.volley.Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //Disini bagian jika response jaringan berhasil tidak terdapat ganguan/error
+                progressDialog.dismiss();
+                try {
+                    //Mengubah response string menjadi object
+                    JSONObject obj = new JSONObject(response);
+                    JSONObject data = new JSONObject(obj.getString("data"));
+                    //obj.getString("message") digunakan untuk mengambil pesan message dari response
+                    Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), data.getString("name"), Toast.LENGTH_SHORT).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Disini bagian jika response jaringan terdapat ganguan/error
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
+        queue.add(stringRequest);
     }
 
     @Override
@@ -191,6 +272,58 @@ public class ProfilFragment extends Fragment {
                         setUserProfileUrl(uri);
                     }
                 });
+    }
+
+    public void loadUser() {
+        UserApiInterface apiService = ApiClient.getClient().create(UserApiInterface.class);
+        Call<UserResponse> call = apiService.getUser(sId);
+
+        call.enqueue(new Callback<UserResponse>() {
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+
+                if (response.code() == 200) {
+                    if (response.body().getUsers() != null) {
+                        String userEmail = response.body().getUsers().getEmail();
+                        String name = response.body().getUsers().getName();
+                        String age = response.body().getUsers().getAge();
+                        String gender = response.body().getUsers().getGender();
+
+
+                        text_email.setText(userEmail);
+                        text_name.setText(name);
+                        text_age.setText(age);
+                        text_gender.setText(gender);
+
+                        String url = response.body().getUsers().getImage();
+//                        Log.d("URL: ", url);
+
+                        if (!response.body().getUsers().getImage().isEmpty()) {
+                            Glide.with(getContext())
+                                    .load(url)
+                                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                    .skipMemoryCache(true)
+                                    .placeholder(R.drawable.ic_baseline_account_circle_24)
+                                    .into(imageView);
+                        }
+                        Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    try {
+                        JSONObject jObjError = new JSONObject(response.errorBody().string());
+                        Toast.makeText(getContext(), jObjError.getString("message"), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+//                progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(getContext(), "eror", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setUserProfileUrl(Uri uri) {

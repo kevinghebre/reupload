@@ -30,6 +30,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -67,9 +68,6 @@ public class TambahEditCat extends Fragment {
     private Bitmap bitmap;
     private Uri selectedImage = null;
     private static final int PERMISSION_CODE = 1000;
-    private static final int CAMERA_PERMISSION_CODE = 100;
-    private int REQUEST_IMAGE_CAPTURE = 100;
-    private int RESULT_OK = -1;
     private String imageString;
 
     @Override
@@ -78,6 +76,7 @@ public class TambahEditCat extends Fragment {
         view = inflater.inflate(R.layout.fragment_tambah_edit_cat, container, false);
         init();
         setAttribut();
+
         return view;
     }
 
@@ -138,9 +137,9 @@ public class TambahEditCat extends Fragment {
     }
 
     private void setAttribut() {
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.jenisKelamin, android.R.layout.simple_spinner_item);
-
         final AutoCompleteTextView jenisKelaminDropdown = view.findViewById(R.id.txtJenis_Kelamin);
         jenisKelaminDropdown.setText(selectedJenisKelamin);
         jenisKelaminDropdown.setAdapter(adapter);
@@ -150,6 +149,7 @@ public class TambahEditCat extends Fragment {
                 selectedJenisKelamin = jenisKelaminDropdown.getEditableText().toString();
             }
         });
+
         btnUnggah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,24 +210,19 @@ public class TambahEditCat extends Fragment {
                 String nama_cat = txtNamaPet.getText().toString();
                 String jenis_cat = txtJenisKucing.getText().toString();
                 String jk_cat = selectedJenisKelamin;
-                Double harga_cat = Double.parseDouble(txtHarga.getText().toString());
-                Double berat_cat = Double.parseDouble(txtBerat.getText().toString());
-                Double umur_cat = Double.parseDouble(txtUmur.getText().toString());
+                String harga_cat = txtHarga.getText().toString();
+                String berat_cat = txtBerat.getText().toString();
+                String umur_cat = txtUmur.getText().toString();
                 String kategori = "cat";
+//                String gambar = selectedImage.getPath().toString();
+                String gambar = imageString;
 
 
-                if (txtNamaPet.getText().toString().isEmpty() ||
-                        txtUmur.getText().toString().isEmpty() ||
-                        txtHarga.getText().toString().isEmpty() ||
-                        txtJenisKucing.getText().toString().isEmpty() ||
-                        txtHarga.getText().toString().isEmpty() ||
-                        txtBerat.getText().toString().isEmpty())
-
-//                        nama_cat.isEmpty() || txtUmur.getText().toString().isEmpty() || txtHarga.getText().toString().isEmpty() || jenis_cat.isEmpty() || jk_cat.isEmpty()
-//                        || txtBerat.getText().toString().isEmpty())
+                if (nama_cat.isEmpty() || txtUmur.getText().toString().isEmpty() || txtHarga.getText().toString().isEmpty() || jenis_cat.isEmpty() || jk_cat.isEmpty()
+                        || txtBerat.getText().toString().isEmpty())
                     Toast.makeText(getContext(), "Data Tidak Boleh Kosong !", Toast.LENGTH_SHORT).show();
                 else {
-                    cat = new Cat(kategori, jenis_cat, harga_cat, nama_cat, umur_cat, jk_cat, berat_cat);
+                    cat = new Cat(nama_cat, jenis_cat, jk_cat, Double.parseDouble(harga_cat), Double.parseDouble(berat_cat), Double.parseDouble(umur_cat));
                     if (status.equals("tambah")) {
                         String bytesString = "";
                         if (bitmap != null) {
@@ -245,7 +240,7 @@ public class TambahEditCat extends Fragment {
                             byte[] bytes = byteArrayOutputStream.toByteArray();
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
-                        editCat(cat, bytesString);
+                        editCat(cat, "null");
                     }
                 }
             }
@@ -254,7 +249,8 @@ public class TambahEditCat extends Fragment {
         btnBatal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new ViewsCat());
+//                loadFragment(new ViewsCat());
+                closeFragment();
             }
         });
     }
@@ -287,6 +283,30 @@ public class TambahEditCat extends Fragment {
         }
     }
 
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK && requestCode == 1)
+//        {
+//            selectedImage = data.getData();
+//            try {
+//                InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedImage);
+//                bitmap = BitmapFactory.decodeStream(inputStream);
+//            } catch (Exception e) {
+//                Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//            ivGambar.setImageBitmap(bitmap);
+//            bitmap = getResizedBitmap(bitmap, 512);
+//        }
+//        else if(resultCode == RESULT_OK && requestCode == 2)
+//        {
+//            Bundle extras = data.getExtras();
+//            bitmap = (Bitmap) extras.get("data");
+//            ivGambar.setImageBitmap(bitmap);
+//            bitmap = getResizedBitmap(bitmap, 512);
+//        }
+//    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -300,12 +320,22 @@ public class TambahEditCat extends Fragment {
             }
             ivGambar.setImageBitmap(bitmap);
             bitmap = getResizedBitmap(bitmap, 512);
+            handleUpload(bitmap);
         } else if (resultCode == RESULT_OK && requestCode == 2) {
             Bundle extras = data.getExtras();
             bitmap = (Bitmap) extras.get("data");
             ivGambar.setImageBitmap(bitmap);
             bitmap = getResizedBitmap(bitmap, 512);
+            handleUpload(bitmap);
         }
+    }
+
+    private void handleUpload(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+
+        imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 
     public void loadFragment(Fragment fragment) {
@@ -366,7 +396,6 @@ public class TambahEditCat extends Fragment {
                     if (obj.getString("status").equals("Success")) {
                         loadFragment(new ViewsCat());
                     }
-
                     //obj.getString("message") digunakan untuk mengambil pesan message dari response
                     Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
@@ -389,19 +418,25 @@ public class TambahEditCat extends Fragment {
                     API.
                 */
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("namaPet", cat.getNama_cat());
-                params.put("jenisHewan", cat.getJenis_cat());
-                params.put("umur", cat.getUmur_cat().toString());
-                params.put("harga", cat.getHarga_cat().toString());
-                params.put("berat", cat.getBerat_cat().toString());
-                params.put("jenisKelamin", cat.getJk_cat());
-                params.put("gambar", gambar);
+                params.put("pet_name", cat.getNama_cat());
+                params.put("type_name", cat.getJenis_cat());
+                params.put("age", cat.getUmur_cat().toString());
+                params.put("price", cat.getHarga_cat().toString());
+                params.put("weight", cat.getBerat_cat().toString());
+                params.put("gender", cat.getJk_cat());
+                if (gambar != null) {
+                    params.put("pet_image", gambar);
+                }
 
                 return params;
             }
         };
 
         //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                1200000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
 
@@ -414,7 +449,7 @@ public class TambahEditCat extends Fragment {
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Mengedit data Kucing");
+        progressDialog.setTitle("Edit Data Kucing");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
@@ -428,7 +463,7 @@ public class TambahEditCat extends Fragment {
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
                     //obj.getString("message") digunakan untuk mengambil pesan status dari response
-                    if (obj.getString("status").equals("Success")) {
+                    if (obj.getString("message").equals("Update pet Success")) {
                         loadFragment(new ViewsCat());
                     }
 
@@ -436,6 +471,7 @@ public class TambahEditCat extends Fragment {
                     Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -454,17 +490,18 @@ public class TambahEditCat extends Fragment {
                     API.
                 */
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("namaPet", cat.getNama_cat());
-                params.put("jenisHewan", cat.getJenis_cat());
-                params.put("umur", cat.getUmur_cat().toString());
-                params.put("harga", cat.getHarga_cat().toString());
-                params.put("berat", cat.getBerat_cat().toString());
-                params.put("jenisKelamin", cat.getJk_cat());
-                params.put("gambar", gambar);
+                params.put("pet_name", cat.getNama_cat());
+                params.put("type_name", cat.getJenis_cat());
+                params.put("age", cat.getUmur_cat().toString());
+                params.put("price", cat.getHarga_cat().toString());
+                params.put("weight", cat.getBerat_cat().toString());
+                params.put("gender", cat.getJk_cat());
+                if (gambar != null) {
+                    params.put("pet_image", gambar);
+                }
                 return params;
             }
         };
-
         //Disini proses penambahan request yang sudah kita buat ke reuest queue yang sudah dideklarasi
         queue.add(stringRequest);
     }
