@@ -70,6 +70,10 @@ public class TambahEditFood extends Fragment {
     private Bitmap bitmap;
     private Uri selectedImage = null;
     private static final int PERMISSION_CODE = 1000;
+    private static final int CAMERA_PERMISSION_CODE = 100;
+    private int REQUEST_IMAGE_CAPTURE = 100;
+    private int RESULT_OK = -1;
+    private String imageString;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,7 +109,7 @@ public class TambahEditFood extends Fragment {
         txtNamaFood = view.findViewById(R.id.txtNamaFood);
         txtStokFood = view.findViewById(R.id.txtStock);
         txtBeratFood = view.findViewById(R.id.txtBerat);
-        txtHargaFood = view.findViewById(R.id.txtHarga);
+        txtHargaFood = view.findViewById(R.id.txtWeight);
         txtCalories = view.findViewById(R.id.txtCalories);
         txtSupplier = view.findViewById(R.id.txtSupplier);
         txtKategoriFood = view.findViewById(R.id.txtJenisFood);
@@ -193,16 +197,18 @@ public class TambahEditFood extends Fragment {
                 String name_food = txtNamaFood.getText().toString();
                 String jenis_food = txtKategoriFood.getText().toString();
                 String supplier = txtSupplier.getText().toString();
-                Double harga_food = Double.parseDouble(txtHargaFood.getText().toString());
-                Double berat_food = Double.parseDouble(txtBeratFood.getText().toString());
-                Double kalori = Double.parseDouble(txtCalories.getText().toString());
-                Double stok_food = Double.parseDouble(txtStokFood.getText().toString());
+                String harga_food = txtHargaFood.getText().toString();
+                String berat_food = txtBeratFood.getText().toString();
+                String kalori = txtCalories.getText().toString();
+                String stok_food =txtStokFood.getText().toString();
+                String gambar = imageString;
 
                 if (name_food.isEmpty() || txtStokFood.getText().toString().isEmpty() || txtHargaFood.getText().toString().isEmpty() || jenis_food.isEmpty() || supplier.isEmpty()
                         || txtBeratFood.getText().toString().isEmpty())
                     Toast.makeText(getContext(), "Data Tidak Boleh Kosong !", Toast.LENGTH_SHORT).show();
                 else {
-                    food = new Food(name_food, jenis_food, supplier, harga_food, berat_food, kalori, stok_food);
+                    food = new Food(jenis_food, name_food, gambar, supplier,
+                            Double.parseDouble(harga_food), Double.parseDouble(kalori), Double.parseDouble(berat_food), Double.parseDouble(stok_food));
                     if (status.equals("tambah")) {
                         String bytesString = "";
                         if (bitmap != null) {
@@ -211,7 +217,8 @@ public class TambahEditFood extends Fragment {
                             byte[] bytes = byteArrayOutputStream.toByteArray();
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
-                        tambahFood(food, bytesString);
+                        tambahFood(jenis_food, name_food, gambar, Double.parseDouble(supplier),
+                                Double.parseDouble(harga_food), Double.parseDouble(kalori), Double.parseDouble(berat_food), String.valueOf(stok_food));
                     } else {
                         String bytesString = "";
                         if (bitmap != null) {
@@ -220,7 +227,7 @@ public class TambahEditFood extends Fragment {
                             byte[] bytes = byteArrayOutputStream.toByteArray();
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
-                        editFood(food, bytesString);
+                        editFood(food, "null");
                     }
                 }
             }
@@ -229,7 +236,8 @@ public class TambahEditFood extends Fragment {
         btnBatal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadFragment(new ViewsFood());
+                closeFragment();
+//                loadFragment(new ViewsFood());
             }
         });
     }
@@ -262,6 +270,27 @@ public class TambahEditFood extends Fragment {
         }
     }
 
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK && requestCode == 1) {
+//            selectedImage = data.getData();
+//            try {
+//                InputStream inputStream = getActivity().getContentResolver().openInputStream(selectedImage);
+//                bitmap = BitmapFactory.decodeStream(inputStream);
+//            } catch (Exception e) {
+//                Toast.makeText(view.getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//            ivGambar.setImageBitmap(bitmap);
+//            bitmap = getResizedBitmap(bitmap, 512);
+//        } else if (resultCode == RESULT_OK && requestCode == 2) {
+//            Bundle extras = data.getExtras();
+//            bitmap = (Bitmap) extras.get("data");
+//            ivGambar.setImageBitmap(bitmap);
+//            bitmap = getResizedBitmap(bitmap, 512);
+//        }
+//    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -275,12 +304,22 @@ public class TambahEditFood extends Fragment {
             }
             ivGambar.setImageBitmap(bitmap);
             bitmap = getResizedBitmap(bitmap, 512);
+            handleUpload(bitmap);
         } else if (resultCode == RESULT_OK && requestCode == 2) {
             Bundle extras = data.getExtras();
             bitmap = (Bitmap) extras.get("data");
             ivGambar.setImageBitmap(bitmap);
             bitmap = getResizedBitmap(bitmap, 512);
+            handleUpload(bitmap);
         }
+    }
+
+    private void handleUpload(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+
+        imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 
     public void loadFragment(Fragment fragment) {
@@ -316,7 +355,8 @@ public class TambahEditFood extends Fragment {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
-    public void tambahFood(final Food food, final String gambar) {
+    public void tambahFood(final String category, final String food_name, final String supplier, final double price,
+                           final double calories, final double net_weight, final double stock, final String gambar) {
         //Tambahkan tambah buku disini
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(getContext());
@@ -338,12 +378,13 @@ public class TambahEditFood extends Fragment {
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
                     //obj.getString("message") digunakan untuk mengambil pesan status dari response
-                    if (obj.getString("status").equals("Success")) {
+                    if (obj.getString("message").equals("Add Food Success")) {
+//                        Toast.makeText(getContext(), "masuk", Toast.LENGTH_SHORT).show();
                         loadFragment(new ViewsFood());
                     }
 
                     //obj.getString("message") digunakan untuk mengambil pesan message dari response
-                    Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -364,17 +405,16 @@ public class TambahEditFood extends Fragment {
                     API.
                 */
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("namaFood", food.getFood_name());
-                params.put("jenisFood", food.getCategory());
-                params.put("stokFood", food.getStock().toString());
-                params.put("hargaFood", food.getPrice().toString());
-                params.put("beratFood", food.getNet_weight().toString());
-                params.put("kalori", food.getCalories().toString());
-                params.put("supplier", food.getSupplier());
+                params.put("category", category);
+                params.put("price", String.valueOf(price));
+                params.put("stock", String.valueOf(stock));
+                params.put("food_name", food_name);
+                params.put("supplier", supplier);
+                params.put("calories", String.valueOf(calories));
+                params.put("net_weight", String.valueOf(net_weight));
                 if (gambar != null) {
                     params.put("food_image", gambar);
                 }
-
                 return params;
             }
         };

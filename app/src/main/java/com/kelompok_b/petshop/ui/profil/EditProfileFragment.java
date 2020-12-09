@@ -136,33 +136,34 @@ public class EditProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 editProfil(txtname, txtage, txtgender, "null");
+//                editUser();
                 Toast.makeText(getContext(), sId, Toast.LENGTH_SHORT).show();
                 Navigation.findNavController(root).navigate(R.id.nav_profil);
 
             }
         });
-
-//        Toast.makeText(getContext(), name.getText().toString(), Toast.LENGTH_SHORT).show();
         return root;
     }
 
-    private void saveUser() {
+    private void editUser() {
         UserApiInterface apiService = ApiClient.getClient().create(UserApiInterface.class);
-        Call<UserResponse> add = apiService.updateUser(String.valueOf(idUser), name.getText().toString(), gender.getText().toString(), Double.parseDouble(age.getText().toString()), "null");
+        Call<UserResponse> add = apiService.updateUser(String.valueOf(idUser), name.getText().toString(),
+                gender.getText().toString(), Double.parseDouble(age.getText().toString()), null);
 
         add.enqueue(new Callback<UserResponse>() {
             @Override
             public void onResponse(Call<UserResponse> call, retrofit2.Response<UserResponse> response) {
-                Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getContext(), ProfilFragment.class);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(i);
+                if (response.code() == 200) {
+                    Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getContext(), ProfilFragment.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(i);
+                }
             }
 
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 Toast.makeText(getContext(), "Gagal mengupdate user", Toast.LENGTH_SHORT).show();
-//                progressDialog.dismiss();
             }
         });
     }
@@ -188,11 +189,9 @@ public class EditProfileFragment extends Fragment {
                 try {
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
-//                    JSONObject data = new JSONObject(obj.getString("data"));
+                    //JSONObject data = new JSONObject(obj.getString("data"));
                     //obj.getString("message") digunakan untuk mengambil pesan message dari response
                     Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-//                    Toast.makeText(getContext(), data.getString("name"), Toast.LENGTH_SHORT).show();
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

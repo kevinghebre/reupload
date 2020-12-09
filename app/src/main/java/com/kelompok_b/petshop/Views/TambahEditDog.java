@@ -140,14 +140,6 @@ public class TambahEditDog extends Fragment {
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
                 R.array.jenisKelamin, android.R.layout.simple_spinner_item);
-
-//        final String[] JKArray = getResources().getStringArray(R.array.jenisKelamin);
-//        for(String jk : JKArray)
-//        {
-//            if(jk.equals(dog.getJk_dog()))
-//                selectedJenisKelamin = jk;
-//        }
-
         final AutoCompleteTextView jenisKelaminDropdown = view.findViewById(R.id.txtJenis_Kelamin);
         jenisKelaminDropdown.setText(selectedJenisKelamin);
         jenisKelaminDropdown.setAdapter(adapter);
@@ -157,7 +149,6 @@ public class TambahEditDog extends Fragment {
                 selectedJenisKelamin = jenisKelaminDropdown.getEditableText().toString();
             }
         });
-
 
         btnUnggah.setOnClickListener(new View.OnClickListener() {
             @Override

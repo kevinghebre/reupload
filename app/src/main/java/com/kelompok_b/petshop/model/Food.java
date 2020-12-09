@@ -20,7 +20,15 @@ public class Food implements Serializable {
         this.stock = stock;
     }
 
-    public Food(String name_food, String jenis_food, String supplier, Double harga_food, Double berat_food, Double kalori, Double stok_food) {
+    public Food(String category, String food_name, String food_image, String supplier, double price, double calories, double net_weight, double stock) {
+        this.category = category;
+        this.food_name = food_name;
+        this.food_image = food_image;
+        this.supplier = supplier;
+        this.price = price;
+        this.calories = calories;
+        this.net_weight = net_weight;
+        this.stock = stock;
     }
 
     public int getIdFood() {

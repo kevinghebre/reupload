@@ -57,6 +57,7 @@ import static com.android.volley.Request.Method.POST;
 import static com.android.volley.Request.Method.PUT;
 
 public class TambahEditCat extends Fragment {
+
     private TextInputEditText txtNamaPet, txtHarga, txtUmur, txtBerat, txtJenisKucing;
     private String status, selectedTipe, selectedJenisKelamin;
     private ImageView ivGambar;
@@ -76,7 +77,6 @@ public class TambahEditCat extends Fragment {
         view = inflater.inflate(R.layout.fragment_tambah_edit_cat, container, false);
         init();
         setAttribut();
-
         return view;
     }
 
@@ -214,7 +214,6 @@ public class TambahEditCat extends Fragment {
                 String berat_cat = txtBerat.getText().toString();
                 String umur_cat = txtUmur.getText().toString();
                 String kategori = "cat";
-//                String gambar = selectedImage.getPath().toString();
                 String gambar = imageString;
 
 
@@ -231,7 +230,8 @@ public class TambahEditCat extends Fragment {
                             byte[] bytes = byteArrayOutputStream.toByteArray();
                             bytesString = Base64.encodeToString(bytes, Base64.DEFAULT);
                         }
-                        tambahCat(cat, bytesString);
+                        tambahCat(kategori, jenis_cat, Double.parseDouble(harga_cat), nama_cat,
+                                Integer.parseInt(umur_cat), jk_cat, Double.parseDouble(berat_cat), gambar);
                     } else {
                         String bytesString = "";
                         if (bitmap != null) {
@@ -371,7 +371,8 @@ public class TambahEditCat extends Fragment {
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
-    public void tambahCat(final Cat cat, final String gambar) {
+    public void tambahCat(final String category, final String type_name, final Double price, final String pet_name,
+                          final int age, final String gender, final Double weight, final String gambar) {
         //Tambahkan tambah buku disini
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(getContext());
@@ -393,13 +394,14 @@ public class TambahEditCat extends Fragment {
                     //Mengubah response string menjadi object
                     JSONObject obj = new JSONObject(response);
                     //obj.getString("message") digunakan untuk mengambil pesan status dari response
-                    if (obj.getString("status").equals("Success")) {
+                    if (obj.getString("message").equals("Add Pet Success")) {
                         loadFragment(new ViewsCat());
                     }
                     //obj.getString("message") digunakan untuk mengambil pesan message dari response
-                    Toast.makeText(getContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getContext(), "kosong!!", Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(getContext(), "errorrrr", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -418,16 +420,16 @@ public class TambahEditCat extends Fragment {
                     API.
                 */
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("pet_name", cat.getNama_cat());
-                params.put("type_name", cat.getJenis_cat());
-                params.put("age", cat.getUmur_cat().toString());
-                params.put("price", cat.getHarga_cat().toString());
-                params.put("weight", cat.getBerat_cat().toString());
-                params.put("gender", cat.getJk_cat());
+                params.put("category", category);
+                params.put("pet_name", pet_name);
+                params.put("type_name", type_name);
+                params.put("age", String.valueOf(age));
+                params.put("price", String.valueOf(price));
+                params.put("weight", String.valueOf(weight));
+                params.put("gender", gender);
                 if (gambar != null) {
                     params.put("pet_image", gambar);
                 }
-
                 return params;
             }
         };
@@ -441,8 +443,6 @@ public class TambahEditCat extends Fragment {
     }
 
     public void editCat(final Cat cat, final String gambar) {
-        //Tambahkan edit buku disini
-        //Tambahkan tambah buku disini
         //Pendeklarasian queue
         RequestQueue queue = Volley.newRequestQueue(getContext());
 
