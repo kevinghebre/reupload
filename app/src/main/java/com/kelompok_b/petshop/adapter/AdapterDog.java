@@ -83,7 +83,6 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
         holder.berat_dog.setText(formatter.format(dog.getBerat_dog()) + " Kg");
         holder.umur_dog.setText(formatter.format(dog.getUmur_dog()) + " Month");
         holder.jk_dog.setText(dog.getJk_dog());
-//        holder.kategori.setText();
         holder.harga_dog.setText("Rp " + formatter.format(dog.getHarga_dog()));
 //        Glide.with(context)
 //                .load(PetAPI.URL_IMAGE + dog.getImage_dog())
@@ -148,7 +147,6 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
         private final TextView berat_dog;
         private final TextView umur_dog;
         private final TextView jk_dog;
-        private TextView kategori;
         private final TextView harga_dog;
         private final TextView ivEdit;
         private final TextView ivHapus;
@@ -160,7 +158,6 @@ public class AdapterDog extends RecyclerView.Adapter<AdapterDog.adapterDogViewHo
             jenis_dog = itemView.findViewById(R.id.tvType);
             jk_dog = itemView.findViewById(R.id.tvGender);
             umur_dog = itemView.findViewById(R.id.tvAge);
-//            kategori = itemView.findViewById(R.id.ca)
             berat_dog = itemView.findViewById(R.id.tvWeight);
             harga_dog = itemView.findViewById(R.id.tvPrice);
             ivGambar = itemView.findViewById(R.id.ivFotoCat);

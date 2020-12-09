@@ -89,6 +89,7 @@ public class AdapterCat extends RecyclerView.Adapter<AdapterCat.adapterCatViewHo
 //                .diskCacheStrategy(DiskCacheStrategy.NONE)
 //                .skipMemoryCache(true)
 //                .into(holder.ivGambar);
+
         if (cat.getImage_cat() != null) {
             byte[] imageByteArray = Base64.decode(cat.getImage_cat(), Base64.DEFAULT);
             Glide.with(context)
@@ -149,7 +150,6 @@ public class AdapterCat extends RecyclerView.Adapter<AdapterCat.adapterCatViewHo
         private final TextView age;
         private final TextView ivEdit;
         private final TextView ivHapus;
-        ;
         private final ImageView ivGambar;
 
         public adapterCatViewHolder(@NonNull View itemView) {
